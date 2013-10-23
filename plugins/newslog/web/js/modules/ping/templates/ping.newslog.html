@@ -1,0 +1,14 @@
+<td class="ping-service-row-url"><%= url %></td>
+<td>
+    <select class="status" data-sid="<%= id %>">
+        <option <% if (status == 'disabled') { %> selected="selected" <% } %> >disabled</option>
+        <option <% if (status == 'enabled') { %> selected="selected" <% } %> >enabled</option>
+    </select>
+</td>
+<td class="ping-service-row-action">
+    <% if(!isDefault) { %>
+        <a href="javascript:;" data-sid="<%= id %>" class="remove"><img src="<%= $('#website_url').val() %>system/images/delete.png" alt="delete" /></a>
+    <% } else { %>
+        &nbsp;
+    <% } %>
+</td>

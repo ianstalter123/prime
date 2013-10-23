@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"  />
+    	<title>{$page:title}</title>
+		<meta name="keywords" content="{$meta:keywords}" />
+		<meta name="description" content="{$meta:description}" />
+		<meta name="generator" content="seotoaster" />
+        <link href="images/favicon.ico" type="image/vnd.microsoft.icon" rel="icon">
+		<!-- -->
+         <link href="fonts-icon/toaster-icon.css" rel="stylesheet"  type="text/css" media="screen" />
+		<link href="reset.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="content.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="nav.css" rel="stylesheet"  type="text/css" media="screen" />
+        <link href="products.css" rel="stylesheet"  type="text/css" media="screen" />
+        <link href="colors.css" rel="stylesheet"  type="text/css" media="screen" />
+		<!-- {$concatcss} -->
+       
+		<script type="text/javascript" src="js/jquery.cycle.all.js"></script>
+		<script type="text/javascript" src="js/common-scripts.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+                
+                //  slider
+            	$('ul#slider').cycle({ 
+            	    fx:      'scrollHorz',  
+            	    timeout:  8000, 
+            	    speed:    300,
+            	});
+                
+			});
+		</script>
+		<!--[if IE]>
+		<script src="js/html5.js" type="text/javascript"></script>
+		<![endif]-->
+	</head>
+	<body>
+        <p class="seofooter">Powered by <a target="_blank" href="http://www.seotoaster.com/ecommerce-cms.html">Ecommerce CMS</a> SEOTOASTER</p>
+		<!-- start #container -->
+		<div id="container" class="container_12">        
+        
+    		<header class="grid_12 mb10px">
+				<div class="grid_5 alpha">
+					<h1 class="logo"><a class="logo" title="{$page:h1}" href="{$website:url}"><img src="{$plugin:widcard:BizLogo:url}" />{$plugin:widcard:BizOrgName}</a></h1>
+				</div>
+				<div class="grid_7 omega header-right">
+					{$store:cartblock}
+                    <div id="change-color">
+                        {$prepop:color:select:green|red|pink
+                        |blue|brown|cyan|violet|maroon|indianred:static}
+                        <script type="text/javascript">
+                            //    Change color
+                            var color = $('#change-color #color').val() || $('#change-color #prepop-color').text();
+                        	$('body').attr('data-color', color);
+                        	$('#change-color #color').change(function(){
+                        		$('body').attr('data-color', $(this).val().toLowerCase());
+                        	});
+                        </script>
+                    </div>
+				</div>
+			</header>
+			<nav class="grid_12">
+                {$menu:main}{$featured:area:right top menu:5:0}</nav>
+            <div class="grid_12 mt20px">
+                <div id="slider-box">
+                    <ul id="slider">
+                        <li>{$imageonly:slide-1:940:1}</li>
+                        <li>{$imageonly:slide-2:940:1}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="grid_12 slogan-box">
+                    <p>{$header:slogan}</p>
+            </div>
+            <div class="center grid_12">
+                <div class="inner-box">
+                    {$featuredonly:home}
+                </div>
+            </div>
+            <div class="left grid_8 mt20px">
+                <div class="tabs-container">
+                        <ul class="tabs-nav">
+                            <li class="active">{$header:tab-1}</li>
+                            <li>{$header:tab-2}</li>
+                            <li>{$header:tab-3}</li>
+                        </ul>   
+                        <ul class="tabs-box">
+                            <li class="active">{$plugin:videolink:home}</li>
+                            <li>{$content:tab-2}</li>
+                            <li>{$content:tab-3}</li>
+                        </ul>
+                </div>
+                <div class="inner-box fs16">
+                    <h2 class="box-title">{$header:left-2}</h2>
+                    {$textonly:left-2}
+                </div>
+            </div>
+            <div class="right grid_4 mt20px">
+
+              <div class="inner-box">
+                    <div class="box-title">{$header:right-1}</div>
+                    {$galleryonly:right-2}
+                
+                </div>
+                    <div class="inner-box">
+                    <div class="box-title">{$header:right-2}</div>
+                    {$content:right-2}
+                </div>
+            </div>     
+			<footer class="grid_12 mt10px">
+				<div class="grid_4 alpha">{$menu:flat}</div>
+				<div class="grid_8 omega">
+                    <ul id="footer-news">
+                    {newslist}
+                        <li class="news-list-item">
+                            <div class="news-item-date">{$news:date}</div>
+                            <div class="news-item-title"><a href="{$news:url}">{$news:title}</a></div>
+                            <div class="news-item-description">{$news:teaser}</div>
+                        </li>    
+                    {/newslist}
+                    </ul>
+				</div>
+				<div class="grid_12 footer-copyright alpha omega">
+					{$content:footer:static}
+				</div>
+			</footer>
+		</div>
+		<!-- end #container -->
+	</body>
+</html>

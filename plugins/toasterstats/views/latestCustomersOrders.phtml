@@ -1,0 +1,32 @@
+<?php if(isset($this->noNewCustomersOrders)):?>
+	<span><?php echo $this->noNewCustomersOrders; ?></span>
+<?php endif;?>
+<?php if(isset($this->customerOrdersData)):?>
+    
+	<table id="clients-table" style="width: 100%">
+		<thead>
+			<tr class="title-table">
+				<th><?php echo $this->translator->translate('Name');?></th>
+				<th><?php echo $this->translator->translate('Order amount');?></th>
+				<th><?php echo $this->translator->translate('City/state');?></th>
+			</tr>
+		</thead>  
+		<tbody style="text-align: center;">
+		<?php foreach($this->customerOrdersData as $custOrderInfo):?>
+			<tr>
+				<td class="text-left"><a target="_blank" href="<?php echo $this->websiteUrl;?>plugin/shopping/run/profile/id/<?php echo intval($custOrderInfo['userId']);?>"><span class="icomoon-user-2 ml0px"></span><?php echo $custOrderInfo['fullName']?></a></td>
+				<td><?php echo $this->currency($custOrderInfo['total']);?></td>
+				<td>
+					<?php echo $custOrderInfo['city']?>
+					<?php if($custOrderInfo['state']!=''):?>
+						/ <?php echo $custOrderInfo['state']?>
+					<?php endif; ?>
+				</td>
+             
+			</tr>
+		<?php endforeach;?>
+		</tbody>
+	</table>
+
+<?php endif; ?>
+   

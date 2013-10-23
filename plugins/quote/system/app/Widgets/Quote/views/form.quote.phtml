@@ -1,0 +1,70 @@
+<?php echo $this->form; ?>
+<style type="text/css">
+    .quote-fail-lnk {color: #fff;text-decoration: underline;}
+</style>
+<script type="text/javascript">
+    $(function() {
+        if(!$('#state option').length) {
+            $('#state').empty().parent('div').hide();
+        }
+
+        $(document).on('submit', '#plugin-quote-quoteform', function(e) {
+            e.preventDefault();
+
+            //validate reuired fields firs
+            var notValidElements = $('input.quote-required').filter(function() {
+                return $(this).val() === '';
+            }).css({borderColor: "indianred"});
+
+            if(notValidElements.length) {
+                showMessage('<?php echo $this->translate('Required fields are missing! Please fill all fields marked with *'); ?>', true);
+                return false;
+            }
+
+            //working with form
+            var form = $(e.currentTarget);
+
+            //check if this is a single-product quote form
+            if($('#productId').val() != '') {
+                var options = $('.product-options-listing *').serialize();
+                form.find('input[name="productOptions"]').val(options);
+            }
+
+            //console.log($(form).serialize()); return false;
+
+            $.ajax({
+                type: 'post',
+                url: $(form).attr('action'),
+                data: $(form).serialize(),
+                dataType: 'json',
+                beforeSend: showSpinner
+            }).done(function(response) {
+                if($(form).hasClass('_reload') && (response instanceof Object)) {
+                    window.location.href = response.id + '.html';
+                } else {
+                    hideSpinner();
+                    showMessage('<?php echo $this->translate('Thank you! The quote was generated for you. Our manager will contact you soon to clarify the details');?>', false, 5000);
+                }
+            }).fail(function(xhr, responseText, error) {
+                hideSpinner();
+                var msg = '<a class="quote-fail-lnk" target="_blank" href="http://www.seotoaster.com/web-site-quote-system-software-tool.html">Learn more</a>';
+                showMessage(xhr.responseText.replace(/"/g, '') + ' ' + msg, true);
+            });
+
+            return false;
+        }).on('change', '#country', function(e) {
+            var self = this;
+            $.getJSON($('#website_url').val() + 'api/store/geo/type/state?country=' + $(self).val(), function(response) {
+                var statesHolder = $('#plugin-quote-quoteform #state');
+                if(!response.length) {
+                    statesHolder.empty().parent('div').fadeOut();
+                } else {
+                    statesHolder.empty().parent('div').fadeIn();
+                    $.each(response, function(key, option) {
+                        statesHolder.append($("<option></option>").attr("value", option.state).text(option.name))
+                    })
+                }
+            });
+        })
+    })
+</script>

@@ -1,0 +1,64 @@
+<?php
+    $this->headTitle($this->translate('Image gallery'));
+    $this->placeholder('headerContent')->set('Image gallery');
+    $this->placeholder('containerId')->set('webbuilder-gallery-only');
+?>
+
+<form id="gallery-form" name="galleryForm" class="pluginform" action="" method="post">
+
+    <select id="selectfolder" class="grid_12 alpha omega" name="selectfolder">
+        <option value="select"><?php echo $this->translate('select gallery');?></option>
+        <?php if(isset($this->listofFolders) && is_array($this->listofFolders)):?>
+            <?php foreach($this->listofFolders as $folderName): ?>
+                <option value="<?php echo $folderName; ?>" <?php echo (isset($this->galleryName) && $this->galleryName == $folderName) ? 'selected="selected"' : '';  ?> ><?php echo $folderName; ?></option>
+            <?php endforeach; ?>
+        <?php endif;?>
+    </select>
+
+    <label class="grid_6"><?php echo $this->translate('Thumbnails size');?>:</label>
+    <input class="grid_3" id="thumbnails" type="text" name="thumbnails" value="<?php echo isset($this->thumbs)?$this->thumbs:'' ?>"/>
+
+    <label class="grid_6"><?php echo $this->translate('Crop image');?></label>
+    <input class="grid_1" id="crop" type="checkbox" name="cropImg" <?php if((isset($this->crop) && $this->crop) == 1) echo "checked" ?>/>
+
+    <label class="grid_6"><?php echo $this->translate('Caption');?></label>
+    <input class="grid_1" id="caption" type="checkbox" name="captionImg" <?php if(isset($this->caption) && ($this->caption) == 1) echo "checked" ?>/>
+
+    <input id="container" type="hidden" name="container" value="<?php echo $this->containerName; ?>"/>
+    <input type="hidden" id="pageId" name="pageId" value="<?php echo $this->pageId?>" />
+
+    <div class="clear"></div>
+    <input id="saveGallery" name="saveGallery" type="submit" value="<?php echo $this->translate('Save');?>" />
+</form>
+
+<script type="text/javascript" >
+    $(function(){
+        $(document).on("submit", "#gallery-form", function(){
+            var galleryName = $("#selectfolder option:selected").val();
+
+            if(galleryName == 'select'){
+                showMessage('<?php echo $this->translate('Please select gallery name');?>');
+                return false;
+            }
+
+            $.ajax({
+                type     : 'post',
+                url      : '<?php echo $this->websiteUrl; ?>api/webbuilder/go/',
+                dataType : 'json',
+                data     : {
+                    pageId        : $('#pageId').val(),
+                    thumbnails    : $('#thumbnails').val(),
+                    containerName : $('#container').val(),
+                    caption       : $('#caption').is(':checked') ? 1 : 0,
+                    crop          : $('#crop').is(':checked') ? 1 : 0,
+                    folder        : galleryName
+                }
+            }).done(function() {
+                top.location.reload();
+            });
+            return false;
+        });
+
+    });
+</script>
+

@@ -1,0 +1,11 @@
+<?php return array('Settings' => 'הגדרות', 'Close' => 'קרוב',
+                   'Auto redirect' => 'redirect אוטומטי', 
+                   'Choose a contact page' => 'בחר דף קשר',
+                   'Save' => 'להציל',
+                   'Website' => 'אתר אינטרנט',
+                   'All zips added' => 'כל רוכסנים נוסף',
+                   'Current zip(s) already exist:' => 'Zip נוכחי (ים) שכבר קיימים:',
+                   'Search' => 'לחפש'
+                   
+    ); 
+        ?>

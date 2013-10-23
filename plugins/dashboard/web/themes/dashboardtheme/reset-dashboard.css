@@ -1,0 +1,73 @@
+/*
+	-pie-background: linear-gradient(#fff 0%, #fff 70%);
+	behavior:url(PIE.php);
+	position:relative;
+*/
+
+/*=========== Reset CSS ============*/
+* {
+	margin:0;
+	padding:0;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { 
+    display:block;
+}
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, menu, nav, section, menu, time, mark, audio, video, a {
+	border:none;
+	outline:none;
+	vertical-align:baseline;
+	background:transparent;
+	line-height:normal;
+}
+table {
+	border-collapse:collapse;
+}
+table td{
+	padding:4px;
+	border:1px solid #999;
+}
+.ui-widget-content a{
+	color:inherit;
+}
+a,input,button{outline:none;}
+input,button{overflow:visible;}
+hr {
+	display:block;
+	height:1px;
+	border:0;
+	border-top:1px solid #ccc;
+	margin:1em 0;
+}
+.centered {
+	margin-left:auto;
+	margin-right:auto;
+}
+.text-right {
+	text-align:right;
+}
+.text-left {
+	text-align:left;
+}
+.text-center {
+	text-align:center;
+}
+.box-right {
+	float:right;
+}
+.box-left {
+	float:left;
+}
+.scroll{
+	overflow:auto;
+}
+.clearBoth{
+	clear:both
+}
+a, input[type="submit"], input[type="button"], button, input[type="checkbox"], input[type="radio"]{cursor:pointer;}
+img, input[type="submit"], input[type="button"], button, input[type="checkbox"], input[type="radio"]{vertical-align:middle;}
+.generator-links {
+	padding: 0 !important;
+	margin:0 !important;
+	border:none !important;
+	outline:none;
+}

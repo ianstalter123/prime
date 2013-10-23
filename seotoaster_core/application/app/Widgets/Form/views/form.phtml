@@ -1,0 +1,142 @@
+<?php $this->headScript()->appendFile($this->websiteUrl."system/js/external/sisyphus/sisyphus.min.js");?>
+<style>
+	.success, .error {
+		cursor: pointer;
+		display: none;
+		position: absolute;
+		padding: 30px 10% 20px 10%;
+		z-index: 999;
+		text-align: left;
+		width: 80%;
+		margin: 0px auto;
+		font-size: 12pt;
+		color: lavender;
+		font-weight: bold;
+		min-height: 100px;
+		background: lightSeaGreen;
+		opacity: 0.9;
+	}
+
+	.error {
+		background: indianred;
+	}
+</style>
+
+<?php if($this->form): ?>
+	<form name="<?php echo $this->formId; ?>" id="<?php echo $this->formId; ?>" action="<?php echo $this->websiteUrl; ?>backend/backend_form/receiveform/" method='post' enctype="multipart/form-data">
+		<?php echo $this->form->getCode(); ?>
+		<input type="hidden" name="formName" value="<?php echo $this->form->getName(); ?>" />
+        <input type="hidden" name="formUrl" value="<?php echo $this->websiteUrl . $this->formUrl; ?>" />
+		<?php if($this->useRecaptcha && $this->recapthaCode && $this->customRecaptcha): ?>
+           <div id="recaptcha_widget">
+               <div id="recaptcha_image"></div>
+               <div class="recaptcha_only_if_incorrect_sol" style="color:red"><?php echo $this->translate('Incorrect please try again');?></div>
+               <label class="recaptcha_only_if_image"><?php echo $this->translate('Enter the words above');?>:</label>
+               <label class="recaptcha_only_if_audio"><?php echo $this->translate('Enter the numbers you hear');?>:</label>
+               <input type="text" id="recaptcha_response_field" name="recaptcha_response_field" />
+               <div class="recaptcha_links">
+                   <a href="javascript:Recaptcha.reload()"><?php echo $this->translate('Get another CAPTCHA');?></a>
+                   <a class="recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><?php echo $this->translate('Get an audio CAPTCHA');?></a>
+                   <a class="recaptcha_only_if_audio" href="javascript:Recaptcha.switch_type('image')"><?php echo $this->translate('Get an image CAPTCHA');?></a>
+                   <a class="recaptcha_help" href="javascript:Recaptcha.showhelp()"><?php echo $this->translate('Help');?></a>
+              </div>
+            </div>
+            <?php echo $this->recapthaCode;?>
+        <?php endif; ?>
+        <?php if($this->useRecaptcha && $this->recapthaCode && !$this->customRecaptcha): ?>
+            <?php echo $this->recapthaCode;?>
+        <?php endif;?>
+        <?php if($this->useCaptcha):?>
+            <div class="captcha">
+                <img src="<?php echo $this->websiteUrl . $this->websiteTmp . $this->captchaId . '.png';?>" />
+                <label><?php echo $this->translate('Please enter this code in the box below'); ?></label>
+                <input type="text" name="captcha" value="" />
+                <input type="hidden" class="captcha-id" name="captchaId" value="<?php echo $this->captchaId; ?>" />
+           </div>
+        <?php endif; ?>
+        
+                <input type="hidden" name="formPageId" value="<?php echo $this->pageId; ?>"/>
+                <?php if($this->trackingConversionUrl):?>
+                    <input type="hidden" name="conversionPageUrl" value="<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>" />
+                <?php endif;?>
+		        <input type="submit" name="submit" value="<?php echo $this->translate('Send');?>" />
+	</form>
+<?php endif; ?>
+<?php if($this->allowMidification): ?>
+<p class="form-controls">
+	<a class="tpopup" href="javascript:;" data-pwidth="454" data-pheight="594" data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/manageform/name/<?php echo $this->formName; ?>/pageId/<?php echo $this->pageId; ?>/" title="<?php echo $this->translate('Edit form'); ?>"><?php echo $this->translate('Edit this form'); ?></a> |
+	<a href="http://www.seosamba.com/free-form-maker/" target="_blank" title="<?php echo $this->translate('Get valid and solid form code'); ?>"><?php echo $this->translate('Build your form now'); ?></a> |
+	<?php if($this->form): ?>
+		<a data-url="<?php echo $this->websiteUrl; ?>backend/backend_form/delete/" data-eid="<?php echo $this->form->getId(); ?>" class="_tdelete" href="javascript:;" title="<?php echo $this->translate('Delete this form'); ?>" data-callback="formCallback"><img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete"/></a>
+	<?php endif; ?>
+</p>
+<?php endif; ?>
+
+
+<script type="text/javascript">
+    $(function() {
+        var form = $('#<?php echo $this->formId; ?>');
+        if($(form).find('input[type="file"]').length>0){
+            $('#<?php echo $this->formId; ?>').sisyphus( {timeout: 1, excludeFields: $('#<?php echo $this->formId; ?> input[type="hidden"], #recaptcha_response_field')});
+        }
+        <?php if(isset($this->toasterFormSuccess)):?>
+            showMessage('<?php echo addslashes($this->toasterFormSuccess);?>');
+            form[0].reset();
+        <?php endif;?>
+        <?php if(isset($this->toasterFormError)):?>
+            showMessage('<?php echo addslashes($this->toasterFormError);?>', true);
+        <?php endif;?>
+        $(document).on('submit', '#<?php echo $this->formId; ?>', function(e) {
+            if($(form).find('input[type="file"]').length>0){
+                return true;
+            }else{
+                e.preventDefault();
+                $.ajax({
+                    url      : form.attr('action'),
+                    type     : 'post',
+                    data     : form.serialize(),
+                    beforeSend: showSpinner,
+                    dataType :'json',
+                    success  : function(response) {
+                        hideSpinner();
+                        if(response.error) {
+
+                        } else {
+                            <?php if($this->trackingConversionUrl):?>
+                                location.href = '<?php echo $this->websiteUrl.$this->trackingConversionUrl;?>';
+                                return false;
+                            <?php endif;?>
+                            $(form).find(':input').each(function() {
+                                switch(this.type) {
+                                    case 'password':
+                                    case 'select-multiple':
+                                    case 'select-one':
+                                    case 'text':
+                                    case 'textarea':
+                                        $(this).val('');
+                                    break;
+                                    case 'checkbox':
+                                    case 'radio':
+                                        this.checked = false;
+                                    break;
+                                }
+                            });
+
+                        }
+                        <?php if($this->useCaptcha):?>
+                                $.post('<?php echo $this->websiteUrl; ?>backend/backend_form/refreshcaptcha/', function(response) {
+                                    $('#<?php echo $this->formId; ?> .captcha img').attr('src', '<?php echo $this->websiteUrl . $this->websiteTmp ?>' + response + '.png');
+                                    $('.captcha-id').val(response);
+                                }, 'json');
+                        <?php endif;?>
+                        <?php if($this->useRecaptcha):?>
+                            Recaptcha.reload();
+                        <?php endif;?>
+                        showMessage(response.responseText, response.error);
+                    }
+                })
+            }
+        });
+
+    });
+</script>

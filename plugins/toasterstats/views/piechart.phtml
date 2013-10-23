@@ -1,0 +1,53 @@
+<?php
+$this->headScript()->appendFile("http://www.google.com/jsapi" );
+echo $this->headScript();
+?>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', '<?php echo $this->typeSales;?>');
+        data.addColumn('number', 'amount');
+        data.addRows([
+          <?php foreach($this->dataArray as $name => $value):?>
+			
+                ['<?php echo addslashes($name);?>', <?php echo $value;?>],
+		  <?php endforeach;?>
+        ]);
+        var formatter = new google.visualization.NumberFormat(
+            {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+            formatter.format(data, 0);
+            formatter.format(data, 1);
+        <?php if($this->typeSales == 'type' || $this->typeSales == 'customer'):?>
+            var options = {
+                //title: 'Sales amount breakdown by <?php //echo $this->typeSales;?>',
+                legend:{position:'none'},
+                height:'<?php echo $this->height;?>',
+                titleTextStyle: {fontSize:"14"},
+                chartArea:{width:"85%",height:"85%"}
+               
+                
+                };
+        <?php endif;?>
+        <?php if($this->typeSales == 'product' || $this->typeSales == 'brand'):?>        
+            var options = {
+                //title: 'Sales amount breakdown by <?php //echo $this->typeSales;?>',
+                legend:{position:'right'},
+                height:'<?php echo $this->height;?>',
+                titleTextStyle: {fontSize:"14"},
+                chartArea:{width:"85%",height:"85%"}
+                };
+        <?php endif;?>
+        var chart = new google.visualization.PieChart(document.getElementById('visualizationcolumn<?php echo ucfirst($this->typeSales);?>'));
+        chart.draw(data, options);
+      }
+    </script>
+  
+   
+  
+<?php if($this->typeOfGrafic == 'amount'):?>
+    <div id="visualizationcolumn<?php echo ucfirst($this->typeSales);?>" style="height:<?php echo $this->height;?>px;"></div>
+        <input type="hidden" class="typeOfGraficAmount<?php echo $this->typeSales;?>" value="<?php echo $this->typeSalesAmount;?>" />
+<?php endif;?>

@@ -1,0 +1,18 @@
+<?php return array(
+                   'Language' => 'Linguagem', 
+                   'English' => 'Inglês',
+                   'French' => 'Francês',
+                   'German' => 'Alemão',
+                   'Spanish' => 'Espanhol',
+                   'Japanese' => 'Japonês',
+                   'Polish' => 'Polonês',
+                   'Brazil' => 'Brasil',
+                   'Romanian' => 'Romeno',
+                   'Russian' => 'Russo',
+                   'Slovak' => 'Eslovaco',
+                   'Swedish' => 'Sueco',
+                   'Italian' => 'Italiano',
+                   'Save' => 'Salvar'
+    
+                   
+    ); 

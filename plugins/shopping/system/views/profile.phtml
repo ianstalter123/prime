@@ -1,0 +1,283 @@
+<?php $countryList = Tools_Geo::getCountries(true); ?>
+<link type="text/css" rel="stylesheet" media="screen" href="<?php echo $this->websiteUrl; ?>system/css/reset-widgets.css">
+<link type="text/css" rel="stylesheet" media="screen" href="<?php echo $this->websiteUrl; ?>plugins/shopping/web/css/profile.css">
+<script>
+	$.fn.dataTable || $('head script:last').after(unescape("%3Cscript async='false' src='/system/js/external/jquery/plugins/DataTables/jquery.dataTables.min.js'%3E%3C/script%3E"));
+</script>
+<div class="clearfix profile-header">
+	<div class="tt">
+		<div class="ot profile-picture textcentered">
+			<?php echo $this->gravatar($this->customer->getEmail(), array('secure'=>true), array('class' => 'photo') ); ?>
+		</div>
+		<div class="tt profile-main-info vcard">
+			<h2 class="client-name"><?php echo $this->customer->getFullName();?></h2>
+			<h4><a href="mailto:<?php echo $this->customer->getEmail();?>" class="email"><?php echo $this->customer->getEmail();?></a></h4>
+			<p><?php echo $this->translate("%1\$s since %2\$s", $this->customer->getRoleId(), date('jS F, Y', strtotime($this->customer->getRegDate())) );?></p>
+			<p><?php
+				if ($this->customer->getLastLogin()) {
+					$lastSeen = date_diff(date_create($this->customer->getLastLogin()), date_create());
+					$lastSeen = intval($lastSeen->format('%a'));
+					if ($lastSeen < 7) {
+						$lastSeenStamp = date('l', strtotime($lastSeen.' days ago'));
+					} else {
+						$lastSeenStamp = $lastSeen.' days ago';
+					}
+				} else {
+					$lastSeenStamp = 'never';
+				}
+				echo $this->translate("Last seen: %1\$s", $lastSeenStamp );
+				?></p>
+			<?php if ($billingAddressDefault = $this->customer->getDefaultAddress('billing')) : ?>
+				<div class="adr">
+					<span class="street-address"><?php echo $billingAddressDefault['address1'].' '. $billingAddressDefault['address2'];?></span>
+					<br/>
+					<span class="locality"><?php echo $billingAddressDefault['city'];?></span>
+					<span class="region"><?php $state = Tools_Geo::getStateById($billingAddressDefault['state']); echo $state['state']; ?></span>
+					<span class="postal-code"><?php echo $billingAddressDefault['zip'];?></span>
+				</div>
+			<?php endif;?>
+			<?php if ($shippingAddressDefault = $this->customer->getDefaultAddress('shipping')) : ?>
+				<div class="adr">
+					<span class="street-address"><?php echo $shippingAddressDefault['address1'].' '. $shippingAddressDefault['address2'];?></span>
+					<br/>
+					<span class="locality"><?php echo $shippingAddressDefault['city'];?></span>
+					<span class="region"><?php $state = Tools_Geo::getStateById($shippingAddressDefault['state']); echo $state['state']; ?></span>
+					<span class="postal-code"><?php echo $shippingAddressDefault['zip'];?></span>
+				</div>
+			<?php endif;?>
+		</div>
+	</div>
+
+
+	<div class="ot profile-actions">
+		<!--		<input type="button" class="blue-btn" value="--><?php //echo $this->translate('Edit profile');?><!--" />-->
+		<p class="title textcentered ui-state-default">
+			<img style="width: 16px; vertical-align: text-bottom;" src="data:;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAZCAYAAAAv3j5gAAAA/UlEQVR42r2VvQ3CMBBGswEjMIJHyASeIUV6qChSISRKpLR0jEDBABmBkpIRIk8QPks+3ekkfkzOsfSUxIm+p/PFSYUxRTAqAsPPvN6BEUzpWJcSBcolWSnRpJGT3oolK3ooSWMuwtinzCtwNG8qisEpL4CVfMa2R7xkBzlvWpFYskHfny1KG3FUjV+bi1jCInnfqketkhAt8PN6xMt14+DMinSwWv8AtuAuQp+gVx/PJl/EAZoBnNTzHZ1n9+iN5Ah8Lt8q0pLx3332SXRWkgAaU1EMFM11oP4lOLdHG/Ev6YC3QIscvWn6rbKtiPdID3wZEXOJk8VEpVlU9AI9gR1AIgkvUwAAAABJRU5ErkJggg==">
+			<?php echo $this->translate('Orders summary');?>
+		</p>
+		<ul class="stats clearfix">
+			<?php foreach ($this->stats as $key => $value) : ?>
+				<li class="oh <?php echo $key;?>" data-sort="<?php echo $key;?>"><?php echo $value.' '.$this->translate($key);?></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+</div>
+
+
+<div id="profile-content">
+	<ul class="profile-nav">
+		<li><a href="#profile-orders-list">Orders</a></li>
+		<li><a href="#profile-address-list">Addresses</a></li>
+	</ul>
+
+	<div id="profile-orders-list" class="clearfix">
+		<table id="orders-table" border="1" class="widget">
+			<thead>
+				<tr class="title-table">
+					<th>#</th>
+					<th><?php echo $this->translate('Purchased On');?></th>
+					<th><?php echo $this->translate('Products in cart');?></th>
+                    <th><?php echo $this->translate('Total Price');?></th>
+                    <th><?php echo $this->translate('Shipping price');?></th>
+                    <th><?php echo $this->translate('Shipping via');?></th>
+                    <th style="width: 180px;"><?php echo $this->translate('Status');?></th>
+                    <th><?php echo $this->translate('Details');?></th>
+                    <?php if(isset($this->invoicePlugin)):?>
+                        <th><?php echo $this->translate('View/Download Invoice');?></th>
+                    <?php endif;?>
+				</tr>
+			</thead>
+			<tbody>
+			<?php if ($this->orders): ?>
+			<?php foreach ($this->orders as $order):?>
+				<tr data-role="cart" data-id="<?php echo $order->getId();?>">
+					<td><?php echo $order->getId();?></td>
+					<td><?php echo date('d M, Y', strtotime($order->getCreatedAt()));?></td>
+					<td><?php echo sizeof($order->getCartContent());?></td>
+					<td><?php echo $this->currency(floatval($order->getTotal()));?></td>
+					<td><?php echo $this->currency(floatval($order->getShippingPrice()));?></td>
+					<td class="shipping-data">
+						<p><?php echo $order->getShippingService().' - '.$order->getShippingType() ;?></p>
+						<p>
+	                        <i>Tracking ID</i>: <span class="tracking-id"><?php echo $order->getShippingTrackingId(); ?></span>
+							<?php if (Tools_Security_Acl::isAllowed(Shopping::RESOURCE_STORE_MANAGEMENT)):?>
+                            <a href="javascript:;" class="tracking-dialog" data-shipping-tracking-id="<?php echo $order->getShippingTrackingId();?>">[&nbsp;edit&nbsp;]</a>
+							<?php endif;?>
+						</p>
+                        <?php if($order->getStatus() == 'completed' || $order->getStatus() == 'paid' || $order->getStatus() == 'shipped'):?>
+                            <?php if($order->getShippingTrackingId() != ''):?>
+                                <p class="textcentered">
+                                <a target="_blank" class="tracking-link" href="<?php echo $order->getShippingTrackingId(); ?>"><?php echo $this->translate('Where is my order?');?></a>
+                            </p>
+                            <?php endif;?>
+                        <?php endif;?>
+					</td>
+					<td class="current-status"><?php echo $order->getStatus();?></td>
+					<td><a href="javascript:;" class="tpopup" data-pheight="600" data-url="<?php echo $this->websiteUrl;?>plugin/shopping/run/order/id/<?php echo $order->getId();?>">view</a></td>
+                    <?php if(isset($this->invoicePlugin)):?>
+                        <td>   
+                        <?php if($order->getStatus() == Models_Model_CartSession::CART_STATUS_COMPLETED || $order->getStatus() == Models_Model_CartSession::CART_STATUS_SHIPPED || $order->getStatus() == Models_Model_CartSession::CART_STATUS_DELIVERED):?>
+                            <a target="_blank" href="<?php echo $this->websiteUrl;?>plugin/invoicetopdf/run/createPdfInvoice/cartId/<?php echo $order->getId();?>/dwn/0/">
+                                <img src="<?php echo $this->websiteUrl;?>system/images/widgets/search.png" alt="View invoice" title="View invoice"/>
+                            </a>
+                            <a href="<?php echo $this->websiteUrl;?>plugin/invoicetopdf/run/createPdfInvoice/cartId/<?php echo $order->getId();?>/dwn/1/">
+                                <img src="<?php echo $this->websiteUrl;?>system/images/download.png" alt="Download invoice" title="Download invoice"/>    
+                            </a>
+                        <?php endif;?>
+                         </td>   
+                    <?php endif;?>
+                </tr>
+			<?php endforeach; ?>
+			<?php endif; ?>
+			</tbody>
+		</table>
+		<?php //var_dump($this->orders); ?>
+	</div>
+	<div id="profile-address-list" class="clearfix">
+	<?php $addressList = $this->customer->getAddresses(); ?>
+	<?php if (!empty($addressList)): ?>
+	<?php foreach ($addressList as $billingAddress): ?>
+	<div>
+		<div class="adr">
+			<?php echo $this->formHidden('id', $billingAddress['id'], array('id'=>'id_'.$billingAddress['id']));?>
+			<?php echo $this->formHidden('type', $billingAddress['address_type'], array('id'=>'type_'.$billingAddress['id']));?>
+			<span class="street-address"><?php echo $billingAddress['address1'].' '. $billingAddress['address2'];?></span>
+			<br/>
+			<span class="locality"><?php
+				echo $billingAddress['city'].
+					($billingAddress['city']&&($billingAddress['state'] || $billingAddress['zip'])?',':'');
+				?></span>
+			<span class="region"><?php $state = Tools_Geo::getStateById($billingAddress['state']); echo $state['state']; ?></span>
+			<span class="postal-code"><?php echo $billingAddress['zip'];?></span>
+			<br />
+			<span><?php echo $countryList[$billingAddress['country']];?></span>
+<!--			<a class="delete-lnk" href="javascript:;" title="--><?php //echo $this->translate('Delete this address');?><!--"><img src="/system/images/delete.png" alt="[x]"></a>-->
+		</div>
+	</div>
+	<?php endforeach; ?>
+	<?php else : ?>
+	<p><?php echo $this->translate("You don't have any saved addresses");?></p>
+	<?php endif;?>
+	</div>
+</div>
+<script>
+	$('#profile-content').tabs();
+	$('div#profile-content > *').removeClass('ui-widget-content ui-corner-bottom');
+	$('div#profile-content .ui-tabs-nav, div#profile-content .ui-tabs-nav > *').removeClass( "ui-widget-header  ui-corner-all ui-corner-top" );
+	$(function(){
+		var oTable = $('#orders-table').dataTable({
+			bPaginate: false,
+			bLengthChange: false,
+			sDom: 't',
+			aaSorting: [[ 1, "desc" ]],
+			aoColumnDefs: [
+				{bSortable: false, aTargets: [-1]}
+			],
+			oLanguage: {
+		      sEmptyTable: "<?php echo $this->translate('You do not have any orders'); ?>"
+		    }
+		});
+		$('ul.stats').on('click', 'li', function(e){
+			var filter = $(this).data('sort');
+			if (filter === 'total') filter = '';
+			oTable.fnFilter(filter);
+		});
+	});
+
+	<?php if (Tools_Security_Acl::isAllowed(Shopping::RESOURCE_STORE_MANAGEMENT)):?>
+
+	$('a.tracking-dialog').on('click', function(e){
+		e.preventDefault();
+		var self = this,
+			id = parseInt($(this).closest('tr').data('id'));
+		smoke.prompt('<?php echo $this->translate('Insert tracking code for this order');?>', function(value){
+			if (value === false) {
+				return value;
+			}
+			value = $.trim(value);
+			if ($(self).data('shippingTrackingId') !== value) {
+				$.ajax({
+					url: $('#website_url').val()+'plugin/shopping/run/order?id='+id,
+					data: {shippingTrackingId: value},
+					type: 'POST',
+					dataType: 'json',
+					success: function(response) {
+						showMessage('<?php echo $this->translate('Saved');?>', response.hasOwnProperty('error') && response.error);
+						if (response.hasOwnProperty('responseText')){
+							$(self).data('shippingTrackingId', response.responseText.shippingTrackingId);
+							$(self).closest('p').find('span.tracking-id').text(response.responseText.shippingTrackingId);
+							$(self).closest('tr').find('td.current-status').text(response.responseText.status);
+						}
+					}
+				});
+			}
+		});
+	});
+
+	$('#orders-table').on('mouseenter', 'td.current-status', function(){
+		var self    = this,
+			id      = parseInt($(this).closest('tr').data('id')),
+			currentStatus = $(this).text();
+
+		$(this).data('currentStatus', $(this).text());
+
+		var buttons = {
+			'refunded'  : '<button class="change-status btn btn-small blue-gradient" data-status="<?php echo Models_Model_CartSession::CART_STATUS_REFUNDED;?>" >Refund payment</button>',
+			'completed' : '<button class="change-status btn btn-small green-gradient" data-status="<?php echo Models_Model_CartSession::CART_STATUS_COMPLETED;?>" >Complete order</button>',
+			'canceled'  : '<button class="change-status btn btn-small red-gradient" data-status="<?php echo Models_Model_CartSession::CART_STATUS_CANCELED;?>" >Cancel order</button>',
+			'delivered' : '<button class="change-status btn btn-small orange-gradient" data-status="<?php echo Models_Model_CartSession::CART_STATUS_DELIVERED;?>" >Delivered</button>'
+		}
+
+		var html = ''
+		switch (currentStatus){
+			case '<?php echo Models_Model_CartSession::CART_STATUS_COMPLETED; ?>':
+				html += buttons['refunded']
+				break;
+			case '<?php echo Models_Model_CartSession::CART_STATUS_PENDING; ?>':
+				html += buttons['completed'];
+                html += buttons['canceled'];
+                break;
+			case '<?php echo Models_Model_CartSession::CART_STATUS_SHIPPED; ?>':
+				html += buttons['delivered'];
+				html += buttons['refunded'];
+				break;
+		}
+
+		if (html.length){
+			var popup = $('<div></div>')
+					.css({"white-space": "nowrap"})
+					.html(html);
+			$(this).html(popup);
+		}
+
+
+	});
+	$('#orders-table').on('mouseleave', 'td.current-status', function(){
+		var oldStatus = $(this).data('currentStatus');
+		if (oldStatus) $(this).text(oldStatus);
+	});
+
+	$('#orders-table').on('click', 'td.current-status .change-status', function(){
+		var statusTd    = $(this).closest('td'),
+			id      = parseInt($(this).closest('tr').data('id')),
+			currentStatus = $(this).data('status');
+
+		statusTd.html('<img src="'+$('#website_url').val()+'system/images/ajax-loader-small.gif">');
+
+		$.ajax({
+			url: $('#website_url').val()+'plugin/shopping/run/order?id='+id,
+			data: {status: currentStatus},
+			type: 'POST',
+			dataType: 'json',
+			success: function(response) {
+				showMessage('<?php echo $this->translate('Saved');?>', response.hasOwnProperty('error') && response.error);
+				if (!response.error && response.hasOwnProperty('responseText')){
+                    console.log(response);
+                    $(statusTd).text(response.responseText.status).data('currentStatus', response.responseText.status);
+				}
+			}
+		});
+	});
+	<?php endif;?>
+	
+</script>

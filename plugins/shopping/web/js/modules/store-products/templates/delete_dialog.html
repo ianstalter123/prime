@@ -1,0 +1,12 @@
+<div title="Delete products">
+    <div class="textcentered">
+        <h2 class="ui-state-error-text">Are you sure?</h2>
+        <span class="ui-state-error-text">This operation cannot be undone</span>
+    </div>
+    <% if (totalProducts) { %>
+    <hr />
+    <label>
+        <input type="checkbox" name="applyToAll"> Apply to all <%= totalProducts %> products
+    </label>
+    <% } %>
+</div>

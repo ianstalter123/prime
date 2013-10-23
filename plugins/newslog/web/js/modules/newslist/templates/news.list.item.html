@@ -1,0 +1,29 @@
+<% if($('#edit-allowed').val() == '1') { %>
+    <div class="news-item-admin-actions" data-confirm="<?php echo $this->translate('You are about to remove the news entry! Are you sure?'); ?>">
+        <a href="javascript:;" data-url="<?php echo $this->websiteUrl; ?>plugin/newslog/run/news/#edit/<%= id %>" data-pheight="574" class="tpopup">
+            <img width="15" src="<%= $('#website_url').val() %>system/images/edit.png" alt="edit"/>
+        </a>
+        <a href="javascript:;" data-nid="<%= id %>" class="news-item-remove">
+            <img src="<%= $('#website_url').val() %>system/images/delete.png" alt="delete" />
+        </a>
+    </div>
+<% } %>
+
+<div class="news-item-date"><%= $.datepicker.formatDate('dd M, yy', new Date(Date.parse(createdAt.replace(/\-/g, '/')))) %></div>
+<a class="page-teaser-image" href="<?php echo $this->websiteUrl . $this->folder . '/'; ?><%= JSON.parse(metaData).url %>" title="<%= title %>">
+    <img src="<%= $('#website_url').val() + JSON.parse(metaData).image %>" alt="<%= title %>" title="<%= title %>" />
+</a>
+
+
+<a href="<?php echo $this->websiteUrl . $this->folder . '/'; ?><%= JSON.parse(metaData).url %>" title="<%= title %>" class="page-title"><%= title %></a>
+
+<div class="news-item-tags">
+    <span><a href="javascript:;" title="show all" class="news-item-tag-filter" data-filter="all">All</a></span>
+    <% _.each(tags, function(tag, index) {  %>
+    <% if (index == 0){ %>, &nbsp <% ;} %><span>
+                <a title="<?php echo $this->translate('Filter by'); ?>:&nbsp;<%= tag.name %>" href="javascript:;" class="news-item-tag-filter" data-filter="<%= tag.name %>"><%= tag.name %></a>
+            </span><% if ((index+1) != tags.length){ %> ,&nbsp <% ;} %>
+    <% }) %>
+</div>
+
+<div class="news-item-description"><%= teaser %></div>

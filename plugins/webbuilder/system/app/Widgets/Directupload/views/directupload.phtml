@@ -1,0 +1,109 @@
+<?php $this->headLink()->appendStylesheet($this->websiteUrl . 'plugins/webbuilder/web/css/directupload.css'); ?>
+<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)): ?>
+
+    <?php if(!$this->_isIE): ?>
+        <div class="ui-helper-hidden">
+            <?php
+                $thingsUploader = $this->toasterUploader(
+                    array(
+                        'id'            => 'direct-uploader' . $this->container,
+                        'caption'       => $this->translate('Upload Your image'),
+                        'caller'        => 'media',
+                        'noMultiupload' => true
+                    ));
+                echo $thingsUploader;
+            ?>
+        </div>
+        <div class="directupload-wrapper">
+            <div class="direct-upload-images">
+                <img title="<?php echo $this->imageName; ?>" alt="<?php echo $this->imageName; ?>" class="directupload-image<?php echo $this->container;?>" src="<?php echo $this->image;?>" width="<?php echo $this->width;?>" />
+                <div id="progressbar<?php echo $this->container;?>" class="progressbar" style="display:none">
+                    <span class="label"><?php echo $this->translate('Uploading');?>&nbsp;<b class="value">0</b></span>
+                </div>
+            </div>
+            <a <?php echo (!$this->imageExists) ? 'style="display:none;"': ''; ?> class="directuploadDelete<?php echo $this->container?> directupdelete" href="<?php echo $this->originalImage;?>"><?php echo $this->translate('Delete Image');?></a>
+        </div>
+        <input type="hidden" name="things-select-folder" value="<?php echo $this->folder;?>" id="things-select-folder"/>
+        <input type="hidden" name="fileName<?php echo $this->container;?>" value="<?php echo $this->container;?>" id="fileName<?php echo $this->container;?>"/>
+
+        <script type="text/javascript">
+            $(function() {
+                $(document).on('click', '.direct-upload-images:has(.directupload-image<?php echo $this->container; ?>)', function() {
+                    $('#direct-uploader<?php echo $this->container;?>-pickfiles').trigger('click');
+                }).on('click', '.directuploadDelete<?php echo $this->container; ?>', function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        type    : "delete",
+                        url     : '<?php echo $this->websiteUrl; ?>api/webbuilder/du/',
+                        dataType: "json",
+                        data    : JSON.stringify({
+                            folderName:'<?php echo $this->folder;?>',
+                            imageName: $(e.currentTarget).attr('href')
+                        })
+                    }).done(function(response) {
+                        if(!response || !response.hasOwnProperty('error') || !parseInt(response.error)){
+                            showMessage('<?php echo $this->translate('Image Deleted');?>');
+                            $('.directupload-image<?php echo $this->container;?>').attr('src', '<?php echo $this->websiteUrl;?>system/images/noimage.png');
+                            $('.directuploadDelete<?php echo $this->container?>').hide();
+                        } else {
+                            showMessage(response.message, true);
+                        }
+                    });
+                });
+
+                var container = jsDirectUploader<?php echo $this->container?>;
+                container.bind('BeforeUpload', function(uploader, file){
+                    $('#progressbar<?php echo $this->container;?>').fadeIn().progressbar({value: 0});
+                    container.settings.multipart_params = {
+                        'folder': '<?php echo $this->folder;?>'
+                    };
+                    var ext   = /\.jpe?g|\.gif|\.png$/i.exec(file.name);
+                    file.name = $('#fileName<?php echo $this->container;?>').val() + ext;
+                });
+                container.bind('FileUploaded', function(uploader, file){
+                    $('.directuploadDelete<?php echo $this->container?>').attr('href', '<?php echo $this->websiteUrl;?>media/<?php echo $this->folder;?>/<?php echo $this->mediaSubfolder;?>/' + file.name);
+                    $('.directuploadDelete<?php echo $this->container?>').show();
+                    $('#progressbar<?php echo $this->container;?>').hide();
+                    $.ajax({
+                        type    : "post",
+                        url     : '<?php echo $this->websiteUrl; ?>api/webbuilder/du/',
+                        dataType: "json",
+                        data    : {
+                            folderName    : '<?php echo $this->folder;?>',
+                            containerName : '<?php echo $this->container;?>',
+                            imageName     : file.name,
+                            pageId        : <?php echo $this->pageId; ?>
+                        }
+                    }).done(function() {
+                        var currDate = new Date();
+                        $('.directupload-image<?php echo $this->container;?>').attr('src', '<?php echo $this->websiteUrl;?>media/<?php echo $this->folder;?>/<?php echo $this->mediaSubfolder;?>/' + file.name + '?' + currDate.getTime());
+                    });
+                });
+                container.bind('UploadProgress', function(up, file) {
+                    $('#progressbar<?php echo $this->container;?>').show().progressbar();
+                    $('#progressbar<?php echo $this->container;?>').progressbar({value: file.percent});
+                    $('#progressbar<?php echo $this->container;?> .value').text(file.percent);
+
+                });
+            });
+        </script>
+
+    <?php else: ?>
+        <?php if($this->imageExists): ?>
+            <a class="_lbox direct-upload" href="<?php echo $this->originalImage;?>">
+                <img class="uploaded-image" src="<?php echo $this->image;?>" width="<?php echo $this->width;?>" alt="<?php echo $this->translate('Image Preview');?>" />
+            </a>
+        <?php endif;?>
+        <script type="text/javascript">
+            $('.userMessage').remove();
+        </script>
+        <span class="userMessage"<?php echo $this->translate('Please use browser with advanced technology for uploading images');?></span>
+    <?php endif; ?>
+
+<?php else: ?>
+    <?php if($this->imageExists): ?>
+        <a class="_lbox direct-upload" rel="<?php if($this->galleryRel != ''){echo $this->galleryRel;}?>" href="<?php echo $this->originalImage;?>">
+            <img class="uploaded-image" src="<?php echo $this->image;?>" width="<?php echo $this->width;?>" alt="<?php echo $this->translate('Image Preview');?>" />
+        </a>
+    <?php endif;?>
+<?php endif; ?>

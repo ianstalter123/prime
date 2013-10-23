@@ -1,0 +1,81 @@
+s:4534:"	<ul class="img_gallery">
+								<li class="gallery_image" style="width: 22px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/._Alexander.jpg" rel="people" title="_Alexander">
+					<img src="http://192.168.0.154/toast/media/people/crop/._Alexander.jpg" alt="_Alexander" width="22" height="7" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 22px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/._Andrej_css.jpg" rel="people" title="_Andrej_css">
+					<img src="http://192.168.0.154/toast/media/people/crop/._Andrej_css.jpg" alt="_Andrej_css" width="22" height="7" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 22px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/._andrey.jpg" rel="people" title="_andrey">
+					<img src="http://192.168.0.154/toast/media/people/crop/._andrey.jpg" alt="_andrey" width="22" height="7" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 22px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/._anna.jpg" rel="people" title="_anna">
+					<img src="http://192.168.0.154/toast/media/people/crop/._anna.jpg" alt="_anna" width="22" height="7" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 22px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/._chris.jpg" rel="people" title="_chris">
+					<img src="http://192.168.0.154/toast/media/people/crop/._chris.jpg" alt="_chris" width="22" height="7" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 22px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/._david.jpg" rel="people" title="_david">
+					<img src="http://192.168.0.154/toast/media/people/crop/._david.jpg" alt="_david" width="22" height="7" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 22px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/._eugene.jpg" rel="people" title="_eugene">
+					<img src="http://192.168.0.154/toast/media/people/crop/._eugene.jpg" alt="_eugene" width="22" height="7" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 90px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/Alexander.jpg" rel="people" title="Alexander">
+					<img src="http://192.168.0.154/toast/media/people/crop/Alexander.jpg" alt="Alexander" width="90" height="90" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 90px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/Andrej_css.jpg" rel="people" title="Andrej_css">
+					<img src="http://192.168.0.154/toast/media/people/crop/Andrej_css.jpg" alt="Andrej_css" width="90" height="90" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 90px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/andrey.jpg" rel="people" title="andrey">
+					<img src="http://192.168.0.154/toast/media/people/crop/andrey.jpg" alt="andrey" width="90" height="90" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 90px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/anna.jpg" rel="people" title="anna">
+					<img src="http://192.168.0.154/toast/media/people/crop/anna.jpg" alt="anna" width="90" height="90" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 90px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/chris.jpg" rel="people" title="chris">
+					<img src="http://192.168.0.154/toast/media/people/crop/chris.jpg" alt="chris" width="90" height="90" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 90px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/david.jpg" rel="people" title="david">
+					<img src="http://192.168.0.154/toast/media/people/crop/david.jpg" alt="david" width="90" height="90" />
+				</a>
+							</li>
+								<li class="gallery_image" style="width: 90px;">
+				<a class="gall" href="http://192.168.0.154/toast/media/people/original/eugene.jpg" rel="people" title="eugene">
+					<img src="http://192.168.0.154/toast/media/people/crop/eugene.jpg" alt="eugene" width="90" height="90" />
+				</a>
+							</li>
+			</ul>
+
+<script type="text/javascript">
+	$("a[rel=people]").fancybox({
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'titlePosition' 	: 'over'
+	});
+</script>
+";

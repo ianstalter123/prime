@@ -1,0 +1,38 @@
+/*===================================================================*\
+   # MEDIAQUERIES #     # MEDIAQUERIES #     # MEDIAQUERIES #   
+\*===================================================================*/
+/*@media screen and (max-width: 1100px) {
+	.seotoaster-dash div#left{
+		background:url("images/2.png");
+		position:absolute;
+		top:0;
+		left:0;
+		display:none;
+		z-index:111;
+		box-shadow: 3px 0 5px #777777;
+		-ms-box-shadow: 3px 0 5px #777777;
+		-moz-box-shadow: 3px 0 5px #777777;
+		-webkit-box-shadow: 3px 0 5px #777777;
+		height:100%;
+		width:400px;
+		overflow:auto;
+	}
+	.seotoaster-dash #topblock .leftTop a{
+		width:20px;
+		height:20px
+	}
+	.seotoaster-dash #topblock .leftTop{
+		display:block !important;
+	}
+	.seotoaster-dash header nav.user ul li a {
+		font-size:0;
+	}
+	.seotoaster-dash header nav.user ul li a > span{
+		margin:0;
+	}
+}
+@media screen and (min-width: 1101px){
+	.seotoaster-dash div#left{
+		display:block !important;
+	}	
+}*/

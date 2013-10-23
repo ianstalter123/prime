@@ -1,0 +1,34 @@
+<?php echo '<?xml version="1.0"?>'; ?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+    <channel>
+        <title><?php echo (isset($this->websiteConfig['wicOrganizationName']) ? $this->websiteConfig['wicOrganizationName'] : $this->websiteUrl); ?></title>
+        <link><?php echo $this->websiteUrl; ?></link>
+        <description><?php echo (isset($this->websiteConfig['wicOrganizationDescription']) ? $this->escape(htmlspecialchars($this->websiteConfig['wicOrganizationDescription'])) : 'No description'); ?></description>
+        <?php if(is_array($this->news) && !empty($this->news)): ?>
+            <?php foreach($this->news as $newsItem): ?>
+                <item>
+                    <title><?php echo $this->escape($newsItem->getTitle()); ?></title>
+                    <description>
+                        <?php if($this->feedType == Newslog_Tools_Feed::TYPE_FULL): ?>
+                            <?php echo $this->escape($newsItem->getContent()); ?>
+                        <?php else: ?>
+                            <?php echo $this->escape($newsItem->getTeaser()); ?>
+                        <?php endif; ?>
+                    </description>
+                    <link><?php echo $this->websiteUrl . $this->newsConfig['folder'] . '/' . $newsItem->getMetaDataValue('url'); ?></link>
+
+                    <?php
+                        $image = $newsItem->getMetaDataValue('image');
+                        if($image && file_exists($this->websitePath . 'previews/' . $image)) {
+                            echo '<enclosure url="' . $this->websiteUrl . 'previews/' . $image . '" type="' . Tools_System_Tools::getMime($this->websitePath . 'previews/' . $image) . '" />';
+                        }
+                    ?>
+
+                    <pubDate><?php echo date(DATE_ATOM, strtotime($newsItem->getCreatedAt())); ?></pubDate>
+                    <g:publish_date><?php echo date("Y-m-d", strtotime($newsItem->getCreatedAt())); ?></g:publish_date>
+                    <g:news_source><?php echo (isset($this->websiteConfig['wicOrganizationName']) ? $this->websiteConfig['wicOrganizationName'] : $this->websiteUrl); ?></g:news_source>
+                </item>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </channel>
+</rss>

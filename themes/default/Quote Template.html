@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"  />
+    	<title>{$page:title}</title>
+		<meta name="keywords" content="{$meta:keywords}" />
+		<meta name="description" content="{$meta:description}" />
+		<meta name="generator" content="seotoaster" />
+        <link href="images/favicon.ico" type="image/vnd.microsoft.icon" rel="icon">
+		<!-- -->
+		<link href="reset.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="content.css" rel="stylesheet" type="text/css" media="screen" />
+		<link href="nav.css" rel="stylesheet"  type="text/css" media="screen" />
+        <link href="products.css" rel="stylesheet"  type="text/css" media="screen" />
+        <link href="checkout.css" rel="stylesheet"  type="text/css" media="screen" />
+        <link href="colors.css" rel="stylesheet"  type="text/css" media="screen" />
+    	<!-- {$concatcss} -->
+        <link href="fonts-icon/toaster-icon.css" rel="stylesheet"  type="text/css" media="screen" />
+
+		<script type="text/javascript" src="js/jquery.cycle.all.js"></script>
+		<script type="text/javascript" src="js/common-scripts.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+
+			});
+		</script>
+		<!--[if IE]>
+		<script src="js/html5.js" type="text/javascript"></script>
+		<![endif]-->
+	</head>
+	<body>
+        <p class="seofooter">Powered by
+        <a target="_blank" href="http://www.seotoaster.com/">Free shopping cart</a>
+SEOTOASTER</p>
+		<!-- start #container -->
+		<div id="container" class="container_12 mb30px">
+        
+        {adminonly}<div style="text-align:center;">{$quote:search}</div>{/adminonly}
+    		<header class="grid_12 mb10px">
+                <div class="grid_4 alpha">
+                	<a class="logo" title="{$page:h1}" href="{$website:url}"><img src="{$plugin:widcard:BizLogo:url}" />{$plugin:widcard:BizOrgName:notag}</a>
+        			<div id="store-info">
+        				<h1 class="store-name">{$plugin:shopping:company}</h1>
+    					<p>{$plugin:shopping:address1}, {$plugin:shopping:address2}</p>
+    					<p>{$plugin:shopping:city} {$plugin:shopping:state} {$plugin:shopping:zip}</p>
+    					<p>{$plugin:shopping:country}</p>
+    					<p><a href="mailto:{$plugin:shopping:email}">{$plugin:shopping:email}</a></p>
+    				</div>
+                </div>
+				<div class="grid_4 mt30px">
+					{$quote:address:billing}
+				</div>
+				<div class="grid_4 mt30px omega">
+					{$quote:address:shipping}
+				</div>
+			</header>
+			<!--nav class="grid_12">{$menu:main}</nav-->
+
+
+			<div id="left" class="grid_12">
+                <div class="grid_8 alpha omega suffix_2 prefix_2 mb20px">
+				    <div id="quote-details" class="mb20px">
+						{adminonly}
+							<div class="title">Quote title:</div>
+						{/adminonly}
+						{$quote:title}
+						<div class="date_s">expires on: <span>{$quote:date:expires}</span></div>
+				    </div>
+                </div>
+                <div class="grid_12 alpha omega mb20px">
+                	
+				    <!--table id="toaster-quote" class="toaster-quote-content cart-content">
+							<tr>
+				        <th class="product-info" colspan="2">Product</th>
+				        <th class="product-note">Note</th>
+				        <th class="product-unit-price">Unit price</th>
+				        <th class="product-qty">Qty</th>
+				        <th class="product-total">Total</th>
+				        <th class="product-remove">Remove</th>
+							</tr>
+				      
+							<tr>
+								<td class="product-img"> {$quote:item:photo} </td>
+								<td class="product-info">{$quote:item:name}
+									<p class="itemID"><span>Item ID: </span>{$quote:item:sku}</p>
+									{$quote:item:options}
+								</td>
+								<td class="product-note">{$header:{$quote:item:id}-note}</td>
+								<td class="product-unit-price">{$quote:item:price:unit}</td>
+				    			<td class="product-qty">{$quote:item:qty}</td>
+								<td class="product-total">{$quote:item:price}</td>
+								<td class="product-remove">{$quote:item:remove}</td>
+							</tr>
+						 
+				    </table-->
+				    <table id="toaster-quote" class="toaster-quote-content cart-content">
+						<tr>
+							<th class="product-info" colspan="2">Product item</th>
+							<th>Note</th>
+							<th>Unit price</th>
+							<th>Quantity</th>
+							<th>Total</th>
+							<th></th>
+						</tr>
+						{toasterquote}
+							<tr>
+								<td class="product-img">{$quote:item:photo}</td>
+								<td class="product-info">
+									<div class="name">{$quote:item:name}</div>
+									<p class="itemID"><span>Item ID: </span>
+										{$quote:item:sku}
+									</p>
+									{$quote:item:options}</td>
+								<td class="product-note">{$header:{$quote:item:id}-note1}</td>
+								<td class="product-unit-price">{$quote:item:price:unit}</td>
+								<td class="product-qty">{$quote:item:qty}</td>
+								<td class="product-total">{$quote:item:price}</td>
+								<td class="product-remove">{$quote:item:remove}</td>
+							</tr>
+						{/toasterquote}
+				    </table>
+                </div>
+                <div class="grid_8 alpha">
+                <!--	{$quote:disclaiser} -->
+               <div style="padding:10px;background:#fff"> 
+                {$content:disclaimers}
+                {$quote:disclaimer}    
+                </div>    
+                    
+                </div>
+                <div class="total_box grid_4 omega">
+					<div id="quote-summary">
+						<h3 class="quote-widget-title">Summary</h3>
+						<div id="cart-summary">
+							<div><span>Subtotal:</span>{$quote:total:sub}</div>
+							<div><span>Total Tax:</span>{$quote:total:tax}</div>
+							<div><span>Shipping:</span>{$quote:shipping}</div>
+							<div><span>Discount:</span>{$quote:discount}</div>
+    						<div class="cart-total"><span>Total:</span>{$quote:total}
+        					</div>
+                		
+                        
+                        {adminonly}
+                <hr />
+                <div class="cart-total"><span>Effective tax:</span>{$quote:total:taxdiscount}</div>
+                {/adminonly}
+						</div>
+                        
+					</div> 
+                <h4>Delivery type:</h4> {$quote:delivery}  
+            </div>
+			</div>
+        	<footer class="grid_12 mt30px">
+				<!--div class="grid_4 alpha">{$menu:flat}</div>
+				<div class="grid_8 omega">
+                    <ul id="footer-news">
+                    {newslist}
+                        <li class="news-list-item">
+                            <div class="news-item-date">{$news:date}</div>
+                            <div class="news-item-title"><a href="{$news:url}">{$news:title}</a></div>
+                            <div class="news-item-description">{$news:teaser}</div>
+                        </li>    
+                    {/newslist}
+                    </ul>
+				</div-->
+				<div class="grid_12 footer-copyright alpha omega">
+					{$content:footer:static}
+				</div>
+			</footer>
+		</div>
+		<!-- end #container -->
+		{adminonly}
+		    <!-- ADMIN PANEL -->
+		    <div id="quoteControlls">{$quote:controls}</div>
+		{/adminonly}
+	</body>
+</html>

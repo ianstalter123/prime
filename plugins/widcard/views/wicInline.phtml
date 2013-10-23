@@ -1,0 +1,27 @@
+<?php
+	if( !$this->noScript ) {
+		$this->jQuery()->addStylesheet($this->websiteUrl."plugins/widcard/system/css/widcard.css" );
+		$this->jQuery()->addJavascriptFile($this->websiteUrl."plugins/widcard/system/js/widcard.js");
+	}
+?>
+<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)) :?>
+<?php if($this->notag || $this->src) {echo trim($this->fieldValue); return false;}?>
+<?php if($this->locationBlock && $this->image) :
+	echo $this->fieldValue;
+?>
+	<a class="tpopup" data-pheight="594" data-pwidth="625" data-url="<?php echo $this->_websiteUrl;?>plugin/widcard/run/getWebsiteIdCard" href="javascript:;"><img class="wicIcon" src="<?php echo $this->websiteUrl;?>plugins/widcard/system/images/edit.png" width="20px" alt="" /></a>
+<?php endif;?>
+
+<?php if($this->actionUrl && !$this->locationBlock) :?>
+<span title="<?php echo $this->fieldTitle?>" id="<?php echo $this->fieldName?>" class="wicInlineElement" data-default="<?php echo ($this->default) ? true : false ;?>" data-url="<?php echo $this->actionUrl;?>"><?php echo $this->fieldValue;?></span><img class="spin" src="<?php echo $this->websiteUrl;?>plugins/widcard/system/images/load.gif" width="35px" height="10px" alt="" />
+<a class="tpopup" data-pheight="594" data-pwidth="625" data-url="<?php echo $this->_websiteUrl;?>plugin/widcard/run/getWebsiteIdCard" href="javascript:;"><img class="wicIcon" src="<?php echo $this->websiteUrl;?>plugins/widcard/system/images/edit.png" width="20px" alt="" /></a>
+<?php endif;?>
+
+<?php if($this->locationBlock && !$this->image) :?>
+<span title="<?php echo $this->fieldTitle?>"><?php echo $this->fieldValue;?></span>
+<a class="tpopup" title="<?php echo $this->fieldTitle?>" data-pheight="594" data-pwidth="625" data-url="<?php echo $this->_websiteUrl;?>plugin/widcard/run/getWebsiteIdCard" href="javascript:;"><img class="wicIcon" src="<?php echo $this->websiteUrl;?>plugins/widcard/system/images/edit.png" width="20px" alt="<?php echo $this->fieldTitle?>" title="<?php echo $this->fieldTitle?>" /></a>
+<?php endif;?>
+
+<?php else:?>
+<?php echo $this->fieldValue;?>
+<?php endif;?>

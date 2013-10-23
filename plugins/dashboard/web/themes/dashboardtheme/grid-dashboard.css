@@ -1,0 +1,85 @@
+.seotoaster-dash .grid_1, .seotoaster-dash .grid_0_5, .seotoaster-dash .grid_2, .seotoaster-dash .grid_3, .seotoaster-dash .grid_4, .seotoaster-dash .grid_5, .seotoaster-dash .grid_6, .seotoaster-dash .grid_7, .seotoaster-dash .grid_8, .seotoaster-dash .grid_9, .seotoaster-dash .grid_10, .seotoaster-dash .grid_11, .seotoaster-dash .grid_12, .seotoaster-dash .grid_13, .seotoaster-dash .grid_14, .seotoaster-dash .grid_15, .seotoaster-dash .grid_16 {
+	display: inline;
+	float: left;
+	margin-left: 1%;
+	margin-right: 1%;
+}
+.seotoaster-dash .grid_3{ width: 23%; }
+.seotoaster-dash .grid_6{ width: 48%; }
+.seotoaster-dash .grid_9{ width: 73%; }
+.seotoaster-dash .grid_12{ width: 98%; clear:both; display: block; }
+
+.seotoaster-dash .alpha { margin-left: 0; }
+.seotoaster-dash .omega { margin-right: 0; }
+
+.seotoaster-dash .grid_1 { width: 6.333%; }
+.seotoaster-dash .grid_0_5 { width: 3.166%; }
+.seotoaster-dash .grid_2 { width: 14.666%; }
+.seotoaster-dash .grid_4 { width: 31.333%; }
+.seotoaster-dash .grid_5 { width: 39.666%; }
+.seotoaster-dash .grid_7 { width: 56.333%; }
+.seotoaster-dash .grid_8 { width: 64.666%; }
+.seotoaster-dash .grid_10 { width: 81.333%; }
+.seotoaster-dash .grid_11 { width: 89.666%; }
+
+.seotoaster-dash .prefix_3{ padding-left: 25%; }
+.seotoaster-dash .prefix_6{ padding-left: 50%; }
+.seotoaster-dash .prefix_9{ padding-left: 75%; }
+
+.seotoaster-dash .prefix_1 { padding-left: 8.333%; }
+.seotoaster-dash .prefix_2 { padding-left: 16.666%; }
+.seotoaster-dash .prefix_4 { padding-left: 33.333%; }
+.seotoaster-dash .prefix_5 { padding-left: 41.666%; }
+.seotoaster-dash .prefix_7 { padding-left: 58.333%; }
+.seotoaster-dash .prefix_8 { padding-left: 66.666%; }
+.seotoaster-dash .prefix_10 { padding-left: 83.333%; }
+.seotoaster-dash .prefix_11 { padding-left: 91.666%; }
+
+.seotoaster-dash .suffix_3{ padding-right: 25%; }
+.seotoaster-dash .suffix_6{ padding-right: 50%; }
+.seotoaster-dash .suffix_9{ padding-right: 75%; }
+
+.seotoaster-dash .suffix_1 { padding-right: 8.333%; }
+.seotoaster-dash .suffix_2 { padding-right: 16.666%; }
+.seotoaster-dash .suffix_4 { padding-right: 33.333%; }
+.seotoaster-dash .suffix_5 { padding-right: 41.666%; }
+.seotoaster-dash .suffix_7 { padding-right: 58.333%; }
+.seotoaster-dash .suffix_8 { padding-right: 66.666%; }
+.seotoaster-dash .suffix_10 { padding-right: 83.333%; }
+.seotoaster-dash .suffix_11 { padding-right: 91.666%; }
+
+
+.seotoaster-dash html body * span.clear, .seotoaster-dash html body * div.clear, .seotoaster-dash html body * li.clear, .seotoaster-dash html body * dd.clear {
+	background: none;
+	border: 0;
+	clear: both;
+	display: block;
+	float: none;
+	font-size: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.seotoaster-dash .clearfix:after {
+	clear: both;
+	content: '.';
+	display: block;
+	visibility: hidden;
+	height: 0;
+}
+.seotoaster-dash .clear {
+	clear:both;
+	display:block;
+	overflow:hidden;
+	visibility:hidden;
+	width:0;
+	height:0
+}
+.seotoaster-dash .clearfix { display: inline-block; }
+.seotoaster-dash * html .clearfix { height: 1%; }
+.seotoaster-dash .clearfix { display: block; }

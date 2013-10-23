@@ -1,0 +1,11 @@
+<div id="products-table-period">
+	<?php foreach($this->productsData as $product):?>
+		<?php if($product['name'] == 'Nothing found'):?>
+		<p class="text-center fs16 red"><span class="icomoon-neutral"></span><?php echo $product['name'];?></p>
+		<?php endif;?>
+		<?php if($product['name'] != 'Nothing found'):?>
+		<p class="margin0px"><a target="_blank" href="<?php echo $this->websiteUrl;?><?php echo $product['url'];?>"><span class="icomoon-cube-2"></span><?php echo $product['name'];?></a></p>
+		<?php endif;?>
+	<?php endforeach;?>
+</div>
+

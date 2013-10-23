@@ -1,0 +1,45 @@
+<script id="newsListItemTemplate" type="text/template">
+
+    <!-- Edit post block for the admin -->
+    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)): ?>
+        <div class="news-item-admin-actions" data-confirm="<?php echo $this->translate('You are about to remove the news entry! Are you sure?'); ?>">
+            <a href="javascript:;" data-url="<?php echo $this->websiteUrl; ?>plugin/newslog/run/news/#edit/<%= id %>" data-pheight="574" class="tpopup">
+                <img width="15" src="<?php echo $this->websiteUrl; ?>system/images/edit.png" alt="edit"/>
+            </a>
+            <a href="javascript:;" data-nid="<%= id %>" class="news-item-remove">
+                <img src="<?php echo $this->websiteUrl; ?>system/images/delete.png" alt="delete" />
+            </a>
+        </div>
+    <?php endif; ?>
+    <!-- /Edit post block for the admin -->
+
+    <?php if(isset($this->img) && $this->img): ?>
+        <a class="page-teaser-image" href="<?php echo $this->websiteUrl . $this->folder . '/'; ?><%= JSON.parse(metaData).url %>" title="<%= title %>">
+            <img src="<%= $('#website_url').val() + 'previews/' + JSON.parse(metaData).image %>" alt="<%= title %>" title="<%= title %>" />
+        </a>
+    <?php endif; ?>
+    <h3 class="page-title"><a href="<?php echo $this->websiteUrl . $this->folder . '/'; ?><%= JSON.parse(metaData).url %>" title="<%= title %>" ><%= title %></a></h3>
+    <span class="news-item-date"><%= $.datepicker.formatDate('DD M dd, yy', new Date(Date.parse(createdAt.replace(/\-/g, '/')))) %></span>
+    <p class="news-item-description"><%= teaser %></p>
+    <div class="news-item-tags">
+        <a href="javascript:;" title="<?php echo $this->translate('Show all'); ?>" class="news-item-tag-filter" data-filter="all"><?php echo $this->translate('All'); ?></a>
+        <% _.each(tags, function(tag, index) { %>
+            , <a title="<?php echo $this->translate('Filter by'); ?>:&nbsp;<%= tag.name %>" href="javascript:;" class="news-item-tag-filter" data-filter="<%= tag.name %>"><%= tag.name %></a>
+        <% }) %>
+    </div>
+</script>
+
+<!-- Application container -->
+<ul class="news-list" data-limit="<?php echo (isset($this->limit) && $this->limit) ? $this->limit : 0; ?>" data-order="<?php echo (isset($this->order) && $this->order ? $this->order : Widgets_News_News::ORDER_DESC); ?>">
+    <li style="list-style:none; text-align: center; padding: 10px;"><img src="<?php echo $this->websiteUrl ;?>plugins/newslog/web/images/spinner.gif"></li>
+</ul>
+
+<script type="text/javascript">
+    $(function() {
+        $(document).one('list:loaded', function() {
+            appView.newsList.reset(<?php echo Zend_Json::encode($this->news); ?>);
+        })
+    })
+</script>
+
+<script type="text/javascript" src="<?php echo $this->websiteUrl ;?>plugins/newslog/web/js/libs/require/require.min.js" data-main="<?php echo $this->websiteUrl ;?>plugins/newslog/web/js/newslist.js"></script>

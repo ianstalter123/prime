@@ -1,0 +1,17 @@
+<?php
+return array(
+	'Language' => 'Sprache',
+	'English' => 'Englisch',
+	'French' => 'Französisch',
+	'German' => 'Deutsch',
+	'Spanish' => 'Spanisch',
+	'Japanese' => 'Japaner',
+	'Polish' => 'Polnisch',
+	'Brazil' => 'Brasilien',
+	'Romanian' => 'Rumänisch',
+	'Russian' => 'Russisch',
+	'Slovak' => 'Slowakisch',
+	'Swedish' => 'Schwedisch',
+	'Italian' => 'Italienisch',
+	'Save' => 'Speichern'
+);

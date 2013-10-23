@@ -1,0 +1,13 @@
+<?php if(($this->userRole == Tools_Security_Acl::ROLE_GUEST) || $this->userRole == Tools_Security_Acl::ROLE_SUPERADMIN): ?>
+	<?php if (count($this->messages)) : ?>
+		<ul id="messages" class="ui-state-error w350">
+			<?php foreach ($this->messages as $message) : ?>
+				<li><?php echo $this->escape($message); ?></li>
+			<?php endforeach; ?>
+		</ul>
+	<?php endif; ?>
+	<?php
+		$this->loginForm->setAction($this->websiteUrl . 'backend/login/index/singintype/member/');
+		echo $this->loginForm;
+	?>
+<?php endif; ?>

@@ -1,0 +1,6 @@
+<?php return array(
+	'Login' => 'Login',
+	'Copywriter' => 'Copywriter',
+	'Admin' => 'GMI Staff'
+);
+?>

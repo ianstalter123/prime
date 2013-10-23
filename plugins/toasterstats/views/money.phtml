@@ -1,0 +1,9 @@
+<?php if(isset($this->totalMoney)):?>
+    <div class="totalMoney"><?php echo $this->currency($this->totalMoney);?></div>
+<?php endif; ?>
+<?php if(isset($this->moneyFromPeriod)):?>
+    <div class="moneyFromPeriod fs48 green text-center"><?php echo $this->currency($this->moneyFromPeriod);?></div>
+<?php endif; ?>
+<?php if(isset($this->moneyToday)):?>
+    <div class="moneyToday fs64 blue"><?php echo $this->currency($this->moneyToday);?></div>
+<?php endif; ?>

@@ -1,0 +1,407 @@
+<script type="text/javascript">
+$(document).ready(function(){
+       
+       $(function() {
+                $( "#datepickerFrom" ).datepicker();
+                $( "#datepickerFrom" ).datepicker( "option", "dateFormat", 'd-M-yy');
+                $( "#datepickerTo" ).datepicker();
+                $( "#datepickerTo" ).datepicker( "option", "dateFormat", 'd-M-yy');
+                var defaultDateFromDatepiker = $('.defaultFromDatepiker').val();
+                var defaultDateToDatepiker = $('.defaultToDatepiker').val();
+                $('#datepickerFrom').val(defaultDateFromDatepiker);
+                $('#datepickerTo').val(defaultDateToDatepiker);
+       });
+        
+       $("#redrawSales").on('click', function(){
+          if($('#datepickerFrom').val() != '' && $('#datepickerTo').val() != ''){
+              changeSales('changedPeriod');
+          }
+       });
+       
+       function changeSales(period){
+          var salesPeriod = '';
+          var countGrafic = 0;
+          var amountGrafic = 0;
+          var defaultTimePeriod = 0;
+          var taxesState  = 0;
+          var countTagGrafic = 0;
+          var geoGraf = 0;
+          var pierchartAmountGrafics = new Array();
+          
+          if(period == 'changedPeriod'){
+              salesPeriod = $('#datepickerFrom').val()+'|'+$('#datepickerTo').val();
+          }
+          if ($('#visualizationcolumnAverageAmountLinechart').length > 0){
+                amountGrafic = 1;
+          }
+          if ($('#visualizationcolumnCountLinechart').length > 0){
+                countGrafic = 1;
+          }
+          if ($('#visualizationcolumnCountTags').length > 0){
+                countTagGrafic = 1;
+          }
+          if ($('#visualizationGeoChart').length > 0){
+                geoGraf = 1;
+          }
+          if($('#enableTaxesGraf').is(':checked')){
+              taxesState = 1; 
+              
+          }
+          if ($('#visualizationcolumnProduct').length > 0){
+                 pierchartAmountGrafics.push('product');
+                
+             }  
+          if ($('#visualizationcolumnBrand').length > 0){
+                 pierchartAmountGrafics.push('brand');
+          }  
+          if ($('#visualizationcolumnTag').length > 0){
+                 pierchartAmountGrafics.push('tag');
+          }  
+          if ($('#visualizationcolumnCustomer').length > 0){
+                 pierchartAmountGrafics.push('customer');
+          }  
+          if ($('#visualizationcolumnType').length > 0){
+                 pierchartAmountGrafics.push('type');
+          }  
+          console.log(pierchartAmountGrafics);
+          
+          
+          $.ajax({
+                type: "POST",
+                url: '<?php echo $this->websiteUrl; ?>plugin/toasterstats/run/changeDashboardDataSales/',
+                dataType: "json",
+                data : {
+                    timePeriod : salesPeriod,
+                    averageAmountGrafic:amountGrafic,
+                    countGrafic:countGrafic,
+                    typeOfGraficCount:$('.typeOfGraficCount').val(),
+                    typeOfGraficAverageAmount:$('.typeOfGraficAverageAmount').val(),
+                    taxesState:taxesState,
+                    pierchartAmountGrafics:pierchartAmountGrafics,
+                    countTagGrafic:countTagGrafic,
+                    geoGraf:geoGraf
+                   
+                },
+                success: function(responce){
+                    console.log(responce);
+                    if(responce.grafData.countGraficExcist == 1){
+                         var data = new google.visualization.DataTable();
+                         var typeOfGraficCount = responce.typeOfGraficCount;
+                         
+                         if(typeOfGraficCount.match("\\u007c")){
+                            data.addColumn('string', 'Date');
+                            data.addColumn('number', 'Sales');
+                            data.addColumn('number', 'Quotes');
+                            $.each(responce.grafData.countGraficData, function (date, values) {
+                                if(date.length>7){
+                                    date = date.substr(5, 8);
+                                } 
+                                data.addRows([
+                                    [date, values.sales, values.quotes]
+                                ]);
+                            });
+                            var options = {
+                                //title: 'Sales and quotes count',
+                                //hAxis: {title: 'Period'},                
+					  			titleTextStyle: {fontSize:"14"},
+		  						chartArea:{width:"75%",height:"75%"}
+                            }; 
+                        }
+                        else{
+                            data.addColumn('string', 'Date');
+                            data.addColumn('number', typeOfGraficCount);
+                            if(typeOfGraficCount == 'Quotes'){
+                                $.each(responce.grafData.countGraficData, function (date, values) {
+                                    if(date.length>7){
+                                        date = date.substr(5, 8);
+                                    } 
+                                    data.addRows([
+                                        [date, values.quotes]
+                                    ]);
+                                });
+                            }else{
+                                
+                                $.each(responce.grafData.countGraficData, function (date, values) {
+                                    if(date.length>7){
+                                        date = date.substr(5, 8);
+                                    } 
+                                    data.addRows([
+                                        [date, values.sales]
+                                    ]);
+                                });
+                            }
+                            var options = {
+                                //title: ''+typeOfGraficCount+' count',
+                                //hAxis: {title: 'Period'},                
+					  			titleTextStyle: {fontSize:"14"},
+		  						chartArea:{width:"75%",height:"75%"}
+                            }; 
+                            
+                        }
+                         
+                        var chart = new google.visualization.AreaChart(document.getElementById('visualizationcolumnCountLinechart'));
+                        chart.draw(data, options);
+                    }
+                    
+                    if(responce.countTagExcist == 1){
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('string', 'Tags');
+                        data.addColumn('number', 'Count');
+                        $.each(responce.countTagGraficsData, function (name, values) {
+                           data.addRows([
+                                 [name, values*1]
+                           ]);
+                        });
+                        var options = {
+                            //title: 'Sales Count by Tag',
+                            legend:{position:'none'},
+                            titleTextStyle: {fontSize:"14"},
+                            chartArea:{width:"85%",height:"75%"}
+		  	            };
+                        var chart = new google.visualization.ColumnChart(document.getElementById('visualizationcolumnCountTags'));
+                        chart.draw(data, options);
+                    }
+                    if(responce.geoGraf == 1){
+                        var data = new google.visualization.DataTable();
+                        if(responce.geoGrafData.typeofMap == 'USA'){
+                            data.addColumn('string', 'States')
+                        }
+                        else{
+                            data.addColumn('string', 'Country')
+                        }
+                        data.addColumn('number', 'Customers');
+                        $.each(responce.geoGrafData.mapData, function (name, values) {
+                            data.addRows([
+                               [name, values*1]
+                            ]);
+                        });
+                        if(responce.geoGrafData.typeofMap == 'USA'){
+                            var options = {
+                                region:'US',
+                                resolution:'provinces'
+                            };
+                        }
+                        else{
+                            var options = {
+                                //title: 'period'
+                
+                            };
+                        }
+                        var chart = new google.visualization.GeoChart(document.getElementById('visualizationGeoChart'));
+                        chart.draw(data, options);
+                   
+                    }
+                        
+                    if(responce.grafData.averageAmountGraficExcist == 1){
+                         var data = new google.visualization.DataTable();
+                         var typeOfGraficAvarageAmount = responce.typeOfGraficAvarageAmount;
+                         
+                         if(typeOfGraficAvarageAmount.match("\\u007c")){
+                            data.addColumn('string', 'Date');
+                            data.addColumn('number', 'Sales');
+                            data.addColumn('number', 'Quotes');
+                            $.each(responce.grafData.averageAmountGraficData, function (date, values) {
+                                if(date.length>7){
+                                        date = date.substr(5, 8);
+                                } 
+                                data.addRows([
+                                    [date, values.sales, values.quotes]
+                                ]);
+                            });
+                            var formatter = new google.visualization.NumberFormat(
+                                {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                                formatter.format(data, 0);
+                                formatter.format(data, 1);
+                                formatter.format(data, 2);
+                            var options = {
+                                //title: 'Sales and Quotes Average amount',
+                                //hAxis: {title: 'Period'},                
+					  			titleTextStyle: {fontSize:"14"},
+		  						chartArea:{width:"75%",height:"75%"}
+                            }; 
+                        }
+                        else{
+                            data.addColumn('string', 'Date');
+                            data.addColumn('number', typeOfGraficAvarageAmount);
+                            if(typeOfGraficCount == 'Quotes'){
+                                $.each(responce.grafData.averageAmountGraficData, function (date, values) {
+                                    if(date.length>7){
+                                        date = date.substr(5, 8);
+                                    } 
+                                    data.addRows([
+                                        [date, values.quotes]
+                                    ]);
+                                });
+                            }else{
+                                
+                                $.each(responce.grafData.averageAmountGraficData, function (date, values) {
+                                    if(date.length>7){
+                                        date = date.substr(5, 8);
+                                    } 
+                                    data.addRows([
+                                        [date, values.sales]
+                                    ]);
+                                });
+                            }
+                            var formatter = new google.visualization.NumberFormat(
+                                {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                                formatter.format(data, 0);
+                                formatter.format(data, 1);
+                            var options = {
+                                //title: ''+typeOfGraficAvarageAmount+' avegare amount',
+                                //hAxis: {title: 'Period'},                
+					  			titleTextStyle: {fontSize:"14"},
+		  						chartArea:{width:"75%",height:"75%"}
+                            }; 
+                            
+                        }
+                         
+                        var chart = new google.visualization.AreaChart(document.getElementById('visualizationcolumnAverageAmountLinechart'));
+                        chart.draw(data, options);
+                    }
+                    if(responce.pierchartExcist == 1){
+                         if(responce.pierChartData.product !== undefined){
+                             var data = new google.visualization.DataTable();
+                              data.addColumn('string', 'Product');
+                              data.addColumn('number', 'amount');
+                              $.each(responce.pierChartData.product, function (name, values) {
+                                
+                                data.addRows([
+                                   [name, values*1]
+                                    ]);
+                                });
+                                var formatter = new google.visualization.NumberFormat(
+                                {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                                formatter.format(data, 0);
+                                formatter.format(data, 1);
+                                var options = {
+                                //title: 'Sales amount breakdown by Product',
+                                legend:{position:'right'},
+		  						titleTextStyle: {fontSize:"14"},
+		  						chartArea:{width:"85%",height:"85%"}
+                            }; 
+                                    
+                            var chart = new google.visualization.PieChart(document.getElementById('visualizationcolumnProduct'));
+                            chart.draw(data, options);
+                         } 
+                         if(responce.pierChartData.brand !== undefined){
+                             var data = new google.visualization.DataTable();
+                              data.addColumn('string', 'Brand');
+                              data.addColumn('number', 'amount');
+                              $.each(responce.pierChartData.brand, function (name, values) {
+                                
+                                data.addRows([
+                                   [name, values*1]
+                                    ]);
+                                });
+                                var formatter = new google.visualization.NumberFormat(
+                                    {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                                    formatter.format(data, 0);
+                                    formatter.format(data, 1);
+                                var options = {
+                                //title: 'Sales amount breakdown by Brand',
+                                legend:{position:'right'},
+		  						titleTextStyle: {fontSize:"14"},
+		  						chartArea:{width:"85%",height:"85%"}
+                            }; 
+                                    
+                            var chart = new google.visualization.PieChart(document.getElementById('visualizationcolumnBrand'));
+                            chart.draw(data, options);
+                         } 
+                         
+                         if(responce.pierChartData.tag !== undefined){
+                             var data = new google.visualization.DataTable();
+                              data.addColumn('string', 'Tag');
+                              data.addColumn('number', 'amount');
+                              $.each(responce.pierChartData.tag, function (name, values) {
+                                
+                                data.addRows([
+                                   [name, values*1]
+                                    ]);
+                                });
+                                var formatter = new google.visualization.NumberFormat(
+                                    {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                                    formatter.format(data, 0);
+                                    formatter.format(data, 1);
+                                var options = {
+                                //title: 'Sales amount breakdown by Tag',
+                                legend:{position:'right'},
+		  						titleTextStyle: {fontSize:"14"},
+		  						chartArea:{width:"85%",height:"85%"}
+                            }; 
+                                    
+                            var chart = new google.visualization.PieChart(document.getElementById('visualizationcolumnTag'));
+                            chart.draw(data, options);
+                         }
+                         if(responce.pierChartData.customer !== undefined){
+                             var data = new google.visualization.DataTable();
+                              data.addColumn('string', 'Customer');
+                              data.addColumn('number', 'amount');
+                              $.each(responce.pierChartData.customer, function (name, values) {
+                                
+                                data.addRows([
+                                   [name, values*1]
+                                    ]);
+                                });
+                                var formatter = new google.visualization.NumberFormat(
+                                    {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                                    formatter.format(data, 0);
+                                    formatter.format(data, 1);
+                                var options = {
+                                //title: 'Sales amount breakdown by Customer',
+                                legend:{position:'none'},
+		  						titleTextStyle: {fontSize:"14"},
+		  						chartArea:{width:"85%",height:"85%"}
+                            }; 
+                                    
+                            var chart = new google.visualization.PieChart(document.getElementById('visualizationcolumnCustomer'));
+                            chart.draw(data, options);
+                         }
+                         if(responce.pierChartData.type !== undefined){
+                             var data = new google.visualization.DataTable();
+                              data.addColumn('string', 'Type');
+                              data.addColumn('number', 'amount');
+                              $.each(responce.pierChartData.type, function (name, values) {
+                                
+                                data.addRows([
+                                   [name, values*1]
+                                    ]);
+                                });
+                                var formatter = new google.visualization.NumberFormat(
+                                    {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                                    formatter.format(data, 0);
+                                    formatter.format(data, 1);
+                                var options = {
+                                //title: 'Sales amount breakdown by Type',
+          						legend:{position:'none'},
+		  						titleTextStyle: {fontSize:"14"},
+		  						chartArea:{width:"85%",height:"85%"}
+                            }; 
+                                    
+                            var chart = new google.visualization.PieChart(document.getElementById('visualizationcolumnType'));
+                            chart.draw(data, options);
+                         }
+                         
+                    }
+                    
+                    
+                    
+                    
+                   
+                 }
+                 
+            });
+            drawChart();
+          
+       }
+       
+     
+    });
+    </script>
+<div class="DateForSales mt10px">
+	<p class="grid_6"><label><?php echo $this->translator->translate('Date From');?>:</label> <input type="text" id="datepickerFrom"></p>
+	<p class="grid_6"><label><?php echo $this->translator->translate('Date To');?>:</label> <input type="text" id="datepickerTo"></p>
+	<input type="checkbox" name="enableTaxesGraf" id="enableTaxesGraf" value="" />
+	<label class="checkboxDate"><?php echo $this->translator->translate('Check to include taxes');?></label>
+	<input class="mt10px wGrid90 mlGrid5" type="button" name="redrawSales" id="redrawSales" value="<?php echo $this->translator->translate('View Graph');?>"/>
+</div>

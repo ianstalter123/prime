@@ -1,0 +1,86 @@
+<?php
+    $this->headTitle($this->translate('Feature pages by tags'));
+    $this->placeholder('headerContent')->set('Feature pages by tags');
+    $this->placeholder('containerId')->set('webbuilder-featured-only');
+?>
+
+<form id="farea-form" name="fareaForm" class="pluginform" action="" method="post">
+     <select id="selectFarea" class="grid_11 alpha omega" name="selectFarea">
+        <option value="select"><?php echo $this->translate('Select page tag');?></option>
+            <?php if(isset($this->areas) && !empty($this->areas)):?>
+                <?php foreach($this->areas as $farea): ?>
+                    <option value="<?php echo $farea->getName();?>" <?php echo ($farea->getName() == $this->content[0]) ? 'selected="selected"' : ''; ?>><?php echo $farea->getName(); ?></option>
+                <?php endforeach; ?>
+            <?php endif;?>
+     </select>
+
+    <label class="grid_7"><?php echo $this->translate('Max results');?></label>
+    <input class="grid_2" type="text" id="maxRes" name="max_res" value="<?php echo isset($this->content[1]) ? $this->content[1] : Widgets_Featuredonly_Featuredonly::FA_DEFAULT_MAX_PAGES_COUNT;?>"/>
+
+    <label class="grid_7"><?php echo $this->translate('Max characters');?></label>
+    <input id="maxChar" class="grid_2" type="text" name="max_char" maxlength="3" value="<?php echo isset($this->content[2]) ? $this->content[2] : Widgets_Featuredonly_Featuredonly::FA_DEFAULT_DESCRIPTION_LIMIT;?>" /><br />
+
+    <label class="grid_7"><?php echo $this->translate('Use image');?></label>
+    <input id="useImg" class="grid_1" type="checkbox" name="use_img" <?php echo (isset($this->content[3]) && ($this->content[3] == 'img' || $this->content[3] == 'imgc')) ? 'checked="checked"' : ''; ?> />
+
+    <?php $showCrop = (isset($this->content[3]) && ($this->content[3] == 'img' || $this->content[3] == 'imgc')) ?>
+    <label id="crop" class="grid_7 <?php echo (!$showCrop) ? 'hide' : ''; ?>"><?php echo $this->translate('Crop');?></label>
+    <input id="cropImg" class="grid_1 <?php echo (!$showCrop) ? 'hide' : ''; ?>" type="checkbox" name="crop_img" <?php echo (isset($this->content[3]) && $this->content[3] == 'imgc') ? 'checked="checked"' : ''; ?> />
+
+    <label class="grid_7"><?php echo $this->translate('Random');?>?</label>
+    <?php $random = (isset($this->content[4]) && $this->content[4] == '1') || (isset($this->content[3]) && $this->content[3] == '1') ?>
+    <input id="rand" class="grid_1" type="checkbox" name="rand" <?php echo ($random) ? 'checked="checked"' : ''; ?> />
+
+    <input type="hidden" id="container" name="container" value="<?php echo $this->containerName?>" />
+    <input type="hidden" id="pageId" name="pageId" value="<?php echo $this->pageId?>" />
+
+    <div class="clear"></div>
+    <input id="submit" class="grid_6" type="submit" value="<?php echo $this->translate('Done');?>"/>
+</form>
+
+<style type="text/css">
+    .hide {
+        display: none !important;
+    }
+</style>
+
+<script type="text/javascript" >
+    $(function() {
+        $(document).on('change', '#useImg', function(){
+            console.log('alo');
+            $('#cropImg').toggleClass('hide');
+            $('#crop').toggleClass('hide');
+        });
+
+        $(document).on('submit', '#farea-form', function() {
+            var fareaName = $("#selectFarea option:selected").val();
+
+            if(fareaName == 'select'){
+                showMessage('<?php echo $this->translate('Please select Featuredarea');?>', true);
+                return false;
+            }
+
+            $.ajax({
+                type     : 'post',
+                url      : '<?php echo $this->websiteUrl; ?>api/webbuilder/fo/',
+                dataType : 'json',
+                data     : {
+                    pageId        : $('#pageId').val(),
+                    maxRes        : $('#maxRes').val(),
+                    maxChar       : $('#maxChar').val(),
+                    containerName : $('#container').val(),
+                    useImg        : $('#useImg').is(':checked') ? 1 : 0,
+                    cropImg       : $('#cropImg').is(':checked') ? 1 : 0,
+                    rand          : $('#rand').is(':checked') ? 1 : 0,
+                    areaName      : fareaName
+                },
+                beforeSend: showSpinner
+            }).done(function() {
+                top.location.reload();
+            });
+
+            return false;
+        });
+
+    });
+</script>

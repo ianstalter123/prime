@@ -1,0 +1,101 @@
+<div class="seotoaster container_12 h570 rounded3px" id="addedit-page">
+	<?php // echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $this->render('backend/page/top.phtml'))); ?>
+
+	<?php
+		$draftOrLive = $this->toasterDraftorlive(array(
+			'published'        => !$this->pageForm->getDraft(),
+			'publishAt'        => $this->pageForm->getPublishAt(),
+			'onselectCallback' => 'datepickerCallback'
+		));
+		$optimizedCheck = '';
+	    if($this->sambaOptimized):
+			$optimizedCheck = $this->formCheckbox('smabaOptimized', $this->sambaOptimized, array('checked' => $this->sambaOptimized, 'id' => 'toggle-optimized')) . '&nbsp;' . $this->translate('Optimized');
+		endif;
+		echo $this->partial('admin' . DIRECTORY_SEPARATOR . '_header.phtml', array('innerHeaderHtml' => $draftOrLive . $optimizedCheck, 'helpSection' => $this->helpSection));
+	?>
+
+	<div id="templatelist" class="h580 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1; margin-top: -42px;"></div>
+	<div id="falist" class="h570 ui-helper-hidden" style="overflow: auto !important; width: 100%; z-index: 1; margin-top: -42px;"></div>
+	<form id="frm-page" action="<?php echo $this->url(); ?>" method="post" class="_fajax _reload">
+		<div class="grid_6">
+			<fieldset>
+				<legend><?php echo $this->translate('Page Information'); ?></legend>
+				<?php echo $this->pageForm->getElement('h1'); ?>
+				<?php echo $this->pageForm->getElement('headerTitle'); ?>
+				<?php echo $this->pageForm->getElement('url'); ?>
+				<?php echo $this->pageForm->getElement('navName'); ?>
+				<?php echo $this->pageForm->getElement('metaDescription'); ?>
+				<?php echo $this->pageForm->getElement('metaKeywords'); ?>
+			</fieldset>
+		</div>
+		<div class="grid_6">
+			<fieldset>
+				<legend><?php echo $this->translate('Navigation'); ?></legend>
+				<?php echo $this->toasterRadio('inMenu', $this->pageForm->getShowInMenu(), array('class' => 'menu-selector'), $this->pageForm->getElement('inMenu')->getMultiOptions(), ''); ?>
+				<div class="clear"></div>
+				<div class="grid_12 mt5px">
+					<?php echo $this->formSelect('pageCategory', $this->pageForm->getParentId(), null, $this->pageForm->getElement('pageCategory')->getMultiOptions()); ?>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend><?php echo $this->translate('Settings'); ?></legend>
+					<div class="grid_7"><label><?php echo $this->translate('Current template'); ?>:</label></div>
+					<div class="grid_5">
+						<?php
+							echo $this->ajaxLink(
+								!($this->pageForm->getElement('templateId')->getValue()) ? $this->translate('Select template') : $this->pageForm->getElement('templateId')->getValue(),
+								$this->websiteUrl . 'backend/backend_theme/gettemplate/pageId/' . $this->pageForm->getElement('pageId')->getValue(),
+								array(
+									'complete' => "$('#templatelist').html(data).slideDown().css('overflow-y', 'auto');",
+									'attribs'  => array(
+										'id' => 'curr-template'
+									)
+
+								),
+								array('listtemplates' => 'all')
+							);
+						?>
+					</div>
+					<div class="clear"></div>
+					<div class="grid_7 mt5px"><label><?php echo $this->translate('Is this page already tagged?'); ?></label></div>
+					<div class="grid_5 mt5px">
+						<?php echo $this->toasterLink('backend_featured', 'featured', ((!$this->faCount) ? $this->translate('Not yet') : $this->translate('Yes') . ', ' . $this->faCount . ' ' . $this->translate('times')), 'pid/' . $this->pageForm->getElement('pageId')->getValue(), false, array('width' => '484', 'height' => '554')); ?>
+					</div>
+					<div class="grid_12 mt5px">
+						<?php echo $this->pageForm->getElement('extraOptions'); ?>
+					</div>
+			</fieldset>
+			<fieldset>
+				<legend><?php echo $this->translate('Page Teasers'); ?></legend>
+				<div  class="grid_4">
+					<img id="page-preview-image" src="<?php echo $this->pagePreviewImage !== false ? $this->pagePreviewImage : $this->websiteUrl.'/system/images/noimage.png'; ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
+					<?php
+						$uploader = $this->toasterUploader(array('id' => 'page-teaser-uploader','caller' => 'pagePreview', 'noMultiupload' => true, 'caption' => $this->translate('Upload image')));
+						echo $uploader;
+					?>
+				</div>
+				<div  class="grid_8">
+					<?php echo $this->pageForm->getElement('teaserText'); ?>
+
+				</div>
+				<div class="clear"></div>
+			</fieldset>
+			<?php echo $this->pageForm->getElement('templateId'); ?>
+			<?php echo $this->pageForm->getElement('pageId'); ?>
+			<?php echo $this->pageForm->getElement('draft'); ?>
+			<?php echo $this->pageForm->getElement('optimized'); ?>
+			<?php echo $this->pageForm->getElement('publishAt'); ?>
+			<?php echo $this->pageForm->getElement('pageType'); ?>
+			<?php echo $this->pageForm->getElement('updatePage'); ?>
+		</div>
+	</form>
+	<div class="clear"></div>
+</div>
+<script type="text/javascript">
+$(function() {
+	$('#h1').focus();
+})
+</script>
+
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/page.js'); ?>
+<?php //$this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/internal/featuredarea.js'); ?>

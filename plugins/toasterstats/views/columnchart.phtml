@@ -1,0 +1,88 @@
+<?php
+$this->headScript()->appendFile("http://www.google.com/jsapi" );
+echo $this->headScript();
+?>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        <?php if(preg_match('/\|/',$this->typeSales)):?>
+        data.addColumn('string', 'Date');
+        data.addColumn('number', 'Sales');
+        data.addColumn('number', 'Quotes');
+        data.addRows([
+			<?php foreach($this->data as $key => $value):?>
+			<?php substr($key, 8) ? $date = substr($key, 6) : $date = $key?>
+			 ['<?php echo $date;?>',<?php echo $value['sales'];?>, <?php echo $value['quotes'];?>],
+		  <?php endforeach;?>
+        ]);
+            <?php if($this->typeOfGrafic == 'count'):?>
+                var options = {
+                    //title: 'Sales and Quotes count'
+                    //hAxis: {title: 'Period',width: '<?php //echo $this->width;?>', height: '<?php //echo $this->height;?>'}
+                    chartArea:{width:"75%",height:"80%"}
+                };
+            <?php endif;?>
+            <?php if($this->typeOfGrafic == 'amount'):?>
+                var formatter = new google.visualization.NumberFormat(
+                    {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                    formatter.format(data, 0);
+                    formatter.format(data, 1);
+                var options = {
+                    //title: 'Sales and Quotes amount'
+                    //hAxis: {title: 'Period',width: '<?php //echo $this->width;?>', height: '<?php //echo $this->height;?>'}
+                    chartArea:{width:"75%",height:"80%"}
+                };
+            <?php endif;?>
+        <?php endif;?>
+        <?php if(!preg_match('/\|/',$this->typeSales)):?>
+            data.addColumn('string', 'Date');
+            data.addColumn('number', '<?php echo ucfirst($this->typeSales);?>');
+            data.addRows([
+                <?php foreach($this->data as $key => $value):?>
+                    <?php substr($key, 8) ? $date = substr($key, 6) : $date = $key?>
+                    ['<?php echo $date;?>',<?php echo $value[$this->typeSales];?>],
+                <?php endforeach;?>
+            ]);
+           <?php if($this->typeOfGrafic == 'count'):?>
+            var options = {
+                //title: '<?php //echo ucfirst($this->typeSales);?> count'
+                //hAxis: {title: 'Period',width: '<?php //echo $this->width;?>', height: '<?php //echo $this->height;?>'}
+                chartArea:{width:"75%",height:"80%"}
+            };
+            <?php endif;?>
+            <?php if($this->typeOfGrafic == 'amount'):?>
+                var formatter = new google.visualization.NumberFormat(
+                    {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                    formatter.format(data, 0);
+                    formatter.format(data, 1);
+                    formatter.format(data, 2);
+            var options = {
+                //title: '<?php //echo ucfirst($this->typeSales);?> amount (Period)'
+                //hAxis: {title: 'Period',width: '<?php //echo $this->width;?>', height: '<?php //echo $this->height;?>'}
+                chartArea:{width:"75%",height:"80%"}
+            };
+            <?php endif;?>
+        <?php endif;?>
+        <?php if($this->typeOfGrafic == 'count'):?>
+            var chart = new google.visualization.ColumnChart(document.getElementById('visualizationcolumnCount'));
+        <?php endif;?>
+        <?php if($this->typeOfGrafic == 'amount'):?>
+            var chart = new google.visualization.ColumnChart(document.getElementById('visualizationcolumnAmount'));
+        <?php endif;?>
+        chart.draw(data, options);
+       
+     };
+
+    </script>
+    <?php if($this->typeOfGrafic == 'count'):?>
+        <div id="visualizationcolumnCount" style="height:<?php echo $this->height;?>px;"></div>
+        <input type="hidden" class="typeOfGraficCount" value="<?php echo $this->typeSalesCount;?>" />
+    <?php endif;?>
+    <?php if($this->typeOfGrafic == 'amount'):?>
+        <div id="visualizationcolumnAmount" style="height:<?php echo $this->height;?>px;"></div>
+        <input type="hidden" class="typeOfGraficAmount" value="<?php echo $this->typeSalesAmount;?>" />
+    <?php endif;?>

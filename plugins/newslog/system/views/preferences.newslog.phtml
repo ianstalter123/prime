@@ -1,0 +1,76 @@
+<?php
+    $this->headTitle($this->translate('Preferences'));
+    $this->placeholder('headerContent')->set('Preferences');
+?>
+<div id="newslog-preferences" class="h535 grid_12">
+    <div class="mt5px"></div>
+    <fieldset>
+        <legend><?php echo $this->translate('News folder'); ?></legend>
+
+        <form class="_fajax" action="<?php echo $this->escape($this->url()) . '/opt/folder/'; ?>" method="<?php echo $this->form->getMethod(); ?>">
+            <div class="grid_6" id="folder-hint"><?php echo $this->translate('Leave empty if %s is a blog', $this->domain); ?></div>
+            <div class="grid_3"><?php echo $this->form->getElement('folder'); ?></div>
+            <?php echo $this->form->getElement('saveConfig'); ?>
+        </form>
+
+    </fieldset>
+    <fieldset>
+        <legend><?php echo $this->translate('Authors'); ?></legend>
+
+        <form class="_fajax" action="<?php echo $this->escape($this->url()) . '/opt/authors/'; ?>" method="<?php echo $this->authorsForm->getMethod(); ?>">
+            <div class="grid_3" id="folder-hint"><?php echo $this->translate('Default Google+ profile'); ?></div>
+            <div class="grid_6"><?php echo $this->authorsForm->getElement('gplusProfile'); ?></div>
+            <?php echo $this->authorsForm->getElement('saveProfile'); ?>
+        </form>
+
+    </fieldset>
+    <fieldset class="h350" id="ping-services-section">
+        <legend><?php echo $this->translate('Ping services'); ?></legend>
+        <?php echo $this->formText('pingUrl', '', array('id' => 'ping-url', 'class' => 'grid_9', 'placeholder' => 'Add new ping service url')); ?>
+        <?php echo $this->formSubmit('addService', 'Add service', array('id' => 'add-service', 'class' => 'grid_3')); ?>
+        <div class="grid_12 mt5px">
+            <table id="ping-services-list">
+                <thead>
+                    <tr>
+                        <th><?php echo $this->translate('Service url'); ?></th>
+                        <th><?php echo $this->translate('Service status'); ?></th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody><td colspan="3" id="no-services"><img src="<?php echo $this->websiteUrl; ?>plugins/newslog/web/images/spinner.gif" /></td></tbody>
+            </table>
+        </div>
+
+    </fieldset>
+</div>
+
+<?php
+    $this->headScript()->setAllowArbitraryAttributes(true)
+        ->appendFile($this->websiteUrl . 'plugins/newslog/web/js/libs/require/require.min.js', null, array('data-main' => $this->websiteUrl . 'plugins/newslog/web/js/ping.js'));
+    echo $this->headScript();
+?>
+
+<style type="text/css">
+    #ping-services-list {width: 100%;}
+    #ping-services-list th {padding: 10px; background: #4cc2e4; color: #fff;}
+    #ping-services-list th:first-child {width: 650px;}
+    .ping-service-row-url {width: 650px; overflow: hidden;}
+    .ping-service-row-action {text-align: right;}
+    #ping-services-list td {background: #fafafa; padding: 5px 0}
+    #ping-services-list td:first-child,
+    #ping-services-list td:last-child {
+        padding: 5px 10px;
+    }
+    #ping-services-list tr {border-bottom: 1px dashed #ddd;}
+    #no-services {text-align: center; padding: 10px 0;}
+    .seotoaster legend {
+        border-radius: 0;
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+    }
+    #folder-hint {
+        padding: 9px 0;
+        font-style: italic;
+        font-size: 15px;
+    }
+</style>

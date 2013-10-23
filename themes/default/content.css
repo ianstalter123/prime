@@ -1,0 +1,134 @@
+/* CSS Document */
+
+@import url(http://fonts.googleapis.com/css?family=Archivo+Narrow:400,700}|Roboto+Condensed:400,700);
+
+/* ======================= links =*/
+a { 
+    color: #4B5668; 
+	text-decoration: none; 
+}
+	a:hover { text-decoration: underline; }
+	a:visited {}
+	a:active {}
+/* ======================= Logo style =*/
+a.logo {
+    font: normal 30px 'Archivo Narrow';
+    margin: 10px 0;
+    display: block;
+    color: #454545;
+}
+	a.logo:hover { text-decoration: none; }
+	a.logo img {
+        height: 70px;
+    }
+
+h1.logo {
+	margin: 0;
+}
+/* ======================= Headers =*/
+h1, h2, h3, h4, h5, h6 {
+	color: #666;
+	margin: 10px 0 5px;
+    font-family: 'Archivo Narrow';
+}
+h1, .h1 { font-size: 26px; }
+h2, .h2 { font-size: 24px; }
+h3, .h3 { font-size: 22px; }
+h4, .h4 { font-size: 20px; }
+h5, .h5 { font-size: 18px; }
+h6, .h6 { font-size: 16px; }
+
+h1.page-title {
+	border-bottom: 2px solid #454545;
+	padding: 0 0 6px; margin: 10px 0 10px;
+	color: #454545;
+}
+
+.fb-title {
+    background-color: #555; color: #FFF;
+    padding: 6px 0; margin-bottom: 0;
+    font-size: 16px;
+    text-align: center;
+    
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+}
+.twtr-widget h3, .twtr-widget h4, .twtr-widget p {
+    font-size: 14px;    
+}
+
+.inner-box h2 { /* if you using .inner-box */
+}
+/* ======================= Facebook header =*/
+h5.fb {
+	text-align: center;
+	padding: 4px 0; margin: 0;
+}
+/* ======================= Listings =*/
+ul, ol {
+    margin: 15px 0 15px 40px;
+}
+ul li, ol li {
+	margin: 0 0 10px;
+    line-height: 1.6em;
+}
+ul li { list-style: circle outside none; }
+ol li { list-style: decimal outside none; }
+
+ul ul, ol ol {
+	margin: 6px 0;
+}
+/* ======================= Formats =*/
+p { 
+    line-height: 1.6em;
+    margin-bottom: 0.6em;
+    text-rendering: optimizeLegibility;
+}
+em { 
+	font-size: 14px;
+	font-weight: bold; 
+}
+blockquote {
+	padding: 5px 5px 5px 15px;
+	border-left: 1px solid #444;
+	font-style: italic;
+	margin: 15px;
+}
+	blockquote em {
+		font-size: 12px;
+	}
+address {}
+/* ======================= Table =*/
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+	table thead {}
+		table thead th {
+			border: 1px solid #DDD;
+			background-color: #EFEFEF;
+		}
+	table tbody {}
+		table tbody td {
+			border: 1px solid #DDD;
+		}
+table tr {
+	border: 1px solid #DDD;
+}
+	table tr:hover {
+		background-color: #EFEFEF;
+	}
+table th, table td {
+	padding: 6px;
+}
+/* ======================= For content styles in editor =*/
+.left-img-style, .right-img-style {}
+.left-img-style { 
+	float: left;
+	margin: 0 10px 10px 0;
+}
+.right-img-style { 
+	float: right;
+	margin: 0 0 10px 10px;
+}

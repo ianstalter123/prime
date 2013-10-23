@@ -1,0 +1,90 @@
+<?php $formId = uniqid('flatrate_i');?>
+<header>Flat rate by order details</header>
+<form id="<?php echo $formId; ?>" action="<?php echo $this->url();?>" enctype="application/x-www-form-urlencoded" method="POST">
+	<div class="grid_4">
+		<?php echo $this->form->getElement('title')->renderLabel();?>
+	</div>
+	<div class="grid_8">
+		<?php echo $this->form->getElement('title')->renderViewHelper();?>
+	</div>
+	<div class="grid_4">
+		<?php echo $this->form->getElement('units')->renderLabel(); ?>
+	</div>
+	<div class="grid_8">
+		<?php echo $this->form->getElement('units')->renderViewHelper(); ?>
+	</div>
+
+	<div class="grid_12 clear mt10px"></div>
+	<div class="grid_4 unit-change">
+		<label class="textcentered">Order <span></span>:</label>
+
+		<label class="grid_3 alpha omega mt5px"><?php echo $this->form->getElement('value1')->getLabel();?></label>
+		<div class="grid_9 relative alpha">
+			<?php echo $this->form->getElement('value1')->renderViewHelper();?>
+			<label class="unit-over"></label>
+		</div>
+
+		<label class="grid_3 omega alpha mt5px"><?php echo $this->form->getElement('value2')->getLabel();?></label>
+		<div class="grid_9 relative alpha">
+			<?php echo $this->form->getElement('value2')->renderViewHelper();?>
+			<label class="unit-over"></label>
+		</div>
+
+		<label class="grid_3 omega alpha mt5px"><?php echo $this->form->getElement('value3')->getLabel();?></label>
+		<div class="grid_9 relative alpha">
+			<?php echo $this->form->getElement('value3')->renderViewHelper();?>
+			<label class="unit-over"></label>
+		</div>
+
+	</div>
+	<div class="grid_4">
+		<label class="textcentered">National:</label>
+
+		<div class="relative">
+			<?php echo $this->form->getElement('national1');?>
+			<label class="unit-over"><?php echo $this->shoppingConfig['currency']; ?></label>
+		</div>
+
+		<div class="relative">
+			<?php echo $this->form->getElement('national2');?>
+			<label class="unit-over"><?php echo $this->shoppingConfig['currency']; ?></label>
+		</div>
+
+		<div class="relative">
+			<?php echo $this->form->getElement('national3');?>
+			<label class="unit-over"><?php echo $this->shoppingConfig['currency']; ?></label>
+		</div>
+
+	</div>
+	<div class="grid_4">
+		<label class="textcentered">International:</label>
+
+		<div class="relative">
+			<?php echo $this->form->getElement('international1');?>
+			<label class="unit-over"><?php echo $this->shoppingConfig['currency']; ?></label>
+		</div>
+		<div class="relative">
+			<?php echo $this->form->getElement('international2');?>
+			<label class="unit-over"><?php echo $this->shoppingConfig['currency']; ?></label>
+		</div>
+		<div class="relative">
+			<?php echo $this->form->getElement('international3');?>
+			<label class="unit-over"><?php echo $this->shoppingConfig['currency']; ?></label>
+		</div>
+	</div>
+</form>
+<script>
+$(function(){
+	$('#<?php echo $formId; ?>').on('change', '#units', function(e){
+		switch ($(this).val()){
+			case 'amount':
+				$('.unit-change label.unit-over').text('<?php echo $this->shoppingConfig['currency'];?>');
+				break;
+			case 'weight':
+				$('.unit-change label.unit-over').text('<?php echo $this->shoppingConfig['weightUnit'];?>');
+				break;
+		}
+	});
+	$('#units').trigger('change');
+});
+</script>

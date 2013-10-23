@@ -1,0 +1,212 @@
+<form id="idCard" name="idCard" action="<?php echo $this->websiteUrl.'plugin/widcard/run/setWebsiteIdCard';?>" method="POST" enctype="multipart/form-data" class="grid_12">
+	<div id="scroll" class="h470 scroll">
+		<?php if(is_array($this->widcardErr)) { ?>
+			<div id="widcard_err">
+		<?php
+			foreach($this->widcardErr as $error){echo '<p>'.$error.'</p>';} ?>
+			</div>
+		<?php } ?>
+
+		<?php if(isset($this->widcardMessage)) { ?>
+			<div id="widcard_message">
+		<?php echo '<p>'.$this->widcardMessage.'</p>';?>
+			</div>
+		<?php } ?>
+
+    <fieldset>
+      <legend>General Info</legend>
+	  <div class="grid_8 alpha">
+		  <label><?php echo $this->translate('Permanent Website URL');?></label>
+		  <input type="text" name="currentWebsiteUrl" readonly="true" id="current_website_url" value="<?php echo $this->websiteUrl ;?>" >
+
+		<label><?php echo $this->translate('Organization Name');?></label>
+		<input type="text" name="organization_name" value="<?php echo $this->organizationName?>" />
+
+        <label><?php echo $this->translate('Organization Description: (200 char max)');?> <span id="characters-limit"></span></label>
+		<textarea name="organization_description" maxlenght="200" id="teaser_text" class="h110"><?php echo $this->organizationDescription;?></textarea>
+	  </div>
+
+	  <div class="grid_4 omega">
+				  <label><?php echo $this->translate('Website Language');?></label>
+				  <!--<input class="grid_8" type="text" readonly name="websiteLang" value="<?php echo $this->toasterLang;?>" />-->
+				  <select name="websiteLang">
+					<?php asort($this->langList); foreach ($this->langList as $key => $language) {?>
+					<option value="<?php echo $key;?>" <?php echo ($language == $this->toasterLang) ? 'selected' : '' ;?> ><?php echo $language?></option>
+					<?php }?>
+				</select>
+      			<label><?php echo $this->translate('Corporate Logo');?></label>
+				<img id="page-preview-image" src="<?php echo $this->corporateLogo; ?>" class="img-padding" alt="<?php echo $this->translate('Corporate logo');?>" />
+				<div id="page-teaser-uploader">
+				<button id="page-teaser-uploader-pickfiles">
+				<span><?php echo $this->translate('Upload image'); ?></span>
+				</button>
+				</div>
+				<div id="page-teaser-uploader-filelist" style="position: relative;"></div>
+	  </div>
+
+		  <div class="grid_12 alpha">
+			  <label><?php echo $this->translate('Street Address 1');?></label>
+			  <input type="text" name="address1" value="<?php echo $this->address1?>" />
+		  </div>
+		  <div class="grid_7 alpha omega">
+			  <label><?php echo $this->translate('Street Address 2');?></label>
+			  <input type="text" name="address2" value="<?php echo $this->address2?>" />
+		  </div>
+          <div class="grid_5 omega">
+			  <label><?php echo $this->translate('Country');?></label>
+			  <select name="organization_country">
+				  <option value="-1"><?php echo $this->translate('Choose a country');?></option>
+				<?php
+					foreach ($this->countryList as $num => $country) { ?>
+					<option label="<?php echo $country?>" <?php echo ($this->organizationCountry == $num) ? 'selected = "selected"' : ''; ?> value="<?php echo $num?>"><?php echo $country?></option>
+				<?php	}
+				?>
+			  </select>
+          </div>
+         <div class="clearW"></div>
+		  <div class="grid_5 alpha omega">
+			  <label><?php echo $this->translate('City / Town');?></label>
+			  <input type="text" name="city" value="<?php echo $this->city?>" />
+		  </div>
+
+		  <div class="grid_5 omega">
+		  <label><?php echo $this->translate('State');?></label>
+		  <select name="country_state" <?php echo ($this->countryState == '') ? 'disabled' : '' ; ?>>
+				<?php if($this->countryState != '') {
+					foreach ($this->stateList as $num => $state) { ?>
+					<option label="<?php echo $state?>" <?php echo ($this->countryState == $num) ? 'selected = "selected"' : ''; ?> value="<?php echo $num?>"><?php echo $state?></option>
+				 <?php	}
+					}?>
+		  </select>
+		  </div>
+
+		  <div class="grid_2 omega">
+			  <label><?php echo $this->translate('ZIP Code');?></label>
+			  <input type="text" name="zip" value="<?php echo $this->zip?>" />
+		  </div>
+
+         <div class="clearW"></div>
+
+		  <div class="grid_6 alpha omega">
+				  <label><?php echo $this->translate('Local Phone (other than toll-free)');?></label>
+				  <input type="text" name="phone" value="<?php echo $this->phone?>" />
+		  </div>
+
+		  <div class="grid_6 omega">
+				  <label><?php echo $this->translate('E-mail Address');?></label>
+				  <input type="text" name="email" value="<?php echo $this->email?>" />
+		  </div>
+		 <div class="grid_6 alpha omega">
+				  <label><?php echo $this->translate('Facebook account url');?></label>
+				  <input type="text" name="fbAccount" value="<?php echo $this->fbAccount?>" />
+		  </div>
+
+		  <div class="grid_6 omega">
+				  <label><?php echo $this->translate('Twitter account url');?></label>
+				  <input type="text" name="twitAccount" value="<?php echo $this->twitAccount?>" />
+		  </div>
+		  <div class="clearW"></div>
+        <label for="pagetitle"><?php echo $this->translate('Industry (select up to 5)');?></label>
+		<div class="grid_6 alpha">
+				<select name="industry_type[]" multiple size="7">
+					<?php
+						foreach ($this->industryList as $num => $industry) { ?>
+						<option label="<?php echo $industry?>"
+							<?php if(is_array($this->industryType)) {
+								foreach ($this->industryType as $item) { ?>
+									<?php echo ( ($item == $num) && ($item != '') ) ? 'selected = "selected"' : ''; ?>
+							<?php }
+							}
+							?>
+						value="<?php echo $num?>"><?php echo $industry?></option>
+					<?php	}
+					?>
+				</select>
+		</div>
+		<div class="grid_6 omega">
+			<ul id="sel_industry"></ul>
+		</div>
+
+		<div class="grid_12 alpha">
+			  <label><?php echo $this->translate('Does your business provide services, such as delivery or home repair, to locations in a certain area?');?></label>
+			  <input type="radio" name="business" value="1" <?php echo ($this->business == '1') ? 'checked' : '' ?> /> <?php echo $this->translate('Yes, this business serves customers at their locations');?><br />
+			  <input type="radio" name="business" value="0" <?php echo ($this->business == '0') ? 'checked' : '' ?> /> <?php echo $this->translate('No, all customers come to the business location');?>
+		</div>
+	    <div class="grid_12 alpha">
+		  <!--<div class="payOn">-->
+		  <label><?php echo $this->translate('You sell items and collect payments online?');?></label>
+		  <!--</div>-->
+		  <input type="radio" name="pay-online" value="1" <?php echo ($this->payOnline == '1') ? 'checked' : '' ?> /> <?php echo $this->translate('Yes');?> <br />
+	   	  <input type="radio" name="pay-online" value="0" <?php echo ($this->payOnline == '0') ? 'checked' : '' ?> /> <?php echo $this->translate('No');?>
+	    </div>
+    </fieldset>
+
+	<fieldset>
+		<legend><?php echo $this->translate('Accepted Payment Types');?></legend>
+				<?php foreach ($this->paymentTypes as $type) { ?>
+				<div class="payway-box">
+					<img class="" src="<?php echo $this->websiteUrl?>plugins/widcard/system/images/payway/<?php echo $type['image'] ?>" alt="<?php echo $this->translate($type['type']);?>" width="100%" height="70px" />
+					<span class="textcentered payway-name"><?php echo $this->translate($type['type']);?></span>
+					<input class="payway-check" type="checkbox" name="payway[]" value="<?php echo $type['num'] ?>"
+					<?php
+						if(is_array($this->paymentType)) {
+							foreach ($this->paymentType as $payway) {
+								echo ($payway == $type['num']) ? 'checked' : '';
+							}
+						}
+					?>
+					/>
+				</div>
+				<?php }	?>
+    </fieldset>
+
+	<fieldset>
+		<legend><?php echo $this->translate('Web analytics');?></legend>
+        <!--<div class="textcentered">
+		<!--<label><?php echo $this->translate('GA Code');?></label>
+		<input type="text" name="gaCode" value="<?php echo $this->gaCode?>" />
+        </div>-->
+		<div class="analyticsRadioBlock">
+		<div>
+		<input type="radio" name="analytics" id="ownAnalytics" value="WA" /><label for="ownAnalytics" style="display: inline; float: none; font-size: 14px; font-weight: normal;"> <?php echo $this->translate('I use web analytics, please add the code automatically to all my pages.'); ?></label>
+			<div class="webAnalyticsCodeRadio hidden"><!-- WA WEB-Analytics -->
+				<div class="useGABox"><input type="checkbox" name="useGA" /><?php echo $this->translate('I use Google Analytics')?></div>
+				<div id="useGAText" class="hidden"><?php echo $this->translate('Paste only your Google Analytics account ID (UA-XXXXX-X)');?></div>
+				<div id="useWAText" class="w480 fl ml5"><label><?php echo $this->translate('Paste your web analytics tracking code here');?></label></div>
+				<div class="w350 fl"><textarea name="waCode" class="w320"><?php if(isset($this->waCode)){echo $this->waCode;}?></textarea></div>
+			</div>
+		</div>
+		<div>
+			<input type="radio" name="analytics" id="sambaAnalytics" value="SA" /><label for="sambaAnalytics" style="display: inline; float: none; font-size: 14px; font-weight: normal;"> <?php echo $this->translate("I will use SEO Samba's real-time and free web analytics service");?></label>
+			<div class="seosambaAnalyticsRadio hidden"><!-- SA SAMBA-Analytics -->
+			</div>
+		</div>
+		</div>
+	</fieldset>
+
+   <fieldset>
+      <legend><?php echo $this->translate('Seosamba Connect');?></legend>
+      <div class="textcentered">
+          <label style="position: relative;">
+			  <?php echo $this->translate('Your seosamba token');?> 
+			  <a id="get-token-link" href="javascript:;">[<?php echo $this->translate('get one');?>]</a>
+			  <a href="http://www.seotoaster.com/seosamba-token-where-to-get-and-why-you-need-it.html" target="_blank" title="SEO Samba token usage." style="position: absolute; top: 0; right: 10px; color: #3C78A7; text-decoration: underline; font-size: 12px;"><?php echo $this->translate('What is this?'); ?></a>
+		  </label>
+          <input type="text" name="samba_token" id="samba_token" value="<?php echo $this->sambaToken;?>">
+      </div>
+	  <div id="registration-frame" class="textcentered">
+		  <iframe width="540px" scrolling="no" class="mt20px h455" src="<?php echo Widcard::REGISTER_URL;?>"></iframe>
+	</div>
+	</fieldset>
+  </div>
+	<?php if(!isset($this->agreement)) : ?>
+	<div  id="agreement" class="w350 mt10px mleft10px fl ">
+      <input type="checkbox" name="agreement" style="margin:0;" /> <?php echo $this->translate("I've read and accepted");?> <a class="tpopup" data-pheight="570" data-pwidth="570" data-url="<?php echo $this->websiteUrl;?>plugin/widcard/run/showTerms" href="javascript:;"><?php echo $this->translate('terms & conditions');?></a> <?php echo $this->translate('of this service');?>
+    </div>
+	<?php endif; ?>
+    <input type="submit" name="saveWebsite" id="saveWebsite" class="mt10px mb10px" value="Save and Connect">
+	<input name="sambaUrl" type="hidden" value="<?php echo $this->redirectUrl;?>" />
+	<input name="imageName" type="hidden" value="" />
+	<input name="toasterUrl" type="hidden" value="<?php echo $this->websiteUrl;?>" />
+</form>
+<input id="widcardInfo" type="hidden" data-analyticstype="<?php echo (isset($this->analyticsType)) ? $this->analyticsType : ''; ?>" data-usega="<?php echo (isset($this->analyticsTypeUseGA) && ($this->analyticsTypeUseGA == 'on')) ? 'check' : ''; ?>"  />

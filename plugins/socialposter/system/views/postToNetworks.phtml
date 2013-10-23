@@ -1,0 +1,72 @@
+<?php echo $this->doctype();?>
+<html>
+    <head>
+<?php
+		$this->headMeta()->setCharset('UTF-8');
+	        $this->headMeta()->appendHttpEquiv('Content-Type', 'text/html; charset=UTF-8')
+                 ->appendHttpEquiv('Content-Language', $this->translate()->getLocale());
+
+	        echo $this->headMeta();
+
+            echo $this->headTitle();
+		$this->headLink()->appendStylesheet($this->websiteUrl . 'system/uithemes/seotoasterui/seotoasterui.css')
+		        ->appendStylesheet($this->websiteUrl . 'system/css/reset.css')
+		        ->appendStylesheet($this->websiteUrl . 'system/css/grid.css')
+                ->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css')
+                ->appendStylesheet($this->websiteUrl . 'system/js/external/smoke/smoke.css');
+			
+			echo $this->headLink();
+	        echo $this->headStyle();
+			
+			$this->jQuery()->enable();
+            $this->jQuery()->uiEnable();
+
+	        $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js')
+			    ->addJavascriptFile($this->websiteUrl . 'system/js/external/smoke/smoke.min.js')
+	            ->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/cookie/jquery.cookie.js')
+			    ->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js')
+				->addJavascriptFile($this->websiteUrl . 'system/js/internal/system.js')
+				->addJavascriptFile($this->websiteUrl . 'plugins/socialposter/web/js/post.js');
+			echo $this->jQuery();
+
+            $this->headScript()->setAllowArbitraryAttributes(true);
+	        echo $this->headScript();
+?>
+</head>
+<body>
+<div class="container_12 seotoaster">
+    <div class="header" style="overflow:hidden; ">
+        <div class="closebutton">
+            <span class="help"><a href="http://www.seotoaster.com/social-media-marketing-tools.html" target="_blank">Help</a></span>
+            <span class="close" onclick="window.parent.jQuery('.__tpopup').dialog('close');"></span>
+        </div>
+        <?php if(!$this->registrationHeaderMessage) : echo $this->translate('Post to social networks');?>
+        <?php else : echo $this->registrationHeaderMessage;?>
+        <?php endif;?>
+    </div>
+    <div class="poster grid_12">
+        <?php if($this->registrationHeaderMessage) : ?>
+            <div class="prefix_1 suffix_1 grid_10 mt40px">
+                <p class="grid_12 mb20px" style="text-align: center; font-size: 16px;"><?php echo $this->translate('You need to register your website with SEO Samba to use this feature')?>.</p>
+                <a class="grid_12 mb15px" style="text-align: center; font-size: 14px;" href="https://mojo.seosamba.com/register.html" target="_blank"><?php echo $this->translate('Get your FREE SEO Samba account now');?>.</a>
+            </div>
+        <?php else :?>
+       	<label><?php echo $this->translate('Your post title'); ?></label>
+		<input class="poster_title grid_12 alpha" type="text" value="">
+		<label><?php echo $this->translate('Your post link'); ?></label>
+		<input class="poster_link grid_12 alpha" type="text" value="">
+		<label><?php echo $this->translate('Your post short description'); ?></label>
+		<textarea rows="8" id="poster_message" name="poster_message"></textarea>
+		<label><?php echo $this->translate('Select networks you want post to:'); ?></label>
+		<div class="grid_8">
+			<input type="checkbox" id="facebookPost" style="margin-top: 4px;" class="poster_network grid_1" name="network" value="facebook"><label class="grid_3" id="label-facebook" for="facebookPost">Facebook</label>
+			<input type="checkbox" id="twitterPost" style="margin-top: 4px;" class="poster_network grid_1" name="network" value="twitter"><label class="grid_3" id="label-twitter" for="twitterPost">Twitter</label>
+			<input type="checkbox" id="linkedinPost" style="margin-top: 4px;" class="poster_network grid_1" name="network" value="linkedin"><label class="grid_2 fl-left" id="label-linkedin" for="linkedinPost">LinkedIn</label>
+		</div>
+		<input class="poster_send mb10px grid_4" type="submit" value="<?php echo $this->translate('Post to networks');?>">
+    </div>
+</div>
+	<input id="website_url" type="hidden" value="<?php echo $this->websiteUrl;?>">
+    <?php endif;?>
+</body>
+</html>

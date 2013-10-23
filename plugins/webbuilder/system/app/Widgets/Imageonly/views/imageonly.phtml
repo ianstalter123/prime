@@ -1,0 +1,20 @@
+<style>#formImage .imagecon{display:inline-block;height:66px;width:66px;overflow:hidden}#resultimages{height:340px;overflow-y:scroll}.noimage{font:50px Arial;padding:140px 0;text-align:center;text-transform:uppercase;border:1px dashed #AAA}.image{cursor:pointer}</style>
+<?php if(isset($this->image)): ?>
+    <?php
+        $image    = '<img alt="' . (isset($this->description) ? $this->description : $this->image) . '" width="' . $this->width . '" src="' .$this->websiteUrl . 'media/' . $this->folder . '/' . $this->mediaSubFolder . '/' . $this->image . '" />';
+        $imageUrl = ($this->linkedTo == Widgets_Imageonly_Imageonly::LINK_OPTION_URL) ? $this->externalUrl : $this->websiteUrl . 'media/' . $this->folder . '/original/' . $this->image;
+    ?>
+    <?php if($this->linkedTo == Widgets_Imageonly_Imageonly::LINK_OPTION_NOTHING): ?>
+        <?php echo $image; ?>
+    <?php else: ?>
+        <a <?php echo ($this->linkedTo == Widgets_Imageonly_Imageonly::LINK_OPTION_URL) ? 'target="_blank"' : 'class="_lbox"'; ?> title="<?php echo $this->description; ?>" href="<?php echo $imageUrl; ?>">
+            <?php echo $image; ?>
+        </a>
+    <?php endif; ?>
+<?php endif; ?>
+<!-- edit imageonly url -->
+<?php  if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)):?> 
+    <a href="javascript:;" class="tpopup" data-pwidth="454" data-pheight="584" data-url="<?php echo $this->websiteUrl;?>plugin/webbuilder/run/imageonly/containerName/<?php echo $this->containerName; ?>/pid/<?php echo $this->pageId;?>">
+        <img alt="<?php echo $this->translate('Image only'); ?>" src="<?php echo $this->websiteUrl;?>plugins/webbuilder/web/images/imageonly.png" />
+    </a>
+<?php endif;?>

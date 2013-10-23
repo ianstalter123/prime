@@ -1,0 +1,23 @@
+<div class="newslog-admin-actions">
+    <a href="javascript:;" id="news-action-edit" data-url="<?php echo $this->websiteUrl; ?>plugin/newslog/run/news/#edit/<?php echo $this->newsId; ?>" data-pheight="574" class="tpopup"><?php echo $this->translate('edit'); ?></a>
+    <a href="javascript:;" style="color:#F0323C;" class="newslog-admin-actions-item" id="news-action-delete" data-nid="<?php echo $this->newsId; ?>"><?php echo $this->translate('delete'); ?></a>
+</div>
+
+<?php $this->jQuery()->onLoadCaptureStart(); ?>
+    $(function() {
+        $(document).on('click', '.newslog-admin-actions-item', function(e) {
+            var newsId = $(e.currentTarget).data('nid');
+            showConfirm('<?php echo $this->translate('You are about to remove a news item, are you sure?'); ?>', function() {
+                $.ajax({
+                    type       : 'delete',
+                    url        : '<?php echo $this->websiteUrl; ?>api/newslog/news/id/' + newsId,
+                    dataType   : 'json',
+                    beforeSend : showSpinner
+                }).done(function() {
+                    hideSpinner();
+                    $('.news-list-hidden-' + newsId).nextUntil('.news-list-hidden').andSelf().replaceWith('')
+                });
+            })
+        })
+    })
+<?php $this->jQuery()->onLoadCaptureEnd(); ?>

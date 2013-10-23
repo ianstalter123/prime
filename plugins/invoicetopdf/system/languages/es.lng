@@ -1,0 +1,20 @@
+<?php return array('Fbcomments Config' => 'Fbcomments Config', 'Close' => 'Cerrar', 
+                   'Fb Admin Key' => 'Fb administración clave',
+                   'Language' => 'Lengua', 
+                   'English' => 'Inglés',
+                   'French' => 'Francés',
+                   'German' => 'Alemán',
+                   'Spanish' => 'Español',
+                   'Japanese' => 'Japonés',
+                   'Polish' => 'Polaco',
+                   'Brazil' => 'Brasil',
+                   'Romanian' => 'Rumano',
+                   'Russian' => 'Ruso',
+                   'Slovak' => 'Eslovaco',
+                   'Swedish' => 'Sueco',
+                   'Italian' => 'Italiano',
+                   'Save' => 'Guardar'
+    
+                   
+    ); 
+        ?>

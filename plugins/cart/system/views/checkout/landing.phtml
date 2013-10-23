@@ -1,0 +1,18 @@
+<p class="checkout-button" <?php echo $this->isError ? 'style="display:none;"' : ''; ?>>
+    <a href="" data-targetid="#checkout-landing-forms" data-role="button" title="<?php echo $this->translate('Checkout'); ?>" id="checkout-action"><?php echo $this->translate('Checkout'); ?></a>
+    <span class="disc">OR</span>
+    <a href="<?php echo $this->websiteUrl; ?>" title="<?php echo $this->translate('Keep shopping'); ?>" id="keepshopping-action"> <?php echo $this->translate('Keep shopping'); ?></a>
+</p>
+
+<div id="checkout-landing-forms" class="checkout-forms" <?php echo $this->isError ? '' : 'style="display:none;"'; ?>>
+    <div>
+        <h3 class="checkout-forms-header"><?php echo $this->translate('I\'m a new customer'); ?></h3>
+        <?php echo $this->signupForm; ?>
+    </div>
+	<?php if (!$this->hideLoginForm): ?>
+    <div>
+        <h3 class="checkout-forms-header"><?php echo $this->translate('I am returning customer'); ?></h3>
+        {$member:login:<?php echo str_replace($this->websiteUrl, '', $this->actionUrl); ?>}
+    </div>
+    <?php endif; ?>
+</div>

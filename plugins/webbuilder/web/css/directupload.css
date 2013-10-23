@@ -1,0 +1,39 @@
+.direct-upload-images .progressbar {
+    height: 40px;
+    position:relative;
+    color: #f5f5f5;
+    z-index: 10;
+    border: 5px solid #666;
+    background-color: #f5f5f5;
+    border-radius: 0;
+
+}
+.direct-upload-images .progressbar .ui-progressbar-value {
+    border-radius: 3px;
+    background: #81AAC3;
+    border-color: #81AAC3;
+
+}
+.direct-upload-images .progressbar .label {
+    position: absolute;
+    line-height: 30px;
+    padding: 5px 10px;
+}
+.direct-upload-images .progressbar .value:after {content: '%';}
+.direct-upload-images img {
+    margin: 10px 0;
+    border: 1px solid white;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    background-color: white;
+    overflow: hidden;
+}
+.directupload-wrapper a.directupdelete {
+    font-size:10px;
+    text-decoration:none;
+    display:block;
+    text-align:center;
+}
+
+ 

@@ -1,0 +1,408 @@
+/* CSS Document */
+
+/* =========== Flat (old: static) menu =*/
+ul.static_menu { overflow: hidden; margin-top: 14px; }
+ul.static_menu li {
+    display: block;
+    float: left;
+}
+ul.static_menu li:first-child a {
+    border: none;
+}
+ul.static_menu li a {
+    padding: 0 6px;
+	border-left: 1px solid #444;
+}
+	ul.static_menu li a.current, ul.static_menu li a:hover {
+		color: #539A52;
+        text-decoration: underline;
+	}
+	
+ul.static_menu li a span {}
+/* =========== Main menu =*/
+ul.main_menu {
+	float: left;
+}
+
+ul.main_menu li, nav ul.featureditem li {
+	display: inline-block;
+}
+ul.main_menu li.category {
+
+}
+	ul.main_menu li.category:hover, ul.main_menu li.category.parent-current {
+	
+	}
+ul.main_menu li.page {}
+
+ul.main_menu li a, nav ul.featureditem a.page-title {
+	padding: 8px 20px;
+    font-size: 17px;
+}
+ul.main_menu li.category a {}
+	ul.main_menu li.category a.current, ul.main_menu li.category a:hover, nav ul.featureditem a.page-title:hover {
+		background-color: #4B5668;
+		color: #FFF;
+		text-decoration: none;
+	}
+ul.main_menu li.cat-1 {
+   
+}
+ul.main_menu li.cat-1 a {
+   font-size: 0;
+   padding: 8px 20px 11px;
+}
+ul.main_menu li.cat-1 span {
+    font-size: 20px; 
+    vertical-align: middle;
+}
+ul.main_menu li.page a {}
+
+ul.main_menu li ul {}
+ul.main_menu li ul li {}
+/* =========== Sitemap =*/
+ul.sitemap {
+    margin: 0 60px 0 0;
+}
+ul.sitemap li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    text-align: right;
+}
+ul.sitemap li ul {}
+ul.sitemap li ul li {}
+ul.sitemap li a {
+    font-size: 26px;
+}
+/* =========== Listxrss =*/
+ul.listxrss {}
+ul.listxrss li {}
+ul.listxrss li a.page-title {}
+ul.listxrss li span {}
+ul.listxrss li img {}
+ul.listxrss li p {}
+/* =========== All widget =
+	first string - featured item/page
+	second string - list pages/categories
+	third string - search
+*/
+ul.featureditem,
+ul.listpages, ul.listcategories,
+ul.search-results {
+	overflow: hidden;
+}
+ul.featureditem li, div.featureapage,
+ul.listpages li, ul.listcategories li,
+ul.search-results li.search-result-row {
+	margin-bottom: 20px;
+}
+.center ul.featureditem li, .center div.featureapage,
+.center ul.listpages li, .center ul.listcategories li {
+	width: 22%;
+    padding: 1%; margin: 0 0 0 1%;
+    float: left;
+    border: 1px solid #E8E8E8;
+    
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+}
+	.center ul.featureditem li:first-child, .center div.featureapage:first-child,
+	.center ul.listpages li:first-child, .center ul.listcategories li:first-child {
+		margin-left: 0;
+	}
+	ul.featureditem li:first-child, div.featureapage,
+	ul.listpages li:first-child, ul.listcategories li:first-child,
+	ul.search-results li.search-result-row:first-child {
+
+	}
+ul.featureditem a.page-teaser-image, div.featureapage a.page-teaser-image,
+ul.listpages a.page-teaser-image, ul.listcategories a.page-teaser-image,
+ul.search-results a.page-teaser-image {
+	display: block;
+	width: 80px;
+}
+.center ul.featureditem a.page-teaser-image, .center div.featureapage a.page-teaser-image,
+.center ul.listpages a.page-teaser-image, .center ul.listcategories a.page-teaser-image {
+	width: 100%; height: 130px; 
+	overflow: hidden;
+}
+ul.featureditem a.page-title, div.featureapage a.page-title,
+ul.listpages a.page-title, ul.listcategories a.page-title,
+ul.search-results a.page-title {
+    display: block;
+    font-weight: 500;font-size: 17px;
+    margin: 0 0 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+.center ul.featureditem a.page-title, .center div.featureapage a.page-title,
+.center ul.listpages a.page-title, .center ul.listcategories a.page-title {
+	margin: 8px 0;	
+}
+	ul.featureditem a.page-title:hover, div.featureapage a.page-title:hover,
+	ul.listpages a.page-title:hover, ul.listcategories a.page-title:hover,
+	ul.search-results a.page-title:hover {
+		
+	}
+ul.featureditem img, div.featureapage img,
+ul.listpages img, ul.listcategories img,
+ul.search-results img {
+	width: 100%;
+}
+ul.featureditem span, div.featureapage p,
+ul.listpages span, ul.listcategories span,
+ul.search-results span {
+	display: block; overflow: hidden;
+}
+.center ul.featureditem span, .center div.featureapage p,
+.center ul.listpages span, .center ul.listcategories span,
+.center ul.search-results span {
+	
+}
+/* =========== Tags list =*/
+ul.featureditem {}
+ul.featureditem li {}
+ul.featureditem a.page-teaser-image {}
+ul.featureditem a.page-title {}
+	ul.featureditem a.page-title:hover {}
+ul.featureditem img {}
+ul.featureditem span {}
+
+nav ul.featureditem {
+	float: right;
+}
+nav ul.featureditem li {
+	display: inline-block;
+    *display: inline;
+	margin: 0;
+}
+nav ul.featureditem a.page-title {
+    font-style: italic;
+}
+nav ul.featureditem a.page-teaser-image, nav ul.featureditem img, nav ul.featureditem span {
+	display: none;
+}
+/* =========== Tags page =*/
+div.featuredpage {}
+div.featuredpage a.page-teaser-image {}
+div.featuredpage a.page-title {}
+	div.featuredpage a.page-title:hover {}
+div.featuredpage img {}
+div.featuredpage p {}
+/* =========== List pages =*/
+ul.listpages {}
+ul.listpages li {}
+ul.listpages a.page-teaser-image {}
+ul.listpages a.page-title {}
+	ul.listpages a.page-title:hover {}
+ul.listpages img {}
+ul.listpages span {}
+/* =========== List categories =*/
+ul.listcategories {}
+ul.listcategories li {}
+ul.listcategories a.page-teaser-image {}
+ul.listcategories a.page-title {}
+	ul.listcategories a.page-title:hover {}
+ul.listcategories img {}
+ul.listcategories span {}
+/* =========== Search Result =*/
+ul.search-results {}
+ul.search-results li.search-result-row {}
+ul.search-results a.page-teaser-image {}
+ul.search-results a.page-title {
+    font-weight: bold;
+}
+ul.search-results img {}
+ul.search-results span {
+	height: 45px;
+    line-height: 1.5em;
+}
+/* =========== Product List widget =*/
+ul.relatedpages {}
+ul.relatedpages li {}
+ul.relatedpages a.page-teaser-image {}
+ul.relatedpages a.page-title {}
+ul.relatedpages img {}
+ul.relatedpages span {}
+
+
+div.list-style {
+    position: absolute; right: 0; top: 26px;
+}
+div.list-style span {
+    cursor: pointer; 
+    margin-left: 4px;
+    font-size: 18px;
+    color: #666;
+}
+div.list-style span.activelink {
+    color: #3692CA;    
+}
+
+
+
+.prepoplinks {
+    overflow: hidden;    
+}
+.prepoplinks, .prepoplinks li {
+	margin: 0; padding: 0;
+	list-style: none;
+}
+.prepoplinks li a {
+	display: block; float: left;
+	color: #4B5668;
+	font-size: 15px;
+	margin: 0 10px 8px 0;
+}
+
+ul.news-list {
+}
+ul.news-list li {
+    margin-bottom: 15px; padding: 5px 15px 30px;
+    overflow: visible;
+    position: relative;
+    
+    background-color: #FFF; border: 1px solid #EEE;
+}
+
+/*ul.news-list li:before {
+    display: block;
+    content: ' ';
+    background-color: #EEE;
+    border-width: 40px 40px 0 0;
+    border-style: solid solid solid solid;
+    border-color: #FCFCFC #FFF black green;
+    position: absolute; top: -1px; left: -1px;
+    
+    -webkit-box-shadow: 1px 1px 1px #DDD;
+    -moz-box-shadow: 1px 1px 1px #DDD;
+    box-shadow: 1px 1px 1px #DDD;
+}*/
+ul.news-list li .newslog-admin-actions {
+    text-align: right;    
+}
+
+
+ul.news-list li a.page-teaser-image {
+    border: 1px solid #F0F0F0;
+    display: block;
+    margin: 0 15px 3px 0;
+    max-height: 100px;
+    overflow: hidden;
+    padding: 5px;
+    width: 100px;
+    float: left;
+    
+    -webkit-box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.035);
+    -moz-box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.035);
+    box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.035);
+}
+ul.news-list li a.page-teaser-image img {
+    width: 100%;
+}
+ul.news-list li .page-title {
+    margin: 0;
+    padding-bottom: 4px;
+}
+ul.news-list li h4 {
+    
+}
+ul.news-list li .page-title a {
+    font-size: 19px;
+    text-decoration: none;
+}
+ul.news-list li .news-item-date {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 2px 0;
+}
+ul.news-list li .news-item-description {
+    overflow: hidden;
+    line-height: 1.4em;
+    height: 95px;
+}
+ul.news-list li .news-item-tags {
+    text-align: right;
+}
+ul.news-list .news-item-admin-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#footer-news {
+    margin: 0; padding: 0;    
+}
+#footer-news li {
+    list-style: none; 
+    margin: 0; padding: 0;
+    overflow: hidden;
+}
+#footer-news, #footer-news li {
+    width: 100% !important;    
+}
+#footer-news div {
+    
+}
+#footer-news .news-item-date {
+    background: none repeat scroll 0 0 #EFEFEF; color: #999;
+    float: left;
+    font-size: 12px; font-weight: bold;
+    height: 38px;
+    line-height: 1.6em;
+    margin-right: 2%;
+    padding: 3px 0;
+    text-align: center;
+    width: 9%;
+    overflow: hidden;
+    
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+#footer-news .news-item-title {
+    width: 25%;    
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+#footer-news .news-item-description {
+    width: 89%;
+}
+#footer-news .news-item-title,
+#footer-news .news-item-description {
+    white-space: pre;
+    text-overflow: ellipsis;
+    overflow: hidden;  
+}
+
+.pagerating-list > div {
+    background-color: #FFF; border: 1px solid #EEE;
+    margin-bottom: 4px;
+    padding: 10px;
+    
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+.stars-container img {
+    width: auto;    
+}
+
+
+ul.static_menu li a,
+ul.main_menu li a, nav ul.featureditem a.page-title,
+ul.featureditem a.page-title, div.featureapage a.page-title, ul.listpages a.page-title, ul.listcategories a.page-title, ul.search-results a.page-title
+{
+	color: #454545;
+}
+ul.main_menu li a, nav ul.featureditem a.page-title,
+ul.featureditem a.page-title, div.featureapage a.page-title, ul.listpages a.page-title, ul.listcategories a.page-title, ul.search-results a.page-title,
+.prepoplinks li a
+{
+	font-family: 'Archivo Narrow';
+}

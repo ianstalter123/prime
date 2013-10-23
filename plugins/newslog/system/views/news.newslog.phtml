@@ -1,0 +1,283 @@
+<?php
+    $draftOrLive = $this->toasterDraftorlive(array(
+        'published'        => true,
+        'publishAt'        => ''
+    ));
+
+    $broadcast = $this->formCheckbox('broadcast', '') . '&nbsp;' . $this->translate('Broadcast');
+
+    $edit      = '<a href="#new" style="margin-left: 115px;" class="head-link">' . $this->translate('Create new post') . '</a> | <a href="javascript:;" class="head-link show-posts">' . $this->translate('Manage posts') . '</a>';
+
+    $this->placeholder('headerContent')->set($draftOrLive . '&nbsp;' . $edit);
+    $this->placeholder('mainId')->set('new-post');
+    echo $this->headTitle('Create new post');
+?>
+
+<!-- Tags template -->
+<script id="tagTemplate" type="text/x-jquery-tmpl">
+    <input type="checkbox" name="tag[]" value="${id}" />
+    <span class="tag-editable" title="Click to edit">${name}</span>
+    <span class="ui-icon ui-icon-closethick"><?php echo $this->translate('Delete');?></span>
+</script>
+<!-- /Tags template -->
+
+<!-- News item template -->
+<script id="newsItemTemplate" type="text/x-jquery-tmpl">
+    <div class="news-item-img">
+        {{if !JSON.parse(metaData).image}}
+            <img src="<?php echo $this->websiteUrl; ?>system/images/noimage.png" alt="${title}" />
+        {{else}}
+            <img src="<?php echo $this->websiteUrl; ?>previews/${JSON.parse(metaData).image}" alt="${title}" />
+        {{/if}}
+    </div>
+    <p class="news-item-additional">${  $.datepicker.formatDate('DD M dd , yy', new Date(Date.parse(createdAt.replace(/\-/g, '/')))) }</p>
+    <h4 data-nid="${id}" title="${title}">${title.substr(0,15)}...</h4>
+</script>
+<!-- /News item template -->
+
+<script id="broadcastWebsiteTemplate" type="text/x-jquery-tmpl">
+    <img src="<?php echo $this->websiteUrl; ?>system/images/noimage.png" alt="${url}" />
+    <div>
+        <input type="checkbox" class="broadcast-site" data-wid="${url}" name="broadcast[]" value="${id}" />
+        <span style="font-size: 12px;">${url.substr(0,20)}</span>
+    </div>
+</script>
+
+<div class="mt5px"></div>
+
+<!-- Templates list -->
+<div id="templatelist" class="h580 ui-helper-hidden"></div>
+<!-- /Templates list -->
+
+<!-- Manage posts screen -->
+
+<div id="manage-posts-container" style="background:#DAE8ED; display: none; overflow: hidden; position: absolute; top: 0; left: 0; z-index: 999;height: 100%;width: 100%;">
+    <div class="header" style="overflow:hidden;"><?php echo $this->translate('Manage news posts'); ?>
+        <div class="closebutton-list">
+            <span class="close-list"><?php echo $this->translate('Close'); ?></span>
+        </div>
+    </div>
+    <div id="manage-posts" style="overflow-x: hidden; overflow-y: scroll; height: 500px;"></div>
+</div>
+
+<!-- /Manage posts screen -->
+
+
+<!-- General new page info -->
+<div class="grid_6">
+    <fieldset>
+        <legend><?php echo $this->translate('News page information'); ?></legend>
+        <form id="<?php echo $this->newPostForm->getId(); ?>" action="<?php echo $this->newPostForm->getAction(); ?>" method="<?php echo $this->newPostForm->getMethod(); ?>">
+            <?php echo $this->newPostForm->h1; ?>
+            <?php echo $this->newPostForm->title; ?>
+            <?php echo $this->newPostForm->navName; ?>
+            <?php echo $this->newPostForm->url; ?>
+            <?php echo $this->newPostForm->teaserText; ?>
+            <?php echo $this->newPostForm->metaKeywords; ?>
+        </form>
+    </fieldset>
+</div>
+<!-- /General news page info -->
+
+<!-- Other news page info -->
+<div class="grid_6 alpha">
+    <fieldset class="grid_12">
+        <legend><?php echo $this->translate('Settings'); ?></legend>
+        <div class="grid_6">
+            <img id="page-preview-image" src="<?php echo $this->websiteUrl . '/system/images/noimage.png'; ?>" width="135" alt="<?php echo $this->translate('Page preview image');?>" />
+            <?php
+                $uploader = $this->toasterUploader(array(
+                    'id'            => 'page-teaser-uploader',
+                    'caller'        => 'pagePreview',
+                    'noMultiupload' => true,
+                    'caption'       => $this->translate('Upload image')));
+                echo $uploader;
+            ?>
+        </div>
+        <div class="grid_6">
+            <?php
+                echo $this->ajaxLink(
+                    'Select template',
+                    $this->websiteUrl . 'backend/backend_theme/gettemplate/',
+                    array(
+                        'complete' => "$('#templatelist').html(data).slideDown().css('overflow-y', 'auto');",
+                        'id'       => 'current-template'
+                    ),
+                    array(
+                        'listtemplates' => 'all'
+                    )
+                );
+                echo $this->formHidden('templateId', '', array('id' => 'template-id'));
+            ?>
+        </div>
+    </fieldset>
+    <fieldset class="grid_12">
+        <legend><?php echo $this->translate('News tags'); ?></legend>
+        <div>
+            <div class="prefix_2 suffix_2" style="text-align: center;">
+                <?php echo $this->formText('newsTag', '', array('placeholder' => 'Add a new Tag', 'id' => 'news-tag')); ?>
+            </div>
+            <div style="display: none;" id="confirm-msg"><?php echo $this->translate('You are about to remove a tag %tag%? Are you sure?'); ?></div>
+            <div id="news-tags" class="h200">
+                <div style="text-align: center;"><img src="<?php echo $this->websiteUrl; ?>plugins/newslog/web/images/spinner.gif" alt="<?php echo $this->translate('loading'); ?>..." /></div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<!-- /Other new page info -->
+
+<!-- Create post button -->
+<div class="clearfix grid_12" style="text-align: right;margin-bottom: 3px;">
+    <?php echo $this->formButton('createNewPost', 'Save news post', array('id' => 'save-btn')); ?>
+</div>
+<!-- /Create post button -->
+
+<!-- Styles -->
+<style type="text/css">
+    #teaser-text {
+        height: 85px;
+    }
+    #meta-keywords {
+        height: 60px;
+    }
+    #templatelist {
+        overflow: auto !important;
+        width: 100%;
+        z-index: 9999;
+        margin-top: -38px;"
+    }
+
+    #news-tags {overflow-y: auto;}
+
+    #news-tags .tag-widget {
+        background: #eee;
+        border: 2px solid white;
+        -moz-border-radius: 3px 3px 3px 3px;
+        -webkit-border-radius: 3px 3px 3px 3px;
+        border-radius: 3px 3px 3px 3px;
+        color: #5C5C5C;
+        float: left;
+        font-weight: normal;
+        margin: 3px 6px 3px 0;
+        padding: 5px 4px 4px;
+        width: 29%;
+        height:18px;
+    }
+    #news-tags .tag-widget span {
+        cursor: pointer;
+    }
+    #news-tags .tag-widget span.tag-editable {
+        float: left;
+        margin-left: 2%;
+        width: 63%;
+        white-space: nowrap;
+        overflow: hidden;
+        line-height: 1.2em;
+    }
+    #news-tags .tag-widget input {
+        float: left;
+        margin-top: 2px;
+        margin-left: 1px;
+    }
+
+    #news-tags .tag-widget .ui-icon-closethick {
+        float: right;
+        margin: 0 0 0 3px;
+    }
+
+    .tag-widget span.ui-icon {
+        display: inline-block;
+        border-radius: 4px;
+        cursor:pointer;
+        vertical-align: bottom;
+    }
+    .tag-widget .tag-editable {
+        vertical-align:top;
+    }
+    .tag-widget span.ui-icon:hover, .ui-widget.ui-button.item-remove:hover .ui-icon {
+        background-image: url(/system/uithemes/seotoasterui/images/ui-icons_cd0a0a_256x240.png);
+    }
+
+    #page-teaser-uploader-filelist {
+        display: none;
+    }
+    #page-teaser-uploader {
+        text-align: left !important;
+    }
+    .error-highlight {
+        border: 1px solid #ff0000 !important;
+        color: #ff0000 !important;
+    }
+    .news-item {
+        height: 190px;
+        border: 1px solid #fff;
+        box-shadow: 0 0 4px #ccc;
+        -moz-box-shadow: 0 0 4px #ccc;
+        -webkit-box-shadow: 0 0 4px #ccc;
+        border-radius: 3px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        position: relative;
+        margin-bottom: 5px;
+        text-align: center;
+        margin-left: 8px !important;
+        margin-right: 8px !important;
+        background: #fff !important;
+    }
+    .news-item-img {
+        height: 160px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    .news-item-img img {
+        width: 140px;
+    }
+    .news-item h4 {
+        font-size: 9pt;
+        overflow: hidden;
+        background: rgba(102,102,102,0.9);
+        color: #fff;
+        overflow: hidden;
+        padding: 5px 0;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        margin: 0;
+        cursor: pointer;
+        border-radius: 0 0 3px 3px;
+        -moz-border-radius: 0 0 3px 3px;
+        -webkit-border-radius: 0 0 3px 3px;
+    }
+    .news-item-additional {
+        position: absolute;
+        top: 0;
+        background: rgba(102,102,102,0.6);
+        font-size: 11pt;
+        color: #fff;
+        padding: 5px 0;
+        width: 100%;
+        border-radius: 3px 3px 0 0;
+        -moz-border-radius: 3px 3px 0 0;
+        -webkit-border-radius: 3px 3px 0 0;
+    }
+    .head-link {
+        overflow: hidden;
+        /*float: right;*/
+        color: #fff !important;
+    }
+    .broadcast-item-website {
+        border: 1px solid #eee;
+        height: 190px;
+    }
+    .broadcast-item-website img {
+        width: 140px;
+    }
+    .grayout {
+        background: #eee !important;
+    }
+</style>
+<?php
+    $this->headScript()->appendFile($this->websiteUrl . 'plugins/newslog/web/js/libs/require/require.min.js', null, array(
+        'data-main' => $this->websiteUrl . 'plugins/newslog/web/js/news.js'
+    ));
+?>

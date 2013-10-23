@@ -1,0 +1,149 @@
+/* Green */
+body[data-color="green"] ul.main_menu li.category a.current, body[data-color="green"] ul.main_menu li.category a:hover, body[data-color="green"] nav ul.featureditem a.page-title:hover,
+body[data-color="green"] input[type="submit"], body[data-color="green"] .tcart-add,
+body[data-color="green"] #toaster-cart .cartblock-gotocart-row {
+	background-color: #509B00;	
+}
+body[data-color="green"] input[type="submit"]:hover, body[data-color="green"] .tcart-add:hover,
+body[data-color="green"] #toaster-cart .cartblock-gotocart-row:hover {
+	background-color: #93BB68;
+}
+body[data-color="green"] ul.tabs-nav li.active,
+body[data-color="green"] .product-item .price,
+body[data-color="green"] .prepoplinks li a, body[data-color="green"] .list-style span.activelink, body[data-color="green"] .static_menu li a:hover
+{
+	color: #509B00;
+}
+
+/* red */
+body[data-color="red"] ul.main_menu li.category a.current, body[data-color="red"] ul.main_menu li.category a:hover, body[data-color="red"] nav ul.featureditem a.page-title:hover,
+body[data-color="red"] input[type="submit"], body[data-color="red"] .tcart-add,
+body[data-color="red"] #toaster-cart .cartblock-gotocart-row {
+	background-color: #A52223;	
+}
+body[data-color="red"] input[type="submit"]:hover, body[data-color="red"] .tcart-add:hover,
+body[data-color="red"] #toaster-cart .cartblock-gotocart-row:hover {
+	background-color: #BF7474;
+}
+body[data-color="red"] ul.tabs-nav li.active,
+body[data-color="red"] .product-item .price,
+body[data-color="red"] .prepoplinks li a, body[data-color="red"] .list-style span.activelink, body[data-color="red"] .static_menu li a:hover
+{
+	color: #A52223;
+}
+/* Pink */
+body[data-color="pink"] ul.main_menu li.category a.current, body[data-color="pink"] ul.main_menu li.category a:hover, body[data-color="pink"] nav ul.featureditem a.page-title:hover,
+body[data-color="pink"] input[type="submit"], body[data-color="pink"] .tcart-add,
+body[data-color="pink"] #toaster-cart .cartblock-gotocart-row {
+	background-color: #DE5DA2;	
+}
+body[data-color="pink"] input[type="submit"]:hover, body[data-color="pink"] .tcart-add:hover,
+body[data-color="pink"] #toaster-cart .cartblock-gotocart-row:hover {
+	background-color: #E08DB9;
+}
+body[data-color="pink"] ul.tabs-nav li.active,
+body[data-color="pink"] .product-item .price,
+body[data-color="pink"] .prepoplinks li a, body[data-color="pink"] .list-style span.activelink, body[data-color="pink"] .static_menu li a:hover
+{
+	color: #DE5DA2;
+}
+/* Blue */
+body[data-color="blue"] ul.main_menu li.category a.current, body[data-color="blue"] ul.main_menu li.category a:hover, body[data-color="blue"] nav ul.featureditem a.page-title:hover,
+body[data-color="blue"] input[type="submit"], body[data-color="blue"] .tcart-add,
+body[data-color="blue"] #toaster-cart .cartblock-gotocart-row {
+	background-color: #3692CA;	
+}
+body[data-color="blue"] input[type="submit"]:hover, body[data-color="blue"] .tcart-add:hover,
+body[data-color="blue"] #toaster-cart .cartblock-gotocart-row:hover {
+	background-color: #8FC9EA;
+}
+body[data-color="blue"] ul.tabs-nav li.active,
+body[data-color="blue"] .product-item .price,
+body[data-color="blue"] .prepoplinks li a, body[data-color="blue"] .list-style span.activelink, body[data-color="blue"] .static_menu li a:hover
+{
+	color: #3692CA;
+}
+/* Brown */
+body[data-color="brown"] ul.main_menu li.category a.current, body[data-color="brown"] ul.main_menu li.category a:hover, body[data-color="brown"] nav ul.featureditem a.page-title:hover,
+body[data-color="brown"] input[type="submit"], body[data-color="brown"] .tcart-add,
+body[data-color="brown"] #toaster-cart .cartblock-gotocart-row {
+	background-color: #685A4C;	
+}
+body[data-color="brown"] input[type="submit"]:hover, body[data-color="brown"] .tcart-add:hover,
+body[data-color="brown"] #toaster-cart .cartblock-gotocart-row:hover {
+	background-color: #322416;
+}
+body[data-color="brown"] ul.tabs-nav li.active,
+body[data-color="brown"] .product-item .price,
+body[data-color="brown"] .prepoplinks li a, body[data-color="brown"] .list-style span.activelink, body[data-color="brown"] .static_menu li a:hover
+{
+	color: #685A4C;
+}
+/* Cyan */
+body[data-color="cyan"] ul.main_menu li.category a.current, body[data-color="cyan"] ul.main_menu li.category a:hover, body[data-color="cyan"] nav ul.featureditem a.page-title:hover,
+body[data-color="cyan"] input[type="submit"], body[data-color="cyan"] .tcart-add,
+body[data-color="cyan"] #toaster-cart .cartblock-gotocart-row {
+	background-color: #008080;	
+}
+body[data-color="cyan"] input[type="submit"]:hover, body[data-color="cyan"] .tcart-add:hover,
+body[data-color="cyan"] #toaster-cart .cartblock-gotocart-row:hover {
+	background-color: #00C4C4;
+}
+body[data-color="cyan"] ul.tabs-nav li.active,
+body[data-color="cyan"] .product-item .price,
+body[data-color="cyan"] .prepoplinks li a, body[data-color="cyan"] .list-style span.activelink, body[data-color="cyan"] .static_menu li a:hover
+{
+	color: #008080;
+}
+/* Violet */
+body[data-color="violet"] ul.main_menu li.category a.current, body[data-color="violet"] ul.main_menu li.category a:hover, body[data-color="violet"] nav ul.featureditem a.page-title:hover,
+body[data-color="violet"] input[type="submit"], body[data-color="violet"] .tcart-add,
+body[data-color="violet"] #toaster-cart .cartblock-gotocart-row {
+	background-color: #23054F;	
+}
+body[data-color="violet"] input[type="submit"]:hover, body[data-color="violet"] .tcart-add:hover,
+body[data-color="violet"] #toaster-cart .cartblock-gotocart-row:hover {
+	background-color: #75668C;
+}
+body[data-color="violet"] ul.tabs-nav li.active,
+body[data-color="violet"] .product-item .price,
+body[data-color="violet"] .prepoplinks li a, body[data-color="violet"] .list-style span.activelink, body[data-color="violet"] .static_menu li a:hover
+{
+	color: #23054F;
+}
+/* maroon */
+body[data-color="maroon"] ul.main_menu li.category a.current, body[data-color="maroon"] ul.main_menu li.category a:hover, body[data-color="maroon"] nav ul.featureditem a.page-title:hover,
+body[data-color="maroon"] input[type="submit"], body[data-color="maroon"] .tcart-add,
+body[data-color="maroon"] #toaster-cart .cartblock-gotocart-row {
+	background-color: #800000;	
+}
+body[data-color="maroon"] input[type="submit"]:hover, body[data-color="maroon"] .tcart-add:hover,
+body[data-color="maroon"] #toaster-cart .cartblock-gotocart-row:hover {
+	background-color: #CD5C5C;
+}
+body[data-color="maroon"] ul.tabs-nav li.active,
+body[data-color="maroon"] .product-item .price,
+body[data-color="maroon"] .prepoplinks li a, body[data-color="maroon"] .list-style span.activelink, body[data-color="maroon"] .static_menu li a:hover
+{
+	color: #800000;
+}
+/* Indian red */
+body[data-color="indianred"] ul.main_menu li.category a.current, body[data-color="indianred"] ul.main_menu li.category a:hover, body[data-color="indianred"] nav ul.featureditem a.page-title:hover,
+body[data-color="indianred"] input[type="submit"], body[data-color="indianred"] .tcart-add,
+body[data-color="indianred"] #toaster-cart .cartblock-gotocart-row {
+	background-color: #CD5C5C;	
+}
+body[data-color="indianred"] input[type="submit"]:hover, body[data-color="indianred"] .tcart-add:hover,
+body[data-color="indianred"] #toaster-cart .cartblock-gotocart-row:hover {
+	background-color: #DDA1A1;
+}
+body[data-color="indianred"] ul.tabs-nav li.active,
+body[data-color="indianred"] .product-item .price,
+body[data-color="indianred"] .prepoplinks li a, body[data-color="indianred"] .list-style span.activelink, body[data-color="indianred"] .static_menu li a:hover
+{
+	color: #CD5C5C;
+}
+
+
+
+

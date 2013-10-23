@@ -1,0 +1,34 @@
+<?php $id = uniqid('pl-'); ?>
+<div class="product-list">
+	<?php echo $this->plContent; ?>
+	<?php if ($this->totalCount >= $this->limit): ?>
+    <a href="#<?php echo $id;?>" class="show-more" id="<?php echo $id; ?>"><?php echo $this->translate('show more'); ?></a>
+	<?php endif; ?>
+</div>
+<?php if ($this->totalCount >= $this->limit): ?>
+<script>
+	$('#<?php echo $id; ?>').on('click', function(e){
+        e.preventDefault();
+
+        var self = this,
+	        nextpage = $(this).data('nextpage') || 1,
+		    filters = $.extend({
+			    pageId: '<?php echo $this->pageId; ?>',
+			    template: '<?php echo $this->productTemplate; ?>',
+			    nextpage: nextpage
+		    }, <?php echo json_encode(!empty($this->filters) ? array_filter($this->filters) : array()); ?>);
+
+		showSpinner();
+
+		$.post('<?php echo $this->websiteUrl; ?>plugin/shopping/run/renderproducts/', filters, function(response) {
+            hideSpinner();
+            if (response) {
+                $(self).before(response);
+				$(self).data('nextpage', ++nextpage);
+            } else {
+	            $(self).replaceWith('<span><?php echo $this->translate('No more products found'); ?></span>');
+            }
+		});
+	});
+</script>
+<?php endif; ?>

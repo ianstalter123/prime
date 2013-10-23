@@ -1,0 +1,221 @@
+<?php
+    $this->headLink()->appendStylesheet($this->websiteUrl . 'plugins/webbuilder/web/css/imageonly.css');
+    $this->headTitle($this->translate('Add Image'));
+    $this->placeholder('headerContent')->set('Add Image');
+    $this->placeholder('containerId')->set('webbuilder-image-only');
+    $this->placeholder('extraClasses')->set('w450 h560');
+?>
+<div id="webbuilder-image-only-inner">
+    <form action="javascript:;" method="post" class="webbuilder-imageonly-form pluginform">
+
+        <!-- folders with images -->
+        <select id="select-folder" class="grid_12 alpha">
+            <option value="" selected="selected"><?php echo $this->translate('Select folder');?></option>
+            <?php foreach($this->folders as $folder): ?>
+                <option <?php echo ($this->folder == $folder) ? 'selected="selected"' : ''; ?> value="<?php echo $folder; ?>"><?php echo $folder; ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <div id="webbuilder-form-image-data" <?php echo $this->image ? '' : 'style="display:none;"'; ?>>
+            <!-- image description field -->
+            <input placeholder="Title:" id="image-description" class="grid_12 omega mb15px" type="text" name="imageDescription" value="<?php echo $this->description;?>" />
+
+            <!-- links options -->
+            <label class="grid_2 mb15px"><?php echo $this->translate('Link to');?>: </label>
+            <div id="links-data">
+                <input <?php echo (isset($this->linkedTo) && $this->linkedTo == Widgets_Imageonly_Imageonly::LINK_OPTION_NOTHING) ? 'checked="checked"': ''; ?>  class="grid_0_5 linked-to" type="checkbox" data-linkedto="<?php echo Widgets_Imageonly_Imageonly::LINK_OPTION_NOTHING;?>" />
+                <label class="grid_2"><?php echo $this->translate('nothing');?></label>
+
+                <input <?php echo (isset($this->linkedTo) && $this->linkedTo == Widgets_Imageonly_Imageonly::LINK_OPTION_IMAGE) ? 'checked="checked"': ''; ?> class="grid_0_5 linked-to" type="checkbox" data-linkedto="<?php echo Widgets_Imageonly_Imageonly::LINK_OPTION_IMAGE;?>" />
+                <label class="grid_3"><?php echo $this->translate('bigger image');?></label>
+
+                <input <?php echo (isset($this->linkedTo) && $this->linkedTo == Widgets_Imageonly_Imageonly::LINK_OPTION_URL) ? 'checked="checked"': ''; ?> class="grid_0_5 linked-to" type="checkbox" data-linkedto="<?php echo Widgets_Imageonly_Imageonly::LINK_OPTION_URL;?>" />
+                <label class="grid_3"><?php echo $this->translate('custom url');?></label>
+            </div>
+
+            <!-- External url field. Hidden by default -->
+            <input class="grid_12" id="external-url" <?php echo $this->externalUrl ? '' : 'style="display:none;"'; ?> type="text" name="externalUrl" value="<?php echo $this->externalUrl; ?>" placeholder="http://" />
+        </div>
+    </form>
+
+    <!-- image list holder. -->
+    <div id="images-list"></div>
+
+
+    <!-- Image box -->
+    <div id="webbuilder-main-image" <?php echo $this->image ? '' : 'style="display:none;"'; ?>>
+        <img id="preview-image" alt="<?php echo $this->image ? $this->image : ''; ?>" class="grid_8 prefix_2 mb20px" border="0" height="300" width="300" src="<?php echo ($this->image) ? ($this->websiteUrl . 'media/' . $this->folder . '/small/' . $this->image) : ''; ?>" />
+        <button id="delete" class="delete grid_5" name="deleteImage">[ <?php echo $this->translate('Remove image');?> ]</button>
+
+        <!-- Save button -->
+        <button id="save-btn" class="save grid_5 mb15px" name="saveImage"><?php echo $this->translate('Save and close');?></button>
+    </div>
+
+    <div <?php echo $this->image ? 'style="display:none;"' : ''; ?> class="noimage grid_12"><?php echo $this->translate('No image'); ?></div>
+</div>
+<style type="text/css">
+    #webbuilder-image-only-inner form {
+        background:none;
+        border:none;
+        overflow:hidden;
+    }
+    #webbuilder-image-only-inner form input[type="submit"] {margin-top: 0;}
+    #webbuilder-image-only-inner form input[type="text"] {margin-left: 0;}
+    #webbuilder-image-only-inner #save-btn {
+        /*display: none;*/
+        margin: 0 14px 10px 0;
+    }
+    #webbuilder-image-only-inner form #links-data label {
+        clear:none;
+        font-size: 12px;
+        font-weight: normal;
+    }
+    #webbuilder-image-only-inner #delete{
+        font-size: 10pt;
+        margin-top: 7px;
+        color: #cd5c5c;
+        font-weight: bold;
+        background: none;
+        border: none;
+        cursor:pointer;
+    }
+
+    #webbuilder-image-only-inner #images-list {
+        display: none;
+        overflow-x: hidden;
+        overflow-y: auto;
+        height: 340px;
+    }
+    #webbuilder-image-only-inner #images-list img.webbuilder-io-image {
+        float: left;
+        margin: 5px;
+        cursor: pointer;
+        height: 80px;
+    }
+
+    #webbuilder-image-only-inner .noimage {
+        font: 50px Arial;
+        padding: 140px 0;
+        text-align: center;
+        text-transform: uppercase;
+        border: 1px dashed #AAA;
+    }
+</style>
+
+<script type="text/javascript">
+    $(function() {
+
+        // changing image folder
+        $(document).on('change', '#select-folder', function(e) {
+            var folder           = $('#select-folder').val();
+            var imgsContainer    = $('#images-list');
+            var noImageContainer = $('div.noimage');
+            if(folder == '') {
+                imgsContainer.empty().hide();
+                noImageContainer.show();
+                return false;
+            }
+
+            $.ajax({
+                type       : 'get',
+                url        : '<?php echo $this->websiteUrl; ?>api/webbuilder/io/',
+                dataType   : 'json',
+                beforeSend : showSpinner,
+                data     : {
+                    folder : folder
+                }
+            }).done(function(response) {
+                hideSpinner();
+                imgsContainer.empty();
+                var images = response;
+                if(images.length) {
+                    $.each(images, function(key, image) {
+                        imgsContainer.append($('<img />').attr({
+                            src   : '<?php echo $this->websiteUrl; ?>media/' + folder + '/product/' + image.basename,
+                            alt   : image.basename,
+                            width : 80,
+                            class : 'webbuilder-io-image'
+                        }));
+                    })
+                }
+                noImageContainer.hide();
+                $('#webbuilder-main-image').hide();
+                $('#webbuilder-form-image-data').hide();
+                imgsContainer.show();
+            });
+
+        });
+
+        // selecting an image
+        $(document).on('click', 'img.webbuilder-io-image', function(e) {
+            $('#preview-image').attr({
+                src: $(e.currentTarget).attr('src').replace(/\/product\//, '/small/'),
+                alt: $(e.currentTarget).attr('alt')
+            }).show();
+            $('#webbuilder-main-image').show();
+            $('#images-list').hide();
+            $('#webbuilder-form-image-data').show();
+        });
+
+        $(document).on('click', 'button#save-btn', function(e) {
+            var externalUrl = $('#external-url');
+
+            if($('input[data-linkedto="external"]').attr('checked') && externalUrl.val() == '') {
+                externalUrl.css({border:'1px solid #f00'});
+                showMessage('<?php echo $this->translate('External url field can not be empty!'); ?>', true);
+                return false;
+            }
+
+            var data = {
+                folder      : $('#select-folder').val(),
+                image       : $('#preview-image').attr('alt'),
+                container   : '<?php echo $this->containerName; ?>',
+                description : $('#image-description').val(),
+                pid         : '<?php echo $this->pageId; ?>',
+                linkedto    : $('input.linked-to:checked').data('linkedto')
+            };
+
+
+            if(externalUrl.val() != '') {
+                $.extend(data, {
+                    externalUrl : externalUrl.val()
+                })
+            }
+            $.ajax({
+                type     : 'post',
+                url      : '<?php echo $this->websiteUrl; ?>api/webbuilder/io/',
+                dataType : 'json',
+                data     : data,
+                beforeSend: showSpinner
+            }).done(function() {
+                top.location.reload();
+            });
+        });
+
+        $(document).on('change', 'input[data-linkedto="external"]', function(e) {
+            $('input[data-linkedto="image"], input[data-linkedto="nothing"]').attr('checked', false);
+            $('#external-url').toggle();
+        });
+
+        $(document).on('click', 'input[data-linkedto="image"], input[data-linkedto="nothing"]', function(e) {
+            $('.linked-to').attr('checked', false);
+            $(e.currentTarget).attr('checked', true);
+            $('#external-url').val('').hide();
+        });
+
+        $(document).on('click', '#delete', function(e) {
+            $.ajax({
+                type     : 'delete',
+                url      : '<?php echo $this->websiteUrl; ?>api/webbuilder/io/',
+                dataType : 'json',
+                data     : JSON.stringify({
+                    pid       : <?php echo $this->pageId; ?>,
+                    container : '<?php echo $this->containerName; ?>'
+                }),
+                beforeSend: showSpinner
+            }).done(function() {
+                top.location.reload();
+            });
+        });
+    });
+</script>

@@ -1,0 +1,25 @@
+<?php if(!$this->faPages || empty ($this->faPages)):?>
+    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_ADMINPANEL)): ?>
+        <span><?php echo $this->translate('There are no pages for this tag'); ?></span>
+    <?php else: ?>
+        <?php echo $this->translate('<!-- There are no pages for this tag -->'); ?>
+    <?php endif; ?>
+<?php else: ?>
+    <!-- probably for we have to change resource passing to the isAllowed. Not it is not obivious why we are checking RESOURCE_PLUGINS -->
+    <?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)): ?>
+        <a class="tpopup" title="<?php echo $this->translate('Edit order'); ?>" data-url="<?php echo $this->websiteUrl; ?>backend/backend_featured/order/id/<?php echo $this->faId; ?>" data-pheight="650" data-pwidth="480" href="javascript:;"><?php echo $this->translate('Edit order'); ?></a>
+    <?php endif; ?>
+    <ul id="<?php echo preg_replace('~[^A-z0-9]+~', '-', $this->faName); ?>" class="featureditem">
+        <?php foreach($this->faPages as $page): ?>
+            <li>
+                <?php if($this->useImage): ?>
+                <a class="page-teaser-image" href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>"><img alt="<?php echo strip_tags($page->getH1());?>" src="<?php echo $this->escape(Tools_Page_Tools::getPreview($page, (($this->useImage == 'img') ? false : true))); ?>" /></a>
+                <?php endif; ?>
+                <a href="<?php echo $this->escape($this->websiteUrl . $page->getUrl()); ?>" title="<?php echo  strip_tags($page->getH1()); ?>" class="page-title"><?php echo $page->getNavName(); ?></a>
+	            <?php if($this->faPageDescriptionLength): ?>
+                <span><?php echo Tools_Text_Tools::cutText($page->getTeaserText(), $this->faPageDescriptionLength); ?></span>
+                <?php endif;?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>

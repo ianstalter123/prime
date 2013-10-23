@@ -1,0 +1,289 @@
+#widcard_err {
+    padding: 5px 0;
+    font-family: monospace;
+    font-size: 14px;
+    text-align: center;
+    color: #f52d26;
+}
+
+#widcard_message {
+    border-bottom: 1px solid black;
+    padding: 5px 0;
+    font-family: monospace;
+    font-size: 14px;
+    text-align: center;
+    color: #093202;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+form#idCard{
+
+    overflow:hidden;
+}
+form#idCard table {
+  border-collapse: collapse;
+}
+form#idCard table, form#idCard table tr, form#idCard table td {
+  border: none;
+  padding: 0;
+  vertical-align: top;
+}
+form#idCard input[type="text"], form#idCard input[type="password"], form#idCard input[type="number"], form#idCard input[type="email"], form#idCard select, form#idCard textarea  {
+  font-size: 14px;
+  font-family: Arial;
+  padding: 6px;
+  margin-right: 10px;
+  border: 1px solid #aaa;
+   -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+form#idCard select {
+    padding:5px 6px;
+}
+form#idCard textarea {
+  height: 95px;
+  resize:none;
+}
+form#idCard #teaser_text {
+  float: left;
+}
+form#idCard #characters-limit {
+  margin-left: 10px;
+  width:40px;
+  padding: 1px;
+  font-size: 12px;
+  text-align: center;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
+  border-radius:5px;
+  border: 1px solid #ccc;
+  vertical-align: bottom;
+  display: inline-block;
+}
+form#idCard input[type="button"], form#idCard input[type="submit"] {
+  background:  #666;
+  padding: 7px 12px;
+  font-size: 18px;
+  font-weight:bold;
+  border: none;
+  color: #fff;
+  min-width:150px;
+  font-family: Arial;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
+  border-radius:5px;
+}
+form#idCard input[type="button"]:hover, form#idCard input[type="submit"]:hover {
+  background: #333;
+}
+form#idCard input[type="radio"], form#idCard input[type="checkbox"] {
+  margin: 0 5px 0 0px;
+  vertical-align:baseline;
+}
+
+form#idCard label {
+    font-size: 16px;
+    clear: both;
+    display: block;
+    line-height:1.3;
+    padding:12px 10px 4px 0;
+}
+form#idCard img.img-padding {
+  border: none;
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  max-width: 170px;
+  max-height: 150px;
+  vertical-align: top;
+  width: auto;
+  height: auto;
+}
+ul#sel_industry {
+  margin: 0;
+  clear: none;
+}
+ul#sel_industry li {
+  list-style: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 3px 5px 0 0;
+  padding: 3px 6px;
+  background: #eee;
+  color: #000;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+ul#sel_industry li .ui-icon {
+  float: right;
+  background-image: url("../../../../system/uithemes/seotoasterui/images/ui-icons_222222_256x240.png");
+  background-repeat: no-repeat;
+  background-position:-96px -128px;
+      height: 16px;
+    width: 16px;
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    text-indent: -99999px;
+}
+div#google-sees {
+  margin: 0;
+  border-left: 2px dashed #ababab;
+  line-height: 1.2;
+  padding-left: 10px;
+  font-size: 13px;
+  color: #222;
+  font-family: Arial, sans-serif;
+}
+div#google-sees * {
+  line-height: 1.2;
+}
+div#google-sees #wic_widgets {
+}
+div#google-sees #wic_widgets ul{
+	margin:10px 0;
+}
+div#google-sees #wic_widgets li{
+	list-style:none;
+	margin:0 0 2px;
+}
+div#google-sees #wic_widgets li span{
+}
+div#google-sees #wic_widgets li span.span_wic_logo {
+	display:block;
+	margin-top:5px;
+}
+img.inlineLogo {
+    max-height: 150px;
+    max-width: 170px;
+    vertical-align: top;
+}
+div#google-sees #organization-name-typed {
+  color: #1122CC;
+  font-size: 16px;
+  text-decoration: underline;
+}
+div#google-sees #website-url-typed {
+  color: #009933;
+}
+div#google-sees address {
+  font-style: normal;
+  color: #1122CC;
+}
+div#google-sees address div {
+  display: inline-block;
+}
+div#google-sees #organization-description-typed:after {
+ content: "...";
+}
+.w50 {
+  width:50px;
+}
+.w100 {
+  width:100px;
+}
+.w150 {
+  width:150px;
+}
+.w170 {
+  width:170px;
+}
+.w200 {
+  width:200px;
+}
+.w225 {
+  width:225px;
+}
+.w245 {
+  width: 245px;
+}
+.w300 {
+  width:300px;
+}
+.w320 {
+  width:320px;
+}
+.w350 {
+  width:350px;
+}
+.w365 {
+  width:365px;
+}
+.w450 {
+  width:450px;
+}
+.w475 {
+  width:475px;
+}
+.clear {
+  clear: both;
+}
+.fl {
+  float: left;
+}
+.cb {
+  clear: both;
+  overflow: hidden;
+}
+.w480 {
+  width: 480px;
+}
+.mr10 {
+  margin-right:10px;
+}
+.mt20px {
+ margin-top: 20px;
+}
+.mt30px {
+ margin-top: 30px;
+}
+#idCard hr, #google-sees hr {
+  border-bottom:2px dashed #ababab;
+  border-top: none;
+  clear: both;
+   margin: 0 0 10px 0;
+    padding-top: 10px;
+}
+
+div.hidden {
+    display:none;
+    overflow:hidden;
+    margin: 5px 0;
+}
+
+div.showIt {
+    display: block;
+}
+
+input[name='gaCode'] {
+    margin-left: 9px;
+    margin-top: 18px;
+}
+	
+div.webAnalyticsCodeRadio textarea {
+    margin-left: 10px;
+    margin-top: 13px;
+}
+
+div.useGABox {
+    float: right;
+    margin-right: 20px;
+}
+
+div#registration-frame {
+    display: none;
+}
+
+div#agreement {
+    display: none;
+}
+
+img.inlineLogo {
+    max-height: 150px;
+    max-width: 170px;
+    width: auto;
+    height: auto;
+}

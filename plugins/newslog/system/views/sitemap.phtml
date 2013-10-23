@@ -1,0 +1,27 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>';?>
+<?php if(is_array($this->news) && !empty($this->news)): ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <?php foreach($this->news as $news): ?>
+        <url>
+            <loc><?php echo $this->websiteUrl . $this->folder . $news->getMetaDataValue('url'); ?></loc>
+            <news:news>
+                <news:publication>
+                    <news:name><?php echo $news->getTitle(); ?></news:name>
+                    <news:language><?php echo $this->language; ?></news:language>
+                </news:publication>
+                <?php if($news->isPressRelease()): ?>
+                    <news:genres>PressRelease</news:genres>
+                <?php endif; ?>
+                <news:publication_date><?php echo date('c', strtotime($news->getCreatedAt())); ?></news:publication_date>
+                <news:title><?php echo $news->getTitle(); ?></news:title>
+                <?php
+                    $tags = $news->getTags();
+                    if(is_array($tags) && !empty($tags)):
+                ?>
+                    <news:keywords><?php echo (join(',', array_map(function($tag) { return $tag['name']; }, $tags))); ?></news:keywords>
+                <?php endif; ?>
+            </news:news>
+        </url>
+    <?php endforeach; ?>
+</urlset>
+<?php endif; ?>

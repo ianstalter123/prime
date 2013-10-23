@@ -1,0 +1,10 @@
+SET foreign_key_checks=0;
+DROP TABLE `plugin_newslog_configuration`;
+DROP TABLE `plugin_newslog_pingservice`;
+DROP TABLE `plugin_newslog_news`;
+DROP TABLE `plugin_newslog_tag`;
+DROP TABLE `plugin_newslog_news_has_tag`;
+DELETE FROM `page_option` WHERE `id` = 'option_newsindex';
+DELETE FROM `page_option` WHERE `id` = 'option_newspage';
+DELETE FROM `observers_queue` WHERE `observer` = 'Newslog_Tools_Watchdog_Page';
+SET foreign_key_checks=1;

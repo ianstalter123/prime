@@ -1,0 +1,80 @@
+<?php !$this->headTitle() && $this->headTitle($this->translate('Manage products')); ?>
+
+<?php
+    $this->headScript()->setAllowArbitraryAttributes(true)
+            ->appendFile($this->websiteUrl . 'system/js/external/chosen/chosen.jquery.min.js')
+			->appendFile($this->websiteUrl.'plugins/shopping/web/js/libs/require.min.js', null, array('data-main' => $this->websiteUrl.'plugins/shopping/web/js/modules/store-products/config'));
+
+	$this->headLink()
+			->appendStylesheet($this->websiteUrl . 'system/js/external/chosen/chosen.css')
+			->appendStylesheet($this->websiteUrl . 'system/css/reset-widgets.css');
+?>
+<div id="store-products" class="toaster-widget store-widget">
+	<table class="products-table widget">
+		<thead>
+			<tr class="ui-helper-hidden search-line">
+				<th colspan="2" class="gray-bg">
+					<label><?php echo $this->translate('Search');?>:</label>
+					<input type="text" class="pfilter" name="productsearch" placeholder="<?php echo $this->translate('by name, sku, mpn') ?>" >
+				</th>
+				<th colspan="7" class="gray-bg text-right">
+					<select class="pfilter w150" multiple name="filter-brand" data-placeholder="<?php echo $this->translate('Filter by brand..');?>">
+						<?php foreach($this->brands as $brand):?>
+						<option value="<?php echo $brand->getName();?>"><?php echo $brand->getName();?></option>
+						<?php endforeach;?>
+					</select>
+					<select class="pfilter w150" multiple name="filter-tag" data-placeholder="<?php echo $this->translate('Filter by tag..');?>">
+						<?php foreach($this->tags as $tag):?>
+						<option value="<?php echo $tag->getId();?>"><?php echo $tag->getName();?></option>
+						<?php endforeach;?>
+					</select>
+				</th>
+			</tr>
+			<tr>
+				<th><input type="checkbox" name="check-all" title="<?php echo $this->translate('Select all');?>"></th>
+				<th><?php echo $this->translate('Name');?></th>
+				<th><?php echo $this->translate('Brand');?></th>
+				<th><?php echo $this->translate('Sku');?></th>
+				<th><?php echo $this->translate('Mpn');?></th>
+                <th><?php echo $this->translate('Free shipping');?></th>
+				<th><?php echo $this->translate('Weight');?></th>
+				<th><?php echo $this->translate('Price');?></th>
+				<th><?php echo $this->translate('Sales count');?></th>
+			</tr>
+			<tr>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td colspan="8">
+					<img src="<?php echo $this->websiteUrl;?>system/images/loading.gif" alt="Loading..." />
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="6" class="text-left">
+					<?php echo $this->translate('with selected');?>:&nbsp;
+					<select name="product-mass-action" id="">
+						<option value="0"><?php echo $this->translate('select mass action');?></option>
+						<option value="brand"><?php echo $this->translate('assign brand');?></option>
+						<option value="template"><?php echo $this->translate('assign page template');?></option>
+						<option value="tax"><?php echo $this->translate('assign tax');?></option>
+                        <option value="freeshipping"><?php echo $this->translate('assign free shipping');?></option>
+						<option value="tag"><?php echo $this->translate('assign/remove tag');?></option>
+						<option value="delete"><?php echo $this->translate('delete (nonreversible)');?></option>
+						<option value="toggle"><?php echo $this->translate('enable/disable');?></option>
+					</select>
+				</td>
+				<td id="paginator" colspan="3" class="paginator">
+
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+<!-- chosen init fix -->
+<style type="text/css">
+    .chzn-container-multi {min-width: 300px}
+</style>

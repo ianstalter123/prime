@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{$page:title}</title>
+<meta name="keywords" content="{$meta:keywords}" />
+<meta name="description" content="{$meta:description}" />
+
+<link rel="icon" type="image/vnd.microsoft.icon" href="images/favicon.ico">
+<link href="{website:url}plugins/dashboard/web/themes/{theme:name}/grid-dashboard.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{website:url}plugins/dashboard/web/themes/{theme:name}/reset-dashboard.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{website:url}plugins/dashboard/web/themes/{theme:name}/fonts-icon.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{website:url}plugins/dashboard/web/themes/{theme:name}/style-dashboard.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{website:url}plugins/dashboard/web/themes/{theme:name}/nav-dashboard.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{website:url}plugins/dashboard/web/themes/{theme:name}/content.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{website:url}plugins/dashboard/web/themes/{theme:name}/MQueries-dashboard.css" rel="stylesheet" type="text/css" media="screen" />
+
+<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+
+<script src="{website:url}plugins/dashboard/web/themes/{theme:name}/scripts.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function(e) {
+		$('#dashboard-list .dashboard-link-index').html('Dashboard');
+		$('.numberProduct').attr('href','{$website:url}'+'dashboard/products/');
+		$('.numberProduct').removeClass('tpopup');
+		$('.quotesScreen').attr('href', '{$website:url}'+'dashboard/quotes/');
+		$('.quotesScreen').removeClass('tpopup');
+	});
+</script>
+
+
+<!--[if IE]>
+<script src="html5.js" type="text/javascript"></script>
+<![endif]-->
+
+</head>
+
+
+<body class="seotoaster-dash">
+
+<!-- HEADER -->
+    <header>
+		<div class="menu">
+			<nav class="main">
+				{dashboardmenu}
+					index				
+					quotes
+					sales
+					clients
+					orders
+					products
+				{/dashboardmenu}
+			</nav>
+      <div class="clear"></div>
+		</div>
+	</header>
+	
+<div id="main">
+<!-- LEFT -->
+	<div id="left">
+		<div class="leftBox">
+			<h3 class="blue-gradient white"><span class="icomoon-stats-up icon16"></span>Website stats</h3>
+			{$plugin:toasterstats:Sitestatistic}
+		</div>
+	</div>
+
+<!-- CONTENT -->
+	<div id="content">
+		<div class="grid_5 text-center">
+<!-- Sales TODAY -->
+			<div class="grid_6">
+				{$plugin:toasterstats:sales:today}
+				<h4 class="margin0px">Sales Today</h4>
+			</div>
+<!-- TODAY'S TOP SELLERS -->
+			<div class="grid_6">
+				{$plugin:toasterstats:quotes:today}
+				<h4 class="margin0px">Quotes Requests Today</h4>
+			</div>
+<!-- TODAY'S TOP SELLERS -->
+			<div class="grid_12">
+				{$plugin:toasterstats:money:today}
+				<h4 class="margin0px">Earned Today</h4>
+				{$plugin:toasterstats:orders:today}
+			</div>
+		</div>
+		<div class="grid_3">
+<!-- TODAY'S TOP SELLERS -->
+			<h4>
+				<span class="icomoon-user-3 icon18"></span>
+				<span class="icomoon-star-3 icon12" style="margin-left: -34px; top: 5px;text-shadow: 0 -1px 0 #FFFFFF;"></span>
+				<span class="icomoon-star-3 icon14" style="margin-left: -14px; top: 7px;text-shadow: 0 -1px 0 #FFFFFF;"></span>
+				<span class="icomoon-star-3 icon12" style="margin-left: -14px; top: 5px;text-shadow: 0 -1px 0 #FFFFFF;"></span>
+				Today's top sellers
+			</h4>
+			{$plugin:toasterstats:products:topsellers:today:10}
+		</div>
+		<div class="grid_4">
+<!-- LATEST CUSTOMERS -->
+			<h4><span class="icomoon-user-2"></span>Latest customers</h4>
+			{$plugin:toasterstats:customer:new:10}
+		</div>
+		<div class="grid_9">
+<!-- SALES AND QUOTES AMOUNT -->
+			<div class="pattern">
+				<h2><span class="icomoon-bars"></span></span>Sales and quotes count</h2>
+				{$plugin:toasterstats:graph:columnchart:count:quotes|sales:days:7:400:400}
+			</div>
+<!-- SALES AND QUOTES AMOUNT -->
+			<div class="pattern">
+				<h2><span class="icomoon-bars"></span>Sales and quotes amount</h2>				
+				{$plugin:toasterstats:graph:columnchart:amount:sales|quotes:days:7:400:400}
+			</div>
+		</div>
+		<div class="grid_3">
+<!-- DATE RANGE -->
+			<h2><span class="icomoon-calendar icon16"></span>Date range</h2>
+			{$plugin:toasterstats:control}
+<!-- PAST DAYS -->			
+			<h2><span class="icomoon-clock icon16"></span>{$plugin:toasterstats:label:days:7}</h2>
+			{$plugin:toasterstats:money:days:7}
+			{$plugin:toasterstats:orders:days:7}
+<!-- BESTSELLERS -->
+			<h2><span class="icomoon-thumbs-up icon16"></span>Bestsellers</h2>
+			{$plugin:toasterstats:products:topsellers:days:7:10}
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

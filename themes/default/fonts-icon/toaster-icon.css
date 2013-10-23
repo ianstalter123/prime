@@ -1,0 +1,60 @@
+@font-face {
+	font-family: 'toaster-icon';
+	src:url('fonts/toaster-icon.eot');
+	src:url('fonts/toaster-icon.eot?#iefix') format('embedded-opentype'), url('fonts/toaster-icon.svg#toaster-icon') format('svg'), url('fonts/toaster-icon.woff') format('woff'), url('fonts/toaster-icon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+.icon12 {font-size:12px !important;width:12px !important;line-height:12px;}
+.icon14 {font-size:14px !important;width:14px !important;line-height:14px;}
+.icon16 {font-size:16px !important;width:16px !important;line-height:16px;}
+.icon18 {font-size:18px !important;width:18px !important;line-height:18px;}
+.icon24 {font-size:24px !important;width:24px !important;line-height:24px;}
+.icon32 {font-size:32px !important;width:32px !important;line-height:32px;}
+.icon48 {font-size:48px !important;width:48px !important;line-height:48px;}
+.icon64 {font-size:64px !important;width:64px !important;line-height:64px;}
+.fs12 {font-size:12px;}
+.fs14 {font-size:14px;}
+.fs16 {font-size:16px;}
+.fs18 {font-size:18px;}
+.fs24 {font-size:24px;}
+.fs32 {font-size:32px;}
+.fs48 {font-size:48px;}
+.fs64 {font-size:64px;}
+/* Use the following CSS code if you want to have a class per icon */
+[class^="icon-"]:before, [class*=" icon-"]:before, .icon-toaster, .main_menu .cat-1 a:before {
+	font-family: 'toaster-icon';
+	font-style: normal;
+	speak: none;
+	font-weight: normal !important;
+	-webkit-font-smoothing: antialiased;
+	display:inline;
+	line-height:1;
+}
+.icon-home:before, .main_menu .cat-1 a:before {
+	content: "\e000";
+}
+.icon-location:before {
+	content: "\e001";
+}
+.icon-mail:before {
+	content: "\e002";
+}
+.icon-facebook:before {
+	content: "\e003";
+}
+.icon-twitter:before {
+	content: "\e004";
+}
+.icon-google-plus:before {
+	content: "\e005";
+}
+.icon-grid:before {
+	content: "\e006";
+}
+.icon-list:before {
+	content: "\e007";
+}
+.main_menu .cat-1 a:before {
+	font-size: 17px;
+}

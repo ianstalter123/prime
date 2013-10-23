@@ -1,0 +1,22 @@
+<?php if(is_array($this->tags)): ?>
+    <?php foreach($this->tags as $key => $tag): ?>
+        <a href="javascript:;" data-tid="<?php echo $tag['id']; ?>" data-tname="<?php echo $tag['name']; ?>" class="newslog-tag-filter"><?php echo $tag['name']; ?></a><?php if($key != $this->tagsLength-1): ?>,<?php endif; ?>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+<?php $this->jQuery()->onLoadCaptureStart(); ?>
+    $(function() {
+        $(document).on('click', '.newslog-tag-filter', function(e) {
+            var tag = $(e.currentTarget).data('tname');
+            $.ajax({
+                type       : 'get',
+                url        : '<?php echo $this->websiteUrl; ?>api/newslog/news/tags/' + tag,
+                dataType   : 'json',
+                beforeSend : showSpinner
+            }).done(function() {
+                hideSpinner();
+                //$('.news-list-hidden-' + newsId).nextUntil('.news-list-hidden').andSelf().replaceWith('')
+            });
+        })
+    })
+<?php $this->jQuery()->onLoadCaptureEnd(); ?>

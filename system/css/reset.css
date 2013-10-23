@@ -1,0 +1,153 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+#seotoaster-cpanel * {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+ html,  body,  div,  span,  applet,  object,  iframe,  h1,  h2,  h3,  h4,  h5,  h6,  p,  blockquote,  pre,  a,  abbr,  acronym,  address,  big,  cite,  code,  del,  dfn,  em,  font,  img,  ins,  kbd,  q,  s,  samp,  small,  strike,  strong,  sub,  sup,  tt,  var,  b,  u,  i,  center,  dl,  dt,  dd,  ol,  ul,  li,  fieldset,  form,  label,  legend,  table,  caption,  tbody,  tfoot,  thead,  tr,  th,  td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+ body { line-height: 1; }
+ ol,  ul { list-style: none; }
+ blockquote,  q { quotes: none; }
+ blockquote:before,  blockquote:after,  q:before,  q:after {
+	content: '';
+	content: none;
+}
+/* remember to define focus styles! */
+ :focus { outline: 0; }
+/* remember to highlight inserts somehow! */
+ ins { text-decoration: none; }
+ del { text-decoration: line-through; }
+/* tables still need 'cellspacing="0"' in the markup */
+ table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*====== SOME SIZES ======== */
+.w100 { width:100px; }
+.w150 { width:150px; }
+.w200 { width:200px; }
+.w250 { width:250px; }
+.w300 { width:300px; }
+.w350 { width:350px; }
+.w400 { width:400px; }
+.w450 { width:450px; }
+.w480 { width:480px; }
+.w520 { width:520px; }
+.w900 { width:900px; }
+.w800 { width:800px; }
+.w600 { width:600px; }
+.w960 { width:960px; }
+.h50 { height:50px; }
+.h55 { height:55px; }
+.h75 { height:75px; }
+.h80 { height:80px; }
+.h100 { height:100px; }
+.h110 { height:110px; }
+.h130 { height:130px; }
+.h145 { height:145px; }
+.h150 { height:150px; }
+.h160 { height:160px; }
+.h170 { height:170px; }
+.h180 { height:180px; }
+.h200 { height:200px; }
+.h210 { height:210px; }
+.h220 { height:220px; }
+.h230 { height:230px; }
+.h250 { height:250px; }
+.h260 { height:260px; }
+.h265 { height:265px; }
+.h270 { height:270px; }
+.h280 { height:280px; }
+.h295 { height:295px; }
+.h300 { height:300px; }
+.h310 { height:310px; }
+.h320 { height:320px; }
+.h330 { height:330px; }
+.h330 { height:340px; }
+.h350 { height:350px; }
+.h360 { height:360px; }
+.h370 { height:370px; }
+.h375 { height:375px; }
+.h380 { height:380px; }
+.h390 { height:390px; }
+.h400 { height:400px; }
+.h410 { height:410px; }
+.h415 { height:415px; }
+.h420 { height:420px; }
+.h425 { height:425px; }
+.h430 { height:430px; }
+.h435 { height:435px; }
+.h440 { height:440px; }
+.h450 { height:450px; }
+.h455 { height:455px; }
+.h465 { height:465px; }
+.h470 { height:470px; }
+.h480 { height:480px; }
+.h490 { height:490px; }
+.h500 { height:500px; }
+.h520 { height:520px; }
+.h530 { height:530px; }
+.h535 { height:535px; }
+.h540 { height:540px; }
+.h550 { height:550px; }
+.h555 { height:555px; }
+.h570 { height:570px; }
+.h580 { height:580px; }
+.h590 { height:590px; }
+.h595 { height:595px; }
+.h600 { height:600px; }
+.h610 { height:610px; }
+.h620 { height:620px; }
+.h630 { height:630px; }
+.h640 { height:640px; }
+.h645 { height:645px; }
+.h650 { height:650px; }
+.h665 { height:665px; }
+
+
+.h80p {
+	height: 80%;
+}
+
+.rounded3px,.rounded3px { -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; }
+.rounded8px,.rounded8px { -moz-border-radius:8px; -webkit-border-radius:8px;border-radius:8px; }
+.totalcentered, .totalcentered {position:absolute; top:50%; left:50%;}
+.textcentered, .textcentered{text-align:center;}
+
+ .padding5px { padding:5px; }
+ .padding8px { padding:8px; }
+ .padding10px { padding:10px; }
+ .mt5px { margin-top:5px; }
+ .mt8px { margin-top:8px; }
+ .mt10px { margin-top:10px; }
+ .mt15px { margin-top:15px; }
+ .mt20px { margin-top:20px; }
+ .mt30px { margin-top:30px; }
+ .mt-10px { margin-top:-10px; }
+ .mb0px { margin-bottom:0px; }
+ .mb5px { margin-bottom:5px; }
+ .mb8px { margin-bottom:8px; }
+ .mb10px { margin-bottom:10px; }
+ .mb15px { margin-bottom:15px; }
+ .mb20px { margin-bottom:20px; }
+ .mb30px { margin-bottom:30px; }
+ .mleft0px { margin-left:0px; }
+ .mleft10px { margin-left:10px; }
+ .mleft20px { margin-left:20px; }/*Margin left*/
+ .bottomdashed {border-bottom:2px dashed #fff;}

@@ -1,0 +1,20 @@
+<?php return array('Fbcomments Config' => ' Настройка Fbcomments', 'Close' => 'Закрыть', 
+                   'Fb Admin Key' => 'Fb Ключ администратора',
+                   'Language' => 'Язык', 
+                   'English' => 'Английский',
+                   'French' => 'Французкий',
+                   'German' => 'Немецкий',
+                   'Spanish' => 'Испанский',
+                   'Japanese' => 'Японский',
+                   'Polish' => 'Польский',
+                   'Brazil' => 'Бразильский',
+                   'Romanian' => 'Венгерский',
+                   'Russian' => 'Русский',
+                   'Slovak' => 'Словацкий',
+                   'Swedish' => 'Шведский',
+                   'Italian' => 'Итальянский',
+                   'Save' => 'Сохранить'
+    
+                   
+    ); 
+        ?>

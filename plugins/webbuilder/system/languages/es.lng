@@ -1,0 +1,11 @@
+<?php return array('Settings' => 'Configuración', 'Close' => 'Cerrar',
+                   'Auto redirect' => 'Auto redirigir', 
+                   'Choose a contact page' => 'Elija una página de contacto',
+                   'Save' => 'Guardar',
+                   'Website' => 'Sitio web',
+                   'All zips added' => 'Todas las cremalleras añadido',
+                   'Current zip(s) already exist:' => 'Zip en curso (s) que ya existen:',
+                   'Search' => 'Búsqueda'
+                   
+    ); 
+        ?>

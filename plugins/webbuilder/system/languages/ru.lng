@@ -1,0 +1,11 @@
+<?php return array('Settings' => 'Настройки', 'Close' => 'Закрыть',
+                   'Auto redirect' => 'Авто перенаправление', 
+                   'Choose a contact page' => 'Выберите страницу контактов',
+                   'Save' => 'Сохранить',
+                   'Website' => 'Вебсайт',
+                   'All zips added' => 'Все индексы добвлены',
+                   'Current zip(s) already exist:' => 'Текущий зип уже существует',
+                   'Search' => 'Поиск'
+                   
+    ); 
+        ?>

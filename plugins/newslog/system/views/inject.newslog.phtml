@@ -1,0 +1,27 @@
+<?php if($this->newsPage): ?>
+    <script type='text/javascript'>
+        $(function() {
+            $('ul#cpanelul li.ui-accordion-li-fix:not(.plugin-news):first').replaceWith($('ul#cpanelul li.plugin-news'));
+
+            $('<span>&nbsp;&raquo;&nbsp;</span><a href="' + $('#website_url').val() + '<?php echo $this->newsFolder; ?>"><?php echo str_replace('/', '', $this->newsFolder); ?></span>').insertAfter('.breadcrumbs > a:first');
+
+
+            //insert "edit this news post" into newslog plugin menu
+            $('ul#cpanelul li.plugin-news').find('ul').prepend('<?php echo str_replace("\n", '', $this->render('extmenu.newslog.phtml'));?>');
+
+            $(document).on('click', '#newslog-delete-post', function(e) {
+                var nid = $(e.currentTarget).data('nid');
+                showConfirm('You are about to remove a news item! Are you sure?', function() {
+                    $.ajax({
+                        url: '<?php echo $this->websiteUrl;?>api/newslog/news/id/' + nid,
+                        type: 'delete',
+                        beforeSend: showSpinner
+                    }).done(function(response) {
+                        window.location.href = '<?php echo $this->websiteUrl . $this->newsFolder; ?>';
+                    })
+                })
+            })
+        });
+    </script>
+<?php endif; ?>
+<?php if($this->isPR) { $this->headMeta()->appendName('Googlebot-News', 'noindex, nofollow'); } ?>

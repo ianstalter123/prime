@@ -1,0 +1,19 @@
+<?php
+    $this->placeholder('headerContent')->set('Select 1 or more products&nbsp|&nbsp;Search: ' . $this->formText('search', '', array('placeholder' => 'search products')));
+    $this->placeholder('extraClasses')->set('refreshOnClose');
+    $this->placeholder('containerId')->set('products-container');
+?>
+<div class="mt5px"></div>
+<div id="products" class="ui-widget-content ui-helper-clearfix h450 grid_12" style="overflow-x: hidden; overflow-y: auto;"></div>
+<div class="grid_12 mt5px">
+    <button class="add-products" id="save-btn"><?php echo $this->translate('Add products and close'); ?></button>
+</div>
+<?php
+        $this->headScript()->setAllowArbitraryAttributes(true)
+            ->appendFile($this->websiteUrl . 'plugins/shopping/web/js/libs/require.min.js', null, array('data-main' => $this->websiteUrl . 'plugins/quote/web/js/product.js'))
+            ->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/lazyload/jquery.lazyload.min.js');
+        echo $this->headScript();
+        echo $this->headLink()->appendStylesheet($this->websiteUrl . 'plugins/quote/web/css/add.products.quote.css');
+?>
+
+

@@ -1,0 +1,17 @@
+<?php
+$this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/reset.css');
+$this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/grid.css');
+$this->headLink()->appendStylesheet($this->websiteUrl . 'system/css/seotoaster.css');
+echo $this->headLink();
+    ?>  
+<div class="container_12 seotoaster">
+
+<div class="header" style="overflow:hidden; ">
+		<div class="closebutton">
+			<span class="close" onclick="window.parent.jQuery('.__tpopup').dialog('close');"></span>
+		</div>
+		SEO Samba® <?php echo $this->translate('web site and products terms and conditions of use'); ?>
+	</div>
+	<div class="h320 rounded3px padding10px" style="background: #FFFFFF;margin: 12px;line-height: 1.3; overflow-y:scroll;">
+		<?php			echo mb_convert_encoding($this->terms, 'UTF-8');?>
+</div>

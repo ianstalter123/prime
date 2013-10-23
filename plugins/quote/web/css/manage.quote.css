@@ -1,0 +1,38 @@
+table#quotes {
+	background: #fff;
+	padding: 5px 0;
+	margin-bottom: 8px;
+}
+
+table#quotes tbody {
+
+}
+
+table#quotes tr {
+	padding: 5px;
+}
+
+table#quotes tr.bordered {
+	border-bottom: 1px dashed #eee;
+}
+
+table#quotes td {
+	padding-top: 5px;
+}
+
+table#quotes tr:nth-child(even) {
+	background: #eee;
+}
+
+table#quotes td.centered {
+	text-align: center;
+}
+
+table#quotes td.nopad {
+	padding: 0;
+}
+
+table#quotes td select {
+	font-size: 12px;
+	padding: 2px;
+}

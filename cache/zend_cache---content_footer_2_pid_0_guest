@@ -1,0 +1,3 @@
+s:272:"<strong>Address:</strong> {$plugin:widcard:BizAddress1}, {$plugin:widcard:BizAddress2}
+					<strong>Phone:</strong> {$plugin:widcard:BizTelephone}
+					<strong>E-mail:</strong> <a title="E-mail" href="mailto:{$plugin:widcard:BizEmail:notag}">{$plugin:widcard:BizEmail}</a>";

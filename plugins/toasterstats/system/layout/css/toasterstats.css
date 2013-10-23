@@ -1,0 +1,20 @@
+table.toasterstats {
+    border: 1px solid black; 
+    padding: 8px;
+    width: 100%;
+    font-size: 14px;
+    text-align: left;
+}
+
+table.toasterstats tr td.statsvalue {
+    padding-left: 10px;
+}
+
+table.toasterstats tr td.statsresult {
+    padding-left: 10px;
+}
+table.toasterstats tr td.graybackground {
+    background-color: darkgray;
+    color: #FFFFFF;
+    font-size: 16px;
+}

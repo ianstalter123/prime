@@ -1,0 +1,50 @@
+
+<div id="invoiceContainer">
+   <div class="padding5px clearfix">
+     <form class="pluginform" name="invoice" method="" action="">
+        <?php if(!empty($this->invoiceTemplates)):?>
+            <div class="grid_12 mt10px mb10px"><?php echo $this->translator->translate('Choose invoice template');?></div>
+            <select name="invoiceTemplate" class="invoiceTemplate">
+            <option value="select">select</option>
+            <?php foreach($this->invoiceTemplates as $template):?>
+                <option value="<?php echo $template->getName()?>"><?php echo $template->getName()?></option>
+            <?php endforeach;?>
+            </select>
+            <input type="submit" class="saveInvoiceConfig" name="saveInvoiceConfig" value="<?php echo $this->translator->translate('Save');?>"/>
+        <?php else:?>
+            <div class="grid_12 mt10px mb10px"><?php echo $this->translator->translate('Please create at least one Invoice template');?></div>
+        <?php endif;?>
+  	</form>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+   
+   <?php if(isset($this->settings['invoiceTemplate'])):?>
+        $(".invoiceTemplate option[value='<?php echo $this->settings['invoiceTemplate'] ?>']").attr('selected','selected');
+   <?php endif;?>
+       
+   $(document).on("click", ".saveInvoiceConfig", function(e){
+      e.preventDefault();
+      if($('.invoiceTemplate option:selected').val() == 'select'){
+          smoke.alert('Please select Invoice template', {'classname':'errors'});
+          return false;
+      }
+      $.ajax({
+            type: "POST",
+            url: '<?php echo $this->websiteUrl;?>plugin/invoicetopdf/run/config/',
+            dataType: "json",
+            data: {
+                invoiceTemplate:$('.invoiceTemplate option:selected').val() 
+                
+            },
+            success: function(responce){
+                smoke.signal('<?php echo $this->translator->translate('Saved');?>');
+            }
+            
+       });
+            return false;
+    });
+});
+</script>

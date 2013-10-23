@@ -1,0 +1,360 @@
+<?php echo $this->headLink()->appendStylesheet($this->websiteUrl . 'system/js/external/chosen/chosen.css'); ?>
+<div class="container_12">
+	<!-- Product listing selector -->
+    <div class="grid_12">
+        <?php if(!isset($this->productTemplates) || empty($this->productTemplates)): ?>
+            <h3><?php echo $this->translate('Warning! You don\'t have any product listing template. You should create one.'); ?></h3>
+        <?php else: ?>
+            <div id="template-selector" class="grid_6 mt10px mb5px">
+				<select id="templates" class="templates" data-placeholder="Select a product listing template...">
+                    <option value="0"><?php echo $this->translate('Select a product listing template'); ?></option>
+                    <?php foreach($this->productTemplates as $template): ?>
+                        <option value="<?php echo $template->getName(); ?>"><?php echo $template->getName(); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div class="grid_6">
+                <?php echo $this->formText('search', '', array('placeholder' => 'search by name, sku or tags')); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+
+
+	<!-- Filtering -->
+	<div id="filters" class="grid_4">
+		<select style="width: 205px;float:left;" name="product-tags" id="tags" multiple class="pselect chzn-select ui-corner-all" data-placeholder="<?php echo $this->translate('Filter by tags');?>..."></select>
+	</div>
+	<div class="grid_4">
+		<select style="width: 205px;float:left;" name="product-brands" id="brands" multiple class="pselect ui-corner-all" data-placeholder="<?php echo $this->translate('Filter by brands');?>..."></select>
+	</div>
+
+	<!-- Ordering -->
+	<div id="order" class="grid_4">
+		<select style="width: 205px;float:left;" name="ordering" id="ordering" multiple class="pselect ui-corner-all" data-placeholder="<?php echo $this->translate('Sort by');?>...">
+			<option value="name"><?php echo $this->translate('Name'); ?></option>
+			<option value="price"><?php echo $this->translate('Price'); ?></option>
+			<option value="brand"><?php echo $this->translate('Brand'); ?></option>
+		</select>
+	</div>
+	<div style="clear: both;"></div>
+	<div id="product-products" class="mt10px"></div>
+	<a href="javascript:;" id="btn-create" class="grid_12 mt5px"><?php echo $this->translate('Create an automated product listing'); ?></a>
+</div>
+
+<style type="text/css">
+	#prod-perpage {
+		width: 120px;
+	}
+	.chzn-container-multi {
+		margin: 5px 3px;
+	}
+	#product-products {
+		overflow-y: auto;
+		height: 310px;
+	}
+	div.productlisting {
+        width: 15%;
+        height: 140px;
+        margin: 4px 0.6%;
+        /*padding: 2px;*/
+        float: left;
+        border: 1px solid #fff;
+        box-shadow: 0 0 4px #BBBBBB;
+        -moz-box-shadow: 0 0 4px #BBBBBB;
+        -webkit-box-shadow: 0 0 4px #BBBBBB;
+        border-radius: 3px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+        cursor: pointer;
+        background: #fff;
+        font-size: 9pt;
+    }
+	div.productlisting img {
+		max-height: 80px;
+		display: block;
+		margin: 0px auto;
+	}
+    p.brand {
+        padding: 2px 0px;
+        background-color: lavender;
+        margin-bottom: 1px;
+    }
+    p.sku{
+        text-align: right;
+        font-size: 8pt;
+        border-top: 1px dotted #ccc;
+        padding: 4px 0px;
+        margin-top: 4px;
+        color: #7C7C7C;
+        position: absolute;
+        bottom: 0px;
+        right: 2px;
+        width: 100%;
+        height: 8pt;
+        overflow: hidden;
+        background-color:#fff;
+    }
+    .ui-autocomplete {
+        max-height: 180px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 5px;
+        background: url('<?php echo $this->websiteUrl;?>/system/images/bg-strip.png');
+        box-shadow: rgb(153, 153, 153) 0px 4px 10px;
+    }
+    #search {
+        margin-top: 12px;
+        padding: 6px 5px;
+
+    }
+    .chzn-container-multi {min-width: 200px}
+</style>
+
+<?php
+    echo $this->headScript()->appendFile($this->websiteUrl . 'system/js/external/chosen/chosen.jquery.min.js')
+        ->headScript()->appendFile($this->websiteUrl . 'system/js/external/jquery/plugins/lazyload/jquery.lazyload.min.js')
+        ->headScript()->appendFile($this->websiteUrl . 'system/js/external/waypoints/waypoints.min.js');
+?>
+
+<script type="text/javascript" charset="utf-8">
+    $(function() {
+	    // uiTab object
+	    var uiTab = {
+		    step: parseInt('<?php echo Shopping::PRODUCT_DEFAULT_LIMIT; ?>'),
+		    offset: 0,
+            searchTerm: null,
+		    init: function() {
+
+                //init chosen plugin
+                $('.pselect').chosen();
+
+			    //init jqueryui button
+			    $('#btn-create').button();
+			    $('.ui-tabs-nav-item a').click(this.launch);
+			    $(document).on('click', '.currproduct', this.insertSingleProduct)
+			        .on('click', '#btn-create', this.insertList);
+			    $('.pselect').chosen().change(function() {
+					uiTab.offset    = 0;
+
+                    //cleaning the search params before filtering
+                    self.searchTerm = null;
+                    $('#search').val('');
+
+                    uiTab.loadStoreData('products', true)
+			    });
+
+
+                var self = this;
+                $.getJSON($('#website_url').val() + 'plugin/shopping/run/searchindex', function(response){
+                    $('#search').autocomplete({
+                        minLength: 2,
+                        source: response,
+                        select: function(event, ui){
+                            self.searchTerm = null;
+                            self.loadStoreData('products', {
+                                key: ui.item.value
+                            }, true);
+                        }
+                    });
+                });
+
+                $(document).on('keypress', '#search', function(e) {
+                    if(e.keyCode == 13) {
+                        $('.ui-autocomplete').hide();
+                        self.searchTerm = null;
+                        self.loadStoreData('products', {key: $(e.currentTarget).val()}, true);
+                    }
+                })
+
+    	    },
+		    launch: function() {
+			    $('#product-products').html('');
+			    $('ul.chzn-choices').removeClass('ui-corner-top').addClass('ui-corner-all');
+			    var children = $(this).find('span#products');
+			    if(!children.length) {
+                    $('.above-editor-links').switchClass('grid_5', 'grid_8');
+                    $('#tabs').switchClass('grid_7', 'grid_4');
+                    $('tr.mceFirst').show();
+                } else {
+				    $('.above-editor-links').switchClass('grid_8', 'grid_3');
+                    $('#tabs').switchClass('grid_4', 'grid_9');
+                    //hiding mce controls
+                    $('tr.mceFirst').hide();
+                    $('#tabs-frag-3').addClass('h450');
+                    $('table#content_tbl').width('230px');
+                    $('table#content_tbl').height('475px');
+                    //loading store data
+				    uiTab.loadStoreData('tags');
+				    uiTab.loadStoreData('brands');
+				    uiTab.loadStoreData('products')
+			    }
+		    },
+		    insertSingleProduct: function() {
+			    var template = $('#templates').val();
+                if(template == 0) {
+                    showMessage('Product template is missing. Please select a product listing template', true);
+                    return false;
+                }
+                $('textarea.tinymce').tinymce().execCommand('mceInsertContent',false, '{$product:' + $(this).attr('id') + ((template) ? ':' + template : '') + '}');
+		    },
+		    insertList: function() {
+			    var shortCode = '{$productlist:';
+                if($('#templates').val() == 0) {
+                    showMessage('Product template is missing. Please select a product listing template', true);
+                    return false;
+                }
+                //listing template
+                shortCode += $('#templates').val();
+
+                if(($('#search').val() != '')) {
+                    var ids             = [];
+                    var visibleProducts = $('a.currproduct');
+                    if(visibleProducts.length < uiTab.step) {
+                        $.each(visibleProducts, function(key, productContainer) {
+                            ids.push($(productContainer).attr('id'));
+                        });
+                        shortCode += ':' + ids.join(',') + '}';
+                        $('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, shortCode);
+                    } else {
+                        showSpinner();
+                        $.when($.getJSON($('#website_url').val() + 'api/store/products/offset/0/limit/1000000/', {key: $('#search').val()}, function(response) {
+                            //console.log(response);
+                            hideSpinner();
+                            if(!response.length) {
+                                showMessage('There is nothing to put in the list. Search different criteria and try again', true);
+                                return false;
+                            }
+                            $.each(response, function(key, product) {
+                                ids.push(product.id);
+                            });
+                        })).done(function() {
+                            shortCode += ':' + ids.join(',') + '}';
+                            $('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, shortCode);
+                        });
+                    }
+                } else {
+                    //tags filter
+                    shortCode += (($('#tags').val() != null) ? ':tags-' + $('#tags').val() : '');
+                    //brands filter
+                    shortCode += (($('#brands').val() != null) ? ':brands-' + $('#brands').val() : '');
+                    //ordering
+                    shortCode += (($('#ordering').val() != null) ? ':order-' + $('#ordering').val() : '') + '}';
+                    $('textarea.tinymce').tinymce().execCommand('mceInsertContent', false, shortCode);
+                }
+
+		    },
+		    loadStoreData : function(dataType, filter, force) {
+                showSpinner();
+                //if data type already loaded - return
+                if($('#' + dataType + ' option').length) {
+                    return false;
+                }
+
+                var utab = this;
+                if((!force || typeof(force) == 'undefined') && !utab.searchTerm) {
+		            params = uiTab.getParams(filter);
+                } else {
+                    if(!utab.searchTerm) {
+                        utab.searchTerm = filter;
+                        params          = filter;
+                    } else {
+                        params = utab.searchTerm;
+                    }
+                    params.offset = utab.offset;
+                    params.limit  = utab.limit;
+                }
+
+                $.getJSON('<?php echo $this->websiteUrl; ?>api/store/' + dataType,
+				    params,
+				function(response) {
+                    if(response.length) {
+                        switch(dataType) {
+                            case 'tags':
+                            case 'brands':
+	                        	uiTab.parseTagsAndBrands(response, dataType);
+                            break;
+                            case 'products':
+	                            uiTab.parseProducts(response, filter);
+								if(response.length >= uiTab.step) {
+		                            $('.productlisting:last-child').waypoint(function() {
+										$(this).waypoint('remove');
+			                            uiTab.offset += 30;
+										uiTab.loadStoreData('products', filter)
+									},
+									{
+										context: '#product-products',
+										offset : '95%'
+									});
+								}
+                            break;
+                        }
+                        $('.pselect').trigger("liszt:updated");
+                    } else if(typeof filter != 'undefined' && filter) {
+	                    $('#product-products').empty();
+                    }
+					hideSpinner();
+                });
+
+            },
+		    getParams: function(filter) {
+			    var data = {};
+			    if(typeof this.offset != 'undefined') {
+				    data.offset = this.offset;
+			    }
+			    if(typeof this.limit != 'undefined') {
+                    data.limit = this.limit;
+                }
+                if(typeof filter != 'undefined' && filter) {
+	                if ($('#tags').val()) {
+                        data.ftag = $('#tags').val();
+	                }
+	                if ($('#brands').val()) {
+                        data.fbrand = $('#brands').val();
+	                }
+                }
+			    return data;
+		    },
+		    parseTagsAndBrands: function(tagsBrandResponse, dataType) {
+               $.each(tagsBrandResponse, function() {
+                   $('#' + dataType).append(
+                       $('<option></option>').val((dataType == 'tags') ? this.id : this.name).text(this.name)
+                   );
+               });
+		    },
+		    parseProducts: function(productsResponse, filter) {
+			    var productsContainer = $('#product-products');
+//			    if((typeof filter != 'undefined' && filter) || !productsResponse.length) {
+//				    productsContainer.empty();
+//			    }
+			    //media servers
+			    var mediaServers = <?php echo Tools_Content_Tools::getMediaServers(true); ?>;
+			    var srcPart      = '<?php echo $this->websiteUrl;?>';
+			    var productItemsHtml = '';
+			    $.each(productsResponse, function() {
+				    var srcPart = '<?php echo $this->websiteUrl;?>';
+			        <?php if($this->mediaServersAllowed): ?>
+	                    srcPart = srcPart.replace('<?php echo $this->websiteData['url']; ?>', mediaServers[Math.floor(Math.random()*mediaServers.length)]  + '.<?php echo $this->domain; ?>');
+	                <?php endif; ?>
+                    productItemsHtml += '<div class="productlisting"><a href="javascript:;" class="currproduct" id="' + this.id + '"  title="' + this.name + '">' +
+                                '<p class="brand">' + this.brand + '</p>' +
+                                '<img class="lazy" src="" data-original="' + srcPart + 'media/' + this.photo.replace('/', '/product/') + '" alt="' + this.name + '"><p>' + this.name + '</p></a><p class="sku">' + this.sku + '</p></div>';
+                });
+			    if (this.offset === 0) {
+				    productsContainer.html(productItemsHtml).scrollTop(0);
+                } else {
+                    productsContainer.append(productItemsHtml);
+			    }
+                $('img.lazy').lazyload({
+                    container: productsContainer,
+                    effect: 'fadeIn'
+                });
+                hideSpinner();
+            }
+	    };
+	    // end uiTab
+	    uiTab.init();
+    });
+</script>

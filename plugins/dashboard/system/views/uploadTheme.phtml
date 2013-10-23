@@ -1,0 +1,71 @@
+<?php
+    $this->headScript()->appendFile($this->websiteUrl."system/js/external/plupload/plupload.js");
+    $this->headScript()->appendFile($this->websiteUrl."system/js/external/plupload/plupload.html5.js");
+    $this->headScript()->appendFile($this->websiteUrl."system/js/external/plupload/plupload.html4.js");
+    $this->headScript()->appendFile($this->websiteUrl."system/js/external/plupload/plupload.flash.js");
+    echo $this->headScript();
+?>
+<div id="uploadContainer">
+    <div class="padding5px clearfix">
+        <div class="grid_12 mt10px mb10px"><?php echo $this->translate('Current theme');?>: <b><?php echo ucfirst($this->currentDashboardTheme);?></b></div>
+	    <div class="grid_3 textcentered">
+		    <button id="pickfiles"><?php echo $this->translate('Upload theme');?></button>
+		    <p style="font-size: 80%; text-align: center;">(<?php echo $this->translate('zip files only');?>)</p>
+	    </div>
+        <div id="themes-uploader-filelist" class="grid_9"></div>
+    </div>
+	<div class="mt10px">
+		<p class="textcentered"><?php echo  $this->translate('Your store dashboard url (bookmark it): ');?><a href="<?php echo $this->websiteUrl.'dashboard';?>" target="_blank" title="<?php echo $this->translate('Store dashboard');?>"><?php echo $this->websiteUrl.'dashboard';?></p>
+	</div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $('#pickfiles').button();
+        var uploader = new plupload.Uploader({
+            runtimes : 'html5,flash,html4',
+            browse_button : 'pickfiles',
+           //container : 'uplodContainer',
+            max_file_size : '100mb',
+            max_file_count: 1,
+            url : '<?php echo $this->websiteUrl?>plugin/dashboard/run/uploadTheme/',
+            filters : [
+                {
+                    title : "Zip files",
+                    extensions : "zip"
+                }
+            ]
+        });
+        uploader.init();
+
+        uploader.bind('FilesAdded', function(up, files) {
+            $.each(files, function(i, file) {
+	            $('#themes-uploader-filelist').prepend(
+                    '<div class="ui-widget"><div class="ui-state-highlight ui-corner-all" id="' + file.id + '"><p>' +
+                    file.name + ' (' + plupload.formatSize(file.size) + ')</p><div class="pbar"></div>' +
+                '</div></div>');
+                $('#' + file.id + " .pbar").progressbar({value: 0})
+            });
+            up.refresh();
+            up.start();
+        });
+
+        uploader.bind('UploadProgress', function(up, file) {
+            $('#' + file.id + " .pbar").progressbar({value: file.percent});
+        });
+
+        uploader.bind('FileUploaded', function(up, file, info) {
+            var response = jQuery.parseJSON(info.response);
+            if(response.error == '0'){
+                smoke.signal(response.data);
+            } else {
+                showMessage(response.data, true);
+            }
+
+        });
+    });	
+</script>
+
+
+
+			

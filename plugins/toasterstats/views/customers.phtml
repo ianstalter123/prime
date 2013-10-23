@@ -1,0 +1,32 @@
+<?php if(isset($this->noNewCusomers)):?>
+	<span><?php echo $this->noNewCusomers; ?></span>
+<?php endif;?>
+<?php if(isset($this->customerData)):?>
+    
+	<table id="clients-table" style="width: 100%">
+		<thead>
+			<tr class="title-table">
+				<th><?php echo $this->translator->translate('Name');?></th>
+				<th><?php echo $this->translator->translate('Lifetime purchases');?></th>
+				<th><?php echo $this->translator->translate('City/state');?></th>
+			</tr>
+		</thead>  
+		<tbody style="text-align: center;">
+		<?php foreach($this->customerData as $custInfo):?>
+			<tr>
+				<td class="text-left"><a target="_blank" href="<?php echo $this->websiteUrl;?>plugin/shopping/run/profile/id/<?php echo intval($custInfo['userId']);?>"><span class="icomoon-user-2 ml0px"></span><?php echo $custInfo['fullName']?></a></td>
+				<td><?php echo $this->currency($custInfo['total']);?></td>
+				<td>
+					<?php echo $custInfo['city']?>
+					<?php if($custInfo['state']!=''):?>
+						/ <?php echo $custInfo['state']?>
+					<?php endif; ?>
+				</td>
+             
+			</tr>
+		<?php endforeach;?>
+		</tbody>
+	</table>
+
+<?php endif; ?>
+   

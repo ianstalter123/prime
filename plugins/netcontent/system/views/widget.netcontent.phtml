@@ -1,0 +1,10 @@
+<?php
+    $this->jQuery()->addStylesheet($this->websiteUrl."plugins/netcontent/web/css/netcontent.css" );
+    //echo $this->headLink();
+    $this->jQuery()->addJavascriptFile($this->websiteUrl."plugins/netcontent/web/js/netcontent.js" );
+    //echo $this->headScript();
+?>
+
+<?php if($this->isP2p) : ?>
+<label>p2p</label> <input type="checkbox" data-url="<?php echo $this->websiteUrl;?>plugin/netcontent/run/saveNetContent" id="p2p-content" name="p2p" />&nbsp;
+<?php endif;?>

@@ -1,0 +1,88 @@
+<ul class="toasterstats accordion">
+	<li class="category"><span class="icomoon-cube-2"></span><?php echo $this->translator->translate('Products');?><span class="icomoon-arrow-down arrow"></span></li>
+	<ul>
+		<li class="subcategory">
+			<a href="javascript:;" data-url="<?php echo $this->websiteUrl;?>plugin/shopping/run/product/" data-pheight="550" class="tpopup numberProduct"><?php echo $this->translator->translate('Number of products');?></a>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityProducts;?></span>
+		</li>
+		<li class="subcategory">
+			<span><?php echo $this->translator->translate('Number of brands');?></span>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityBrands;?></span>
+		</li>
+		<li class="subcategory">
+			<a href="javascript:;" data-url="<?php echo $this->websiteUrl;?>plugin/quote/run/quotes/type/list/" data-pheight="574" class="tpopup quotesScreen"><?php echo $this->translator->translate('Manage quotes');?></a>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityQuotes;?></span>
+		</li>
+	</ul>
+	<li class="category"><span class="icomoon-basket"></span><?php echo $this->translator->translate('Sales');?><span class="icomoon-arrow-down arrow"></span></li>
+	<ul>
+		<li class="subcategory">
+			<span><?php echo $this->translator->translate('Completed');?></span>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityCompletedSales;?></span>
+		</li>
+		<li class="subcategory">
+			<span><?php echo $this->translator->translate('New');?></span>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityNewSales;?></span>
+		</li>
+	</ul>
+	<li class="category"><span class="icomoon-paper-2"></span><?php echo $this->translator->translate('Pages');?><span class="icomoon-arrow-down arrow"></span></li>
+	<ul>
+		<li class="subcategory">
+			<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)):?>
+					<a class="tpopup organize" href="javascript:;" data-pwidth="954" data-pheight="574" data-url="<?php echo $this->websiteUrl;?>backend/backend_page/organize/" title="Organize pages"><?php echo $this->translator->translate('Pages');?></a>
+			<?php else:?>
+					<span><?php echo $this->translator->translate('Pages');?></span>
+			<?php endif;?>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityPages;?></span>
+		</li>
+		<li class="subcategory">
+			<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)):?>
+				<a class="tpopup draft" href="javascript:;" data-pwidth="480" data-pheight="574" data-url="<?php echo $this->websiteUrl;?>backend/backend_page/draft/" title="Draft pages"><?php echo $this->translator->translate('Draft pages');?></a>
+			<?php else:?>
+				<span><?php echo $this->translator->translate('Draft pages');?></span>
+			<?php endif;?>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityDraftPages;?></span>
+		</li>
+	</ul>
+	<li class="category"><span class="icomoon-cube"></span><?php echo $this->translator->translate('Plugins');?><span class="icomoon-arrow-down arrow"></span></li>
+	<ul>
+		<li class="subcategory">
+			<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)):?>
+					<a class="tpopup plugin" href="javascript:;" data-pwidth="954" data-pheight="574" data-url="<?php echo $this->websiteUrl;?>backend/backend_plugin/plugin/" title="Installed plugins"><?php echo $this->translator->translate('Installed plugins');?></a>
+			<?php else:?>
+					<span><?php echo $this->translator->translate('Installed plugins');?></span>
+			<?php endif;?> 
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityPlugins;?></span>
+		</li>
+	</ul>
+	<li class="category"><span class="icomoon-user-2 "></span><?php echo $this->translator->translate('Users');?><span class="icomoon-arrow-down arrow"></span></li>
+	<ul>
+		<li class="subcategory">
+			<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)):?>
+				<a class="tpopup manage" href="javascript:;" data-pwidth="954" data-pheight="574" data-url="<?php echo $this->websiteUrl;?>backend/backend_user/manage/" title="Manage users"><?php echo $this->translator->translate('Users');?></a>
+			<?php else:?>
+				<span><?php echo $this->translator->translate('Users');?></span>
+			<?php endif;?>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityUsers;?></span>
+		</li>
+		<li class="subcategory">
+			<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)):?>
+					<a class="tpopup manage" href="javascript:;" data-pwidth="954" data-pheight="574" data-url="<?php echo $this->websiteUrl;?>backend/backend_user/manage/" title="Manage users"><?php echo $this->translator->translate('Admins');?></a>
+			<?php else:?>    
+					<span><?php echo $this->translator->translate('Admins');?></span>
+			<?php endif;?>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityAdmins;?></span>
+		</li>
+	</ul>
+	<li class="category"><span class="icomoon-copy"></span><?php echo $this->translator->translate('Templates');?><span class="icomoon-arrow-down arrow"></span></li>
+	<ul>
+		<li class="subcategory">
+			<?php if(Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_PLUGINS)):?>
+					<a class="tpopup template" href="javascript:;" data-pwidth="954" data-pheight="574" data-url="<?php echo $this->websiteUrl;?>backend/backend_theme/template/id/index/" title="Template"><?php echo $this->translator->translate('Templates');?></a>
+			<?php else:?> 
+					<span><?php echo $this->translator->translate('Templates');?></span>
+			<?php endif;?>
+			<span class="box-right dark-gray-bg count"><?php echo $this->quantityTemplates;?></span>
+		</li>
+	</ul>
+</ul>

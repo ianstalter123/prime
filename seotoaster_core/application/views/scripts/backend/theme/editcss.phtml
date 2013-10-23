@@ -1,0 +1,86 @@
+<div class="seotoaster container_12 h570 rounded3px refreshOnClose">
+	<?php echo $this->partial('admin'.DIRECTORY_SEPARATOR.'_header.phtml', array('headerText' => 'Edit css', 'helpSection' => $this->helpSection)); ?>
+
+	<?php
+		$this->editcssForm->setAction($this->url());
+	?>
+	<form action="<?php echo $this->editcssForm->getAction(); ?>" id="<?php echo $this->editcssForm->getId(); ?>" method="<?php echo $this->editcssForm->getMethod(); ?>">
+		<div class="grid_8">&nbsp;</div>
+        <div class="grid_4 alpha"><?php echo $this->editcssForm->getElement('cssname')->removeDecorator('DtDdWrapper'); ?></div>
+		<div class="clearfix"></div>
+        <div class="h425" id="editor"><?php echo $this->editcssForm->getElement('content'); ?></div>
+        <div class="grid_12"><?php echo $this->editcssForm->getElement('submit'); ?></div>
+	</form>
+
+</div>
+
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/ace.js' ); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/theme-crimson_editor.js'); ?>
+<?php $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/aceajax/mode-css.js'); ?>
+
+<script type="text/javascript">
+$(function() {
+    var textarea = $('#csscontent').detach();
+    textarea.insertBefore('#editor');
+    var editor  = ace.edit("editor");
+    editor.setTheme("ace/theme/crimson_editor");
+    var CSSMode = require("ace/mode/css").Mode;
+    editor.getSession().setMode(new CSSMode());
+    editor.getSession().setValue(textarea.hide().val());
+    editor.getSession().setUseWrapMode(true);
+
+	$('#csslist').focus();
+	$('#editcssform').on('submit', function(){
+        var cssContent = editor.getSession().getValue();
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			data: {cssname : $("#csslist").val(), content : cssContent},
+			dataType: 'json',
+			success: function(response){
+				hideSpinner();
+				showMessage(response.responseText);
+				//$('.smoke-base').delay(1300).slideUp();
+			},
+			beforeSend: function(){
+				showSpinner();
+			},
+			error: function(){
+				$('.smoke-base').remove();
+				showMessage('<?php echo $this->translate('Error occured.'); ?>', true);
+			}
+		})
+		return false;
+	});
+    
+    $('#csslist').on('change',function(){
+		$.ajax({
+			url: '<?php echo $this->websiteUrl; ?>backend/backend_theme/editcss/',
+			type: 'POST',
+			data: {"getcss": $(this).val()},
+			dataType: 'json',
+			success: function(response){
+				if (!response.error){
+					hideSpinner();
+					editor.getSession().setValue(response.responseText);
+				}
+			},
+			beforeSend: function(){
+				showSpinner();
+			},
+			error: function(){
+				$('.smoke-base').hide();
+				smoke.alert('<?php echo $this->translate('Error occured.'); ?>').fadeIn();
+			}
+		});
+	});
+    
+	$('textarea').on('keydown', function(e) {
+		if(e.ctrlKey && e.keyCode == 83) {
+			e.preventDefault();
+			$('#editcssform').submit();
+		}
+	});
+});
+</script>
+

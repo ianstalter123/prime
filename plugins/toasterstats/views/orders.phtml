@@ -1,0 +1,12 @@
+<?php if(isset($this->totalOrder)):?>
+    <div class="totalOrder"><?php echo $this->currency($this->totalOrder);?></div>
+<?php endif; ?>
+<?php if(isset($this->lastOrders)):?>
+    <div class="lastOrders"><?php echo $this->currency($this->lastOrders);?></div>
+<?php endif; ?>
+<?php if(isset($this->todayOrders)):?>
+    <div class="todayOrders">Avg: <?php echo $this->currency($this->todayOrders);?> /order</div>
+<?php endif; ?>
+<?php if(isset($this->orderFromPeriod)):?>
+    <div class="orderFromPeriod text-center fs18 dark-gray">Avg: <?php echo $this->currency($this->orderFromPeriod);?> /order</div>
+<?php endif; ?>

@@ -1,0 +1,108 @@
+<?php
+$this->headScript()->appendFile("http://www.google.com/jsapi" );
+echo $this->headScript();
+?>
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        <?php if(preg_match('/\|/',$this->typeSales)):?>
+            data.addColumn('string', 'Date');
+            data.addColumn('number', 'Sales');
+            data.addColumn('number', 'Quotes');
+            data.addRows([
+                <?php foreach($this->data as $key => $value):?>
+                    <?php substr($key, 8) ? $date = substr($key, 6) : $date = $key?>
+                    ['<?php echo $date;?>',<?php echo $value['sales'];?>, <?php echo $value['quotes'];?>],
+                <?php endforeach;?>
+        ]);
+            <?php if($this->typeOfGrafic == 'count'):?>
+                var options = {
+                    //title: 'Sales and Quotes count',
+                    //hAxis: {title: 'Period'},                
+					legend:{position:'right'},
+		  			height:'<?php echo $this->height;?>',
+		  			titleTextStyle: {fontSize:"14"},
+		  			chartArea:{width:"75%",height:"75%"}
+                };
+            <?php endif;?>
+            <?php if($this->typeOfGrafic == 'averageamount'):?>
+                var options = {
+                    //title: 'Sales and Quotes Average amount',
+                    //hAxis: {title: 'Period'},                
+					legend:{position:'right'},
+		  			height:'<?php echo $this->height;?>',
+		  			titleTextStyle: {fontSize:"14"},
+		  			chartArea:{width:"75%",height:"75%"}
+                };
+            <?php endif;?>
+        <?php endif;?>
+        <?php if(!preg_match('/\|/',$this->typeSales)):?>
+            data.addColumn('string', 'Date');
+            data.addColumn('number', '<?php echo ucfirst($this->typeSales);?>');
+            data.addRows([
+                <?php foreach($this->data as $key => $value):?>
+                    <?php substr($key, 8) ? $date = substr($key, 6) : $date = $key?>
+                    ['<?php echo $date;?>',<?php echo $value[$this->typeSales];?>],
+                <?php endforeach;?>
+            ]);
+           <?php if($this->typeOfGrafic == 'count'):?>
+            var options = {
+                //title: '<?php //echo ucfirst($this->typeSales);?> count',
+                //hAxis: {title: 'Period'},               
+				legend:{position:'right'},
+		  		height:'<?php echo $this->height;?>',
+		  		titleTextStyle: {fontSize:"14"},
+		  		chartArea:{width:"75%",height:"75%"}
+            };
+            <?php endif;?>
+            <?php if($this->typeOfGrafic == 'averageamount'):?>
+            var options = {
+                //title: '<?php //echo ucfirst($this->typeSales);?> Average Order Amount (Period)',
+				//hAxis: {title: 'Period'},                
+				legend:{position:'right'},
+		  		height:'<?php echo $this->height;?>',
+		  		titleTextStyle: {fontSize:"14"},
+		  		chartArea:{width:"75%",height:"75%"}
+            };
+            <?php endif;?>
+        <?php endif;?>
+        <?php if($this->typeOfGrafic == 'count'):?>
+            var chart = new google.visualization.AreaChart(document.getElementById('visualizationcolumnCountLinechart'));
+        <?php endif;?>
+        <?php if($this->typeOfGrafic == 'averageamount'):?>
+            var formatter = new google.visualization.NumberFormat(
+                    {prefix: '<?php echo $this->currencySymbol;?>', negativeColor: 'red', negativeParens: true});
+                    formatter.format(data, 0);
+                    formatter.format(data, 1);
+                    formatter.format(data, 2);
+            var chart = new google.visualization.AreaChart(document.getElementById('visualizationcolumnAverageAmountLinechart'));
+        <?php endif;?>
+        chart.draw(data, options);
+       
+     };
+
+    </script>
+    <?php if($this->typeOfGrafic == 'count'):?>
+        <input type="hidden" name="timePeriodCountLinechart"  class="timePeriodCountLinechart" value="<?php echo $this->timePeriod?>"/>
+        <div id="visualizationcolumnCountLinechart" style="height:<?php echo $this->height;?>px;"></div>
+        <input type="hidden" class="typeOfGraficCount" value="<?php echo $this->typeSalesCount;?>" />
+    <?php endif;?>
+    <?php if($this->typeOfGrafic == 'averageamount'):?>
+        <input type="hidden" name="timePeriodAverageAmountLinechart" class="timePeriodAverageAmountLinechart" value="<?php echo $this->timePeriod?>"/>
+        <div id="visualizationcolumnAverageAmountLinechart" style="height:<?php echo $this->height;?>px;"></div>
+        <input type="hidden" class="typeOfGraficAverageAmount" value="<?php echo $this->typeSalesAverageAmount;?>" />
+    <?php endif;?>
+
+  
+  
+ 
+<input type="hidden" class="defaultFromDatepiker" name="defaultFromDatepiker" value="<?php echo $this->datepickerPeriod[0];?>"/>
+<input type="hidden" class="defaultToDatepiker" name="defaultToDatepiker" value="<?php echo $this->datepickerPeriod[1];?>"/>
+  
+  
+ 

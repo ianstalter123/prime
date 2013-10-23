@@ -1,0 +1,15 @@
+<?php if(isset($this->related) && is_array($this->related) && !empty ($this->related)): ?>
+	<ul class="relatedpages">
+		<?php foreach($this->related as $relatedPage): ?>
+			<li>
+				<?php if($this->useImg): ?>
+					<a class="page-teaser-image" href="<?php echo $this->websiteUrl . $relatedPage->getUrl(); ?>" title="<?php echo $relatedPage->getH1(); ?>">
+						<img src="<?php echo Tools_Page_Tools::getPreview($relatedPage, (($this->useImg === 'img') ? false : true)); ?>" alt="<?php echo $relatedPage->getH1(); ?>"/>
+					</a>
+				<?php endif; ?>
+				<a href="<?php echo $this->websiteUrl . $relatedPage->getUrl(); ?>" title="<?php echo $relatedPage->getH1(); ?>" class="page-title"><?php echo $relatedPage->getNavName(); ?></a>
+				<span><?php echo Tools_Text_Tools::cutText($relatedPage->getTeaserText(), $this->descLength); ?></span>
+			</li>
+		<?php endforeach; ?>
+	</ul>
+<?php endif; ?>

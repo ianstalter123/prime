@@ -1,0 +1,39 @@
+<html>
+<head>
+  <title>{$plugin:widcard:BizOrgName:notag}</title>
+</head>
+<body style="margin: 0; background-color: #FCFCFC;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; text-align:left;">
+    <tr>
+      <td bgcolor="" style="">
+          <table border="0" cellpadding="0" cellspacing="0" width="700" bgcolor="FFF" style="margin: 15px auto; border: 1px solid #EEE; ">
+
+                  <!-- Header, LOGO -->
+            <tr style="background-color:#fff;" bgcolor="#fff">
+              <td style="padding:15px;border-bottom:3px solid #fff;" colspan="2">
+                <a target="_blank" href="{$website:url}" style="text-decoration:none; font-size:38px;margin-top: 15px; color:#010101; float:left;">
+                  <img height="70" alt="{$plugin:widcard:BizOrgName:notag}" 
+                  src="{$plugin:widcard:BizLogo:url}" style="vertical-align:middle;">{$plugin:widcard:BizOrgName:notag}
+                </a>
+              </td>
+            </tr>
+            <!-- Content -->
+            <tr style="">
+              <!-- Content -->
+              <td bgcolor="#fff" style="padding:0 15px; line-height: 1.6em;background-color:#fff;" width="70%" valign="top">
+                {emailmessage}
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr style=" background-color:#fff;" bgcolor="#fff">
+              <td style="padding: 15px; text-align:center;" colspan="2">
+                <address style="border-top: 2px solid #EEE;padding: 10px 0;color: #4B5668;font-size: 13px;">{$plugin:widcard:BizOrgName:notag} | {$plugin:widcard:BizAddress1:notag}, {$plugin:widcard:BizCity:notag}, {$plugin:widcard:BizState:notag} {$plugin:widcard:BizZip:notag} | Tel : {$plugin:widcard:BizTelephone:notag}</address>
+              </td>
+            </tr>
+          </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

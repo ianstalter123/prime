@@ -1,0 +1,37 @@
+<?php
+$this->headScript()->appendFile("http://www.google.com/jsapi" );
+echo $this->headScript();
+?>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Tags');
+        data.addColumn('number', 'Count');
+        data.addRows([
+			<?php foreach($this->data as $key => $value):?>
+			 ['<?php echo $key;?>',<?php echo $value;?>],
+		  <?php endforeach;?>
+        ]);
+        var options = {
+            //title: 'Sales Count by Tag',
+            legend:{position:'none'},
+		  	height:'<?php echo $this->height;?>',
+		  	titleTextStyle: {fontSize:"14"},
+            chartArea:{width:"85%",height:"75%"}
+		  	
+        };
+    
+            var chart = new google.visualization.ColumnChart(document.getElementById('visualizationcolumnCountTags'));
+     
+        chart.draw(data, options);
+       
+     };
+
+    </script>
+    <div id="visualizationcolumnCountTags" style="height:<?php echo $this->height;?>px;"></div>
+    <input type="hidden" class="typeOfGraficCountTags" value="<?php echo $this->typeSalesAmount;?>" />
+ 

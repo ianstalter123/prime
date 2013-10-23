@@ -1,0 +1,56 @@
+@import url("print.css");
+@import url("grid-dashboard.css" );
+@import url("reset-dashboard.css");
+@import url("fonts-icon.css");
+@import url("style-dashboard.css");
+@import url("nav-dashboard.css");
+@import url("content.css");
+@import url("MQueries-dashboard.css");
+
+.seotoaster-dash-popup {
+	 background: url(/themes/mojo/images/2.png) #FFF;
+	 display: block;
+	 overflow: hidden;
+	 position: relative;
+	 padding-bottom: 10px;
+}
+.seotoaster-dash-popup .header {
+	background-color: #666666;
+	border-radius: 3px 3px 0 0;
+	color: #EEEEEE;
+	font-size: 11pt;
+	height: 22px;
+	margin-bottom: 10px;
+	padding: 7px 0 2px 8px;
+}
+.seotoaster-dash-popup .close{
+	color: #AAA;
+	cursor: pointer;
+	margin:3px 10px;
+	float:right;
+}
+.seotoaster-dash-popup .close:hover {
+	color: #FFF;
+}
+.seotoaster-dash-popup fieldset {
+	border:none;
+	background:none;
+}
+.seotoaster-dash-popup label{
+	display: block;
+	overflow: hidden;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 4px 0 4px 5px;
+}
+
+.seotoaster-dash-popup #news-tags{
+	height:98px;
+}
+.seotoaster-dash-popup #news-tags .tag-widget{
+	margin: 2px 5px;
+	padding: 3px;
+}
+.seotoaster-dash-popup #content-wrap table{
+	width:100% !important;
+}

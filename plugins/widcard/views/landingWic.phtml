@@ -1,0 +1,176 @@
+ <?php
+	        $this->jQuery()->addJavascriptFile($this->websiteUrl . 'system/js/external/jquery/plugins/tmpl/jquery.tmpl.min.js')
+				->addJavascriptFile($this->websiteUrl."system/js/external/plupload/plupload.js")
+				->addJavascriptFile($this->websiteUrl."system/js/external/plupload/plupload.html5.js")
+				->addJavascriptFile($this->websiteUrl."system/js/external/plupload/plupload.html4.js")
+				->addJavascriptFile($this->websiteUrl."system/js/external/plupload/plupload.flash.js");
+	        echo $this->jQuery();
+
+            //$this->headScript()->setAllowArbitraryAttributes(true);
+	        //echo $this->headScript();
+        ?>
+<div class="clear"></div>
+<form id="idCard" name="idCard" class="grid_7" action="<?php echo $this->websiteUrl.'plugin/widcard/run/setWebsiteIdCard';?>" method="POST" enctype="multipart/form-data">
+
+		<?php if(is_array($this->errors)) { ?>
+			<div id="widcard_err">
+		<?php
+			foreach($this->errors as $error){echo '<p>'.$error.'</p>';} ?>
+			</div>
+		<?php } ?>
+
+		<?php if(isset($this->widcardMessage)) { ?>
+			<div id="widcard_message">
+		<?php echo '<p>'.$this->widcardMessage.'</p>';?>
+			</div>
+		<?php } ?>
+    <fieldset>
+      <!--legend>General Info</legend-->
+      <div class="w320 mr10 fl">
+            <label><?php echo $this->translate('Permanent Website URL');?></label>
+	     	<input type="text" class="w300" name="h1" id="page_h1" value="<?php echo $this->websiteUrl ;?>" >
+
+	        <label><?php echo $this->translate('Organization Name');?></label>
+	        <input type="text" class="w300" name="organization_name" value="<?php echo $this->organizationName?>" />
+
+           <label><?php echo $this->translate('Organization Description');?> <span id="characters-limit"></span></label>
+		   <textarea class="w300" name="organization_description" maxlenght="200" id="teaser_text"><?php echo $this->organizationDescription;?></textarea>
+
+
+      </div>
+      <div class="w170 fl">
+            <label><?php echo $this->translate('Website Language');?></label>
+				  <!--<input class="grid_8" type="text" readonly name="websiteLang" value="<?php echo $this->toasterLang;?>" />-->
+		    <select class="w150" name="websiteLang">
+					<?php asort($this->langList); foreach ($this->langList as $key => $language) {?>
+					<option value="<?php echo $key;?>" <?php echo ($language == $this->toasterLang) ? 'selected' : '' ;?> ><?php echo $language?></option>
+					<?php }?>
+		   </select>
+
+		    <label><?php echo $this->translate('Corporate Logo');?></label>
+		    <img id="page-preview-image" src="<?php echo $this->corporateLogo; ?>" class="img-padding" alt="<?php echo $this->translate('Corporate logo');?>" />
+			<div id="page-teaser-uploader">
+				<button id="page-teaser-uploader-pickfiles">
+				<span><?php echo $this->translate('Upload image'); ?></span>
+				</button>
+			</div>
+			<div id="page-teaser-uploader-filelist" style="position: relative;"></div>
+      </div>
+      <div class="cb">
+          <label><?php echo $this->translate('Street Address 1');?></label>
+		  <input class="w480" type="text" name="address1" value="<?php echo $this->address1?>" />
+      </div>
+
+      <div class="w320 mr10 fl">
+	      <label><?php echo $this->translate('Street Address 2');?></label>
+		  <input class="w300" type="text" name="address2" value="<?php echo $this->address2?>" />
+      </div>
+      <div class="w170 fl">
+           <label><?php echo $this->translate('Country');?></label>
+		    <select name="organization_country" class="w150">
+				  <option value="-1"><?php echo $this->translate('Choose a country');?></option>
+				<?php
+					foreach ($this->countryList as $num => $country) { ?>
+					<option label="<?php echo $country?>" <?php echo ($this->organizationCountry == $num) ? 'selected = "selected"' : ''; ?> value="<?php echo $num?>"><?php echo $country?></option>
+				<?php	}
+				?>
+		   </select>
+      </div>
+      <div class="cb"></div>
+      <div class="w170 mr10 fl">
+		  <label><?php echo $this->translate('City / Town');?></label>
+		  <input class="w150" type="text" name="city" value="<?php echo $this->city?>" />
+      </div>
+      <div class="w170 mr10 fl">
+		  <label><?php echo $this->translate('State');?></label>
+		  <select name="country_state" class="w150" <?php echo ($this->countryState == '') ? 'disabled' : '' ; ?>>
+				<?php if($this->countryState != '') {
+					foreach ($this->stateList as $num => $state) { ?>
+					<option label="<?php echo $state?>" <?php echo ($this->countryState == $num) ? 'selected = "selected"' : ''; ?> value="<?php echo $num?>"><?php echo $state?></option>
+				 <?php	}
+					}?>
+		  </select>
+      </div>
+      <div class="w170 fl">
+		  <label><?php echo $this->translate('ZIP Code');?></label>
+		  <input class="w50" type="text" name="zip" value="<?php echo $this->zip?>" />
+      </div>
+      <div class="cb"></div>
+      <div class="w245 mr10 fl">
+            <label><?php echo $this->translate('Local Phone (other than toll-free)');?></label>
+		    <input type="text" name="phone" class="w225" value="<?php echo $this->phone?>" />
+      </div>
+      <div class="w245 fl">
+            <label><?php echo $this->translate('E-mail Address');?></label>
+		    <input class="w225" type="text" name="email" value="<?php echo $this->email?>" />
+      </div>
+    </fieldset>
+    <fieldset>
+        <br/><input type="radio" name="analytics" id="ownAnalytics" value="WA" /><label for="ownAnalytics" style="display: inline; float: none;"> <?php echo $this->translate('I use web analytics, please add the code automatically to all my pages.'); ?></label>
+        <div class="webAnalyticsCodeRadio hidden"><!-- WA WEB-Analytics -->
+			<div class="useGABox"><input type="checkbox" name="useGA" /><?php echo $this->translate('I use Google Analytics')?></div>
+			<div id="useGAText" class="hidden"><?php echo $this->translate('Paste only your Google Analytics account ID (UA-XXXXX-X)');?></div>
+            <div id="useWAText" class="w480 fl"><label><?php echo $this->translate('Paste your web analytics tracking code here');?></label></div>
+            <div class="w350 fl"><textarea name="waCode" class="w320"><?php if(isset($this->waCode)){echo $this->waCode;}?></textarea></div>
+        </div>
+        <br/><input type="radio" name="analytics" id="sambaAnalytics" value="SA" /><label for="sambaAnalytics" style="display: inline; float: none;"> <?php echo $this->translate("I will use SEO Samba's real-time and free web analytics service");?></label>
+        <div class="seosambaAnalyticsRadio hidden"><!-- SA SAMBA-Analytics -->
+        </div>
+        <br/><input type="radio" name="analytics" id="noAnalytics" value="NA" /><label for="noAnalytics" style="display: inline; float: none;"><?php echo $this->translate('No, thank you. I don’t need to automate my SEO and will deploy web analytics code on my own.');?></label>
+        <div id="noAnalyticsText" class="hidden"><!-- NA NO-Analytics -->
+          <?php echo $this->translate('Alrighty…but you are missing out. At SEO Samba, we are working very hard to help you manage and market  websites (Here is why you should use <a href="http://www.seosamba.com/" target="_blank">SEO Samba</a>). In any case, you can connect later by using the WID card if you so choose to.');?>
+        </div>
+    </fieldset>
+	<div class="cb sambaToken hidden">
+        <label><?php echo $this->translate('Paste your seosamba token here');?> <a id="get-token-link" href="javascript:;">[<?php echo $this->translate('get one');?>]</a></label>
+		<input type="text" name="samba_token" id="samba_token" class="w480" value="<?php echo $this->sambaToken;?>">
+		<div id="registration-frame">
+			<iframe width="540px" scrolling="no" class="mt20px h380" src="<?php echo Widcard::REGISTER_URL;?>"></iframe>
+		</div>
+    </div>
+	<?php if(!isset($this->agreement)) : ?>
+    <div  id="agreement" class="w350 mt30px fl ">
+      <input type="checkbox" name="agreement" <?php echo (isset($this->agreement) && ($this->agreement == true) ) ? 'checked' : '';?> style="margin:0;" /> <?php echo $this->translate("I've read and accepted");?> <a class="tpopup" data-pheight="400" data-pwidth="675" data-url="<?php echo $this->_websiteUrl;?>plugin/widcard/run/showTerms/" href="javascript:;"><?php echo $this->translate('terms & conditions');?></a> <?php echo $this->translate('of this service');?>
+    </div>
+	<?php endif; ?>
+      <div class="w170 mt20px fl">
+    <input type="submit" name="saveWebsite" id="saveWebsite" class="mt10px mb10px" value="Save">
+	<input name="landingUrl" type="hidden" value="<?php echo $this->landingUrl;?>" />
+	<input name="toasterUrl" type="hidden" value="<?php echo $this->websiteUrl;?>" />
+	<input name="imageName" type="hidden" value="" />
+      </div>
+</form>
+<input id="widcardInfo" type="hidden" data-analyticstype="<?php echo (isset($this->analyticsType)) ? $this->analyticsType : ''; ?>" data-usega="<?php echo (isset($this->analyticsTypeUseGA) && ($this->analyticsTypeUseGA == 'on')) ? 'check' : ''; ?>"  />
+<div class="grid_5" id="google-sees">
+ <h2>Help Google locate your business</h2>
+ <div id="organization-name-typed" data-deforgname="<?php echo $this->translate('The ACME Company - Your Construction Aggregate Specialists');?>"></div>
+ <div id="website-url-typed" data-defurl="<?php echo $this->translate('theacmecompany.com/');?>"><?php echo $this->websiteUrl;?></div>
+ <div id="organization-description-typed" data-deforgdesc="<?php echo $this->translate('The Acme Company Specializes in materials meeting the specific needs for all industries. We take pride in being a industry leader as a full service supplier in');?>"></div>
+
+ <address>
+ <div id="address1-typed" data-defaddr1="<?php echo $this->translate('9495 Harvard Blvd');?>"></div>,
+ <div id="address2-typed" data-defaddr2="<?php echo $this->translate('');?>"></div>
+ <div id="city-typed" data-defcity="<?php echo $this->translate('Youngstown');?>"></div>,
+ <div id="state-typed"></div>
+ <div id="zip-typed" data-defzip="<?php echo $this->translate('44514');?>"></div>
+ <div id="country-typed" data-defzip="<?php echo $this->translate('44514');?>"></div>
+  </address>
+
+ <div id="phone-typed" data-defphone="<?php echo $this->translate('(330) 758-2313');?>"></div>
+ <img id="gMapImg" src="" alt="google-static-map" />
+ <hr />
+ <h2>Watch what it does</h2>
+<iframe src="http://player.vimeo.com/video/41565877?title=0&amp;byline=0&amp;portrait=0&amp;color=666666" width="380" height="214" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+  <hr /> 
+<h2><?php echo $this->translate('Use shortcuts in your website templates');?></h2>
+ <div id="wic_widgets"></div>
+</div>
+<div class="clear"></div>
+﻿<?php
+	if( !$this->noScript ) {
+		$this->jQuery()->addStylesheet($this->websiteUrl."plugins/widcard/system/css/landing.css" );
+		echo $this->headLink();
+		$this->jQuery()->addJavascriptFile($this->websiteUrl."plugins/widcard/system/js/widcard.js");
+		echo $this->headScript();
+	}
+?>

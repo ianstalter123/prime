@@ -1,0 +1,57 @@
+<?php
+$this->headScript()->appendFile("http://www.google.com/jsapi" );
+echo $this->headScript();
+?>
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["geochart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        <?php if($this->typeOfMap == 'USA'):?>
+            data.addColumn('string', 'States')
+        <?php endif;?>
+        <?php if($this->typeOfMap == 'World'):?>
+            data.addColumn('string', 'Country')
+        <?php endif;?>
+            data.addColumn('number', 'Customers');
+            data.addRows([
+                <?php foreach($this->mapData as $key=>$value):?>
+                    ['<?php echo $key;?>', <?php echo $value;?>],
+                <?php endforeach;?>
+        ]);
+        <?php if($this->typeOfMap == 'USA'):?>
+            var options = {
+                region:'US',
+                resolution:'provinces'
+            };
+         <?php endif;?>  
+         <?php if($this->typeOfMap == 'World'):?>
+             var options = {
+                title: 'period'
+                
+            };
+         <?php endif;?>  
+            
+        var chart = new google.visualization.GeoChart(document.getElementById('visualizationGeoChart'));
+        
+      
+        chart.draw(data, options);
+       
+     };
+
+    </script>
+    <div id="visualizationGeoChart" style="height:<?php echo $this->height;?>px;"></div>
+    <input type="hidden" class="visualizationGeoChart" value="" />
+  
+    
+    
+
+  
+  
+
+  
+  
+ 

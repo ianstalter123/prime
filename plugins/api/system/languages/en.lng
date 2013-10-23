@@ -1,0 +1,20 @@
+<?php
+return array(
+	'edit website information' => 'Edit website information',
+	'deeplinks' => 'Deeplinks',
+	'manage robots.txt file' => 'Manage robots.txt file',
+	'auto deeplinks' => 'Auto depplinks',
+	'301 redirects' => '301 Redirects',
+	'widgets' => 'Widgets',
+	'general info' => 'General Info',
+	'website url' => 'Website URL',
+	'website industry' => 'Website Industry',
+	'ecommerce' => 'Ecommerce',
+	'this site is an ecommerce site' => 'This site is an Ecommerce site',
+	'teaser info' => 'Teaser Info',
+	'your website teaser title' => 'Your website teaser title',
+	'your website teaser text: (250 char max)' => 'Your website teaser text: (250 char max)',
+	'your website keywords: (5 max)' => 'Your website keywords: (5 max)',
+	'' => ''
+);
+?>

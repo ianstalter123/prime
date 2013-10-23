@@ -1,0 +1,31 @@
+<input type="button" name="searchButton" class="searchButton" value="Search"/>
+<script type="text/javascript">
+    $(document).on('click', '.searchButton', function() {
+        var urlAction = "<?php echo $this->websiteUrl; ?>backend/search/complexSearch/";
+        var searchValues = [];
+        var containerNames = [];
+        $('select.searchParams option:selected').each(function () {
+             searchValues.push($(this).val());
+        });
+        $('select.searchParams').each(function () {
+             containerNames.push($(this).attr('name'));
+        });
+        $.ajax({
+            type: "POST",
+            url: urlAction,
+            dataType: "json",
+            data: {
+                searchValues: searchValues,
+                containerNames:containerNames,
+                resultsPageId:<?php echo $this->pageResultsPage;?>
+                
+            },
+            success: function(data){
+               var url = data.redirect;
+               window.location = url;
+            }
+            
+        });
+        return false; 
+    });
+</script>

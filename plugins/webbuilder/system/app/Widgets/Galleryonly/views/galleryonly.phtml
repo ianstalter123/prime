@@ -1,0 +1,9 @@
+<?php if(isset($this->content)): ?>
+    <?php echo $this->content; ?>
+<?php endif;?>
+<br/>
+<?php  if (Tools_Security_Acl::isAllowed(Tools_Security_Acl::RESOURCE_CONTENT)):?> 
+    <a  href="javascript:;" data-url="<?php echo $this->websiteUrl?>plugin/webbuilder/run/galleryonly/?pageId=<?php echo $this->pageId;?>&containerName=<?php echo $this->container; ?>" title="Edit"  class="tpopup" data-pwidth="300" data-pheight="300">
+       <img alt="Gallery Only" src="<?php echo $this->websiteUrl."plugins/webbuilder/web/images/galleryonly.png";?>"/>
+    </a>
+<?php endif;?>

@@ -1,0 +1,42 @@
+<div id="cart-summary">
+    <h3 class="checkout-widget-title">
+	    <?php echo $this->translate('Summary'); ?>
+	</h3>
+	<div class="cart-summary-row cart-subtotal">
+		<span><?php echo $this->translate('Subtotal'); ?>:</span>
+		<span id="subtotal-val">
+        <?php if ($this->taxIncPrice) : ?>
+            <?php echo $this->currency($this->summary['subTotal']+$this->summary['totalTax']); ?>
+        <?php else : ?>
+            <?php echo $this->currency($this->summary['subTotal']); ?>
+        <?php endif; ?>  
+        </span>
+	</div>
+	<div class="cart-summary-row cart-total-tax">
+		<?php if(Tools_Misc::getTaxName() != ''):?>
+            <?php $taxName = Tools_Misc::getTaxName();?> 
+        <?php else:?>
+            <?php $taxName = 'Tax';?>
+        <?php endif;?>
+        <?php if ($this->taxIncPrice) : ?>
+		<span><?php echo $this->translate('Inc. '.$taxName); ?>:</span>
+		<?php else : ?>
+		<span><?php echo $this->translate('Total '.$taxName); ?>:</span>
+		<?php endif; ?>
+		<span id="totaltax-val"><?php echo $this->currency($this->summary['totalTax']);?></span>
+	</div>
+	<?php if (isset($this->summary['discount']) && !empty($this->summary['discount'])) : ?>
+    <div class="cart-summary-row cart-discount">
+	    <span><?php echo $this->translate('Discount'); ?></span>
+	    <span id="discount-val"><?php echo $this->currency($this->summary['discount']); ?></span>
+    </div>
+	<?php endif; ?>
+	<div class="cart-summary-row cart-shipping">
+		<span><?php echo $this->translate('Shipping'); ?>:</span>
+		<span id="shipping-val"><?php echo $this->currency($this->summary['shipping']); ?></span>
+	</div>
+	<div class="cart-summary-row cart-total">
+		<span><?php echo $this->translate('Total'); ?>:</span>
+		<span id="total-val"><?php echo $this->currency($this->summary['total']); ?></span>
+	</div>
+</div>

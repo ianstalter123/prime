@@ -1,0 +1,9 @@
+<script type="text/javascript">
+$(function() {
+    <?php if(!$this->dataUrl) :?>
+	    $('a.socialposterConnect').attr('href','<?php echo $this->socialConnectLink; ?>').attr('target','_blank');
+    <?php else :?>
+        $('a.socialposterConnect').addClass('tpopup').attr('href','javascript:;').data('pheight','350').data('pwidth','500').data('url','<?php echo $this->dataUrl;?>');
+    <?php endif;?>
+});
+</script>
