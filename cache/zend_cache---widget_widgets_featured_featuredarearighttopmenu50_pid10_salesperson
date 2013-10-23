@@ -1,0 +1,14 @@
+s:961:"    <!-- probably for we have to change resource passing to the isAllowed. Not it is not obivious why we are checking RESOURCE_PLUGINS -->
+            <a class="tpopup" title="Edit order" data-url="http://192.168.0.154/toast/backend/backend_featured/order/id/2" data-pheight="650" data-pwidth="480" href="javascript:;">Edit order</a>
+        <ul id="right-top-menu" class="featureditem">
+                    <li>
+                                <a href="http://192.168.0.154/toast/news.html" title="News" class="page-title">News</a>
+	                        </li>
+                    <li>
+                                <a href="http://192.168.0.154/toast/gallery.html" title="Gallery" class="page-title">Gallery</a>
+	                        </li>
+                    <li>
+                                <a href="http://192.168.0.154/toast/contact-us.html" title="Contact Us" class="page-title">Contact Us</a>
+	                        </li>
+            </ul>
+";
